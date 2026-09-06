@@ -98,7 +98,26 @@ footer .tg{padding:8px 13px;font-size:13px}
 .hs-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:start}
 .hs{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.35;color:var(--bone);position:relative}
 .hs::before{content:"";display:block;width:8px;height:8px;border-radius:100px;background:var(--lime);margin-bottom:12px}
-.hs.gift{background:var(--surface-2);border-color:var(--lime);border-radius:26px;padding:16px 20px}
+.hs.gift{
+  position:relative;overflow:hidden;
+  background:
+    repeating-linear-gradient(to bottom, rgba(194,240,75,.05) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at 50% 30%, #1a230f 0%, #0e1209 60%, #090b06 100%);
+  border:3px solid #1a1c17;
+  border-radius:24px;
+  padding:16px 20px;
+  box-shadow:
+    0 0 0 2px var(--lime),
+    0 0 0 6px #0b0c0a,
+    inset 0 0 40px rgba(194,240,75,.08),
+    0 12px 28px rgba(0,0,0,.5);
+}
+.hs.gift::before{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:radial-gradient(ellipse at 50% 15%, rgba(255,255,255,.08), transparent 55%),
+             radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,.5) 100%);
+}
+.hs.gift > *{position:relative;z-index:1}
 .hs.gift::before{display:none}
 .hs.gift b{display:block;font-family:var(--disp);font-weight:800;font-size:17px;color:var(--lime);margin:8px 0 2px}
 .hs-note{font-size:13px;color:var(--mute)}
