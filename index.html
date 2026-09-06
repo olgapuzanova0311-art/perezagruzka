@@ -16,7 +16,8 @@
   --sans:'Jost',ui-sans-serif,system-ui,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{overflow-x:hidden}
 body{background:var(--bg);color:var(--bone);font-family:var(--sans);font-size:17.5px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 p{max-width:64ch;color:var(--mute)}
 .wrap{max-width:1240px;margin:0 auto;padding:0 24px}
@@ -99,7 +100,7 @@ footer .tg{padding:8px 13px;font-size:13px}
 .hs{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.35;color:var(--bone);position:relative}
 .hs::before{content:"";display:block;width:8px;height:8px;border-radius:100px;background:var(--lime);margin-bottom:12px}
 .hs.gift{
-  position:relative;overflow:hidden;
+  position:relative;overflow:visible;
   background:
     repeating-linear-gradient(to bottom, rgba(194,240,75,.05) 0 1px, transparent 1px 3px),
     radial-gradient(ellipse at 50% 30%, #1a230f 0%, #0e1209 60%, #090b06 100%);
@@ -111,6 +112,16 @@ footer .tg{padding:8px 13px;font-size:13px}
     0 0 0 6px #0b0c0a,
     inset 0 0 40px rgba(194,240,75,.08),
     0 12px 28px rgba(0,0,0,.5);
+}
+.hs.gift::before{
+  content:"";position:absolute;left:38%;bottom:100%;width:2px;height:24px;
+  background:var(--lime);border-radius:2px;transform:rotate(-22deg);transform-origin:bottom center;
+  box-shadow:0 0 6px rgba(194,240,75,.7);z-index:2;
+}
+.hs.gift::after{
+  content:"";position:absolute;left:62%;bottom:100%;width:2px;height:24px;
+  background:var(--lime);border-radius:2px;transform:rotate(22deg);transform-origin:bottom center;
+  box-shadow:0 0 6px rgba(194,240,75,.7);z-index:2;
 }
 .hs.gift::before{
   content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
@@ -586,7 +597,6 @@ footer{padding:44px 0;background:var(--surface);border-top:1px solid var(--line)
   .pcol-t{font-size:20px}
   .gift-hero{padding:20px;gap:20px}
   .gift-art img{max-width:250px}
-  .orbit{display:none}
   .orbit-list li{font-size:14.5px;gap:12px}
   .orbit-list li span{font-size:12.5px}
   .total{padding:18px}
@@ -613,6 +623,32 @@ footer{padding:44px 0;background:var(--surface);border-top:1px solid var(--line)
   footer{padding:24px 16px;font-size:11px;gap:12px}
   #lb{padding:14px}
 }
+@media (max-width:720px){
+  /* центрируем текстовые блоки на телефоне, как просили */
+  .hero .tag,.hero h1,.hero-sub,.hero-meta,.hero-actions{text-align:center}
+  .hero-actions,.hero-meta{justify-content:center}
+  section .sec-label,section>.wrap>h2,section>.wrap>p.rv{text-align:center}
+  .blk,.aw,.case,.why-card,.res-card,.gift,.hs,.tv,.pcol,.gift-hero,.gift-hero p{text-align:center}
+  .blk .who-for,.blk .take,.blk p,.aw p,.why-card p,.res-card p,.gift p,.tv p,.case p{text-align:center}
+  .blk .tag,.tv-screen{margin-left:auto;margin-right:auto}
+  .proof{text-align:center}
+  .proof li{border-top:none}
+  .host-extra .photo,.host>.rv>.photo{margin-left:auto;margin-right:auto}
+  .tar-card,.modal-card,.mt-card{text-align:center}
+  .tar-card ul li,.res-card ul li,.modal-card ul li{padding-left:0}
+  .tar-card ul li::before,.res-card ul li::before,.modal-card ul li::before{display:none}
+  .who-out{text-align:center}
+  .who-out{grid-template-columns:1fr}
+  .who-out .day,.who-out .day small{text-align:center}
+  .pcol-h,.pi,.pi-h,.pi-t,.pi-s{text-align:center}
+  .faq summary{justify-content:center;text-align:center}
+  .faq summary::after{display:none}
+  .faq p{text-align:center}
+  .case-top{justify-content:center}
+  .niches{justify-content:center}
+  .aw svg{margin-left:auto;margin-right:auto}
+  .channel-pick a,.reg-tar-note{text-align:center}
+}
 @media (max-width:400px){
   .hero h1{font-size:30px}
   .tgw-toggle span{display:none}
@@ -622,7 +658,6 @@ footer{padding:44px 0;background:var(--surface);border-top:1px solid var(--line)
   *{animation:none!important;transition:none!important}
   .rv{opacity:1;transform:none}
   .hero h1 span.w{opacity:1;transform:none}
-  .orbit{display:none}
 }
 
 /* ===== адаптивная защита: гибкие сетки и запрет на выезд за экран ===== */
@@ -646,13 +681,41 @@ nav{flex-wrap:wrap;row-gap:8px}
   .hero-grid,.host,.orbit-wrap,.gift-hero{grid-template-columns:1fr}
   .faq{columns:1}
   .nav-l{display:none}
-  .orbit{display:none}
   .badge-spin{display:none}
 }
 @media (max-width:720px){
   body{font-size:16px}
   .wrap{padding:0 16px}
   section{padding:44px 0}
+  .orbit{width:min(300px,80%)}
+  .chip img{height:42px}
+  .orb-core{width:32%}
+
+  /* центрирование контента на мобильных */
+  h2, .sec-label, .final p, section > .wrap > p:first-of-type{text-align:center;margin-left:auto;margin-right:auto}
+  .tag{display:inline-block}
+  .await, .why, .cases, .gifts, .gift-3, .get-list, .blocks, .res3{justify-items:center}
+  .hs, .blk, .aw, .case, .why-card, .res-card{text-align:center}
+  .hs::before, .aw svg{margin-left:auto;margin-right:auto}
+  .aw{display:flex;flex-direction:column;align-items:center}
+  .case-top{flex-direction:column;text-align:center}
+  .day-panel, .pcol{text-align:center}
+  .pcol-h{text-align:center}
+  .day-no{margin-left:auto;margin-right:auto}
+  .pi{text-align:center}
+  .who-out{text-align:center}
+  .who-out .day{text-align:center!important}
+  .who-out .day small{text-align:center!important}
+  .who-pick{justify-content:center}
+  .host{text-align:center}
+  .host .photo{margin:0 auto}
+  .proof{text-align:center}
+  .proof li{text-align:center}
+  .final{text-align:center}
+  .final .btn{margin-left:auto;margin-right:auto}
+  .tg-line{justify-content:center;text-align:center}
+  .gift-hero{text-align:center}
+  .gift-hero > div:first-child{display:flex;flex-direction:column;align-items:center}
   .stats,.hs-grid,.why,.cases,.gifts,.gift-3,.get-list,.prog,.tar,.blocks,.res3,.gal{grid-template-columns:1fr}
   .who-out{grid-template-columns:1fr}
   .who-out .day,.who-out .day small{text-align:left}
@@ -683,7 +746,7 @@ nav{flex-wrap:wrap;row-gap:8px}
     <a href="#faq">Вопросы</a>
   </div>
   <a class="tg" href="https://t.me/puzanovateam?text=Привет!%20Я%20с%20сайта%20ИИ:%20Перезагрузка,%20есть%20вопрос" target="_blank" rel="noopener">Связаться с поддержкой</a>
-  <a class="btn btn-cream" href="#reg">Занять место</a>
+  <a class="btn btn-cream" href="#tariffs">Занять место</a>
 </nav>
 
 <div class="strip">
@@ -708,7 +771,7 @@ nav{flex-wrap:wrap;row-gap:8px}
         </h1>
         <p class="hero-sub"><b class="pill-word">Красная таблетка</b> для тех, кто не хочет остаться в прошлом. Три дня практики для селлеров, предпринимателей и тех, кто ищет новую профессию.</p>
         <div class="hero-actions">
-          <a class="btn btn-cream" href="#reg">Занять место</a>
+          <a class="btn btn-cream" href="#tariffs">Занять место</a>
           <a class="btn btn-out" href="#program">Смотреть программу</a>
         </div>
       </div>
@@ -1640,21 +1703,31 @@ nav{flex-wrap:wrap;row-gap:8px}
     regForm.addEventListener('submit', function(e){
       e.preventDefault();
       var fd = new FormData(regForm);
-      var tariffVal = fd.get('tariff') === 'vip' ? 'VIP 990 ₽' : 'Базовый 0 ₽';
+      var isVip = fd.get('tariff') === 'vip';
+      var tariffVal = isVip ? 'VIP 990 ₽' : 'Базовый 0 ₽';
+      var name = fd.get('name') || '';
+      var phone = fd.get('phone') || '';
+      var email = fd.get('email') || '';
       sendToSheet({
         event: 'Регистрация',
-        name: fd.get('name') || '',
-        phone: fd.get('phone') || '',
-        email: fd.get('email') || '',
+        name: name,
+        phone: phone,
+        email: email,
         tariff: tariffVal,
         consent_data: fd.get('consent_data') ? 'да' : 'нет',
         consent_mailing: fd.get('consent_mailing') ? 'да' : 'нет',
         page: location.href
       });
+      if(isVip){
+        // тариф VIP — сразу на страницу оплаты, без страницы выбора канала
+        window.location.href = 'https://puzanovva.tech/page15712';
+        return;
+      }
       regForm.style.display = 'none';
       document.getElementById('regDone').classList.add('on');
       document.getElementById('regDone').scrollIntoView({behavior:'smooth', block:'center'});
-      setTimeout(function(){ window.location.href = 'thanks.html'; }, 1400);
+      var q = '?name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone) + '&tariff=' + encodeURIComponent(tariffVal);
+      setTimeout(function(){ window.location.href = 'thanks.html' + q; }, 1400);
     });
   }
 
