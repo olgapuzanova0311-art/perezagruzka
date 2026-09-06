@@ -1645,15 +1645,14 @@ nav{flex-wrap:wrap;row-gap:8px}
   });
   lb.addEventListener('click', function(){ lb.classList.remove('on'); });
 
-  /* стрелка к тарифам: появляется после первого экрана, прячется на самих тарифах */
+  /* стрелка к тарифам: показана всегда после первого экрана, пока сами тарифы не видны на экране */
   var jump = document.getElementById('jumpTar');
   function toggleJump(){
     var tar = document.getElementById('tariffs');
-    var past = window.scrollY > window.innerHeight * 0.75;
+    var past = window.scrollY > window.innerHeight * 0.6;
     var r = tar.getBoundingClientRect();
     var inside = r.top < window.innerHeight * 0.9 && r.bottom > 0;
-    var afterTariffs = r.bottom < 0;
-    jump.classList.toggle('on', past && !inside && !afterTariffs);
+    jump.classList.toggle('on', past && !inside);
   }
   toggleJump();
   window.addEventListener('scroll', toggleJump, {passive:true});
