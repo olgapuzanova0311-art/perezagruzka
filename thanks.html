@@ -49,6 +49,10 @@ p{color:var(--mute);font-size:16px;line-height:1.5;margin-bottom:34px}
 (function(){
   var SHEET_URL = 'https://script.google.com/macros/s/AKfycbxsbRPa_v5y4gUsBWQA0qInIZBW5U6zoohu0R7xH5j0J-whPFLgE_zzvsZC7mEX-8u2/exec';
   var chosen = false;
+  var params = new URLSearchParams(location.search);
+  var visitorName = params.get('name') || '';
+  var visitorPhone = params.get('phone') || '';
+  var visitorTariff = params.get('tariff') || '';
 
   function sendToSheet(payload){
     if(!SHEET_URL) return;
@@ -66,23 +70,23 @@ p{color:var(--mute);font-size:16px;line-height:1.5;margin-bottom:34px}
 
   document.getElementById('chTg').addEventListener('click', function(){
     chosen = true;
-    sendToSheet({event:'Выбор канала', channel:'Telegram', page: location.href});
+    sendToSheet({event:'Выбор канала', name:visitorName, phone:visitorPhone, tariff:visitorTariff, channel:'Telegram', page: location.href});
   });
   document.getElementById('chMax').addEventListener('click', function(){
     chosen = true;
-    sendToSheet({event:'Выбор канала', channel:'MAX', page: location.href});
+    sendToSheet({event:'Выбор канала', name:visitorName, phone:visitorPhone, tariff:visitorTariff, channel:'MAX', page: location.href});
   });
 
   document.addEventListener('visibilitychange', function(){
     if(document.visibilityState === 'hidden' && !chosen){
       chosen = true; // отправляем только один раз
-      sendToSheet({event:'НЕ ДОШЁЛ', channel:'', page: location.href});
+      sendToSheet({event:'НЕ ДОШЁЛ', name:visitorName, phone:visitorPhone, tariff:visitorTariff, channel:'', page: location.href});
     }
   });
   window.addEventListener('pagehide', function(){
     if(!chosen){
       chosen = true;
-      sendToSheet({event:'НЕ ДОШЁЛ', channel:'', page: location.href});
+      sendToSheet({event:'НЕ ДОШЁЛ', name:visitorName, phone:visitorPhone, tariff:visitorTariff, channel:'', page: location.href});
     }
   });
 })();
