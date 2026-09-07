@@ -1439,7 +1439,7 @@ nav{flex-wrap:wrap;row-gap:8px}
   </div>
 </footer>
 
-<a class="jump-tar" id="jumpTar" href="#tariffs" aria-label="К тарифам">
+<a class="jump-tar" id="jumpTar" href="#reg" aria-label="Зарегистрироваться">
   <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
     <path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 4v14M6 12l6 6 6-6"/>
   </svg>
@@ -1717,12 +1717,12 @@ nav{flex-wrap:wrap;row-gap:8px}
   });
   lb.addEventListener('click', function(){ lb.classList.remove('on'); });
 
-  /* стрелка к тарифам: показана всегда после первого экрана, пока сами тарифы не видны на экране */
+  /* стрелка к форме регистрации: показана после первого экрана, пока сама форма не видна на экране */
   var jump = document.getElementById('jumpTar');
   function toggleJump(){
-    var tar = document.getElementById('tariffs');
+    var reg = document.getElementById('reg');
     var past = window.scrollY > window.innerHeight * 0.6;
-    var r = tar.getBoundingClientRect();
+    var r = reg.getBoundingClientRect();
     var inside = r.top < window.innerHeight * 0.9 && r.bottom > 0;
     jump.classList.toggle('on', past && !inside);
   }
