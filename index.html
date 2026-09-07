@@ -1011,7 +1011,7 @@ nav{flex-wrap:wrap;row-gap:8px}
           <li>Подарок после каждого дня, если пришёл на эфир</li>
           <li>Чат участников на время интенсива</li>
         </ul>
-        <button type="button" class="btn btn-cream" style="align-self:flex-start" onclick="openTariffModal('base')">Занять место</button>
+        <button type="button" class="btn btn-cream" style="align-self:flex-start" onclick="goToRegWithTariff('base')">Занять место</button>
       </div>
 
       <div class="tar-card hot rv">
@@ -1034,7 +1034,7 @@ nav{flex-wrap:wrap;row-gap:8px}
           <li>Ответы на твои вопросы в прямом эфире</li>
           <li>Все шаблоны и чек-листы собраны в одном месте</li>
         </ul>
-        <button type="button" class="btn btn-cream" style="align-self:flex-start" onclick="openTariffModal('vip')">Взять VIP за 990 ₽</button>
+        <button type="button" class="btn btn-cream" style="align-self:flex-start" onclick="goToRegWithTariff('vip')">Взять VIP за 990 ₽</button>
       </div>
     </div>
     <div class="tg-line">
@@ -1649,39 +1649,18 @@ nav{flex-wrap:wrap;row-gap:8px}
 
   /* лайтбокс */
   /* попап подтверждения тарифа */
-  window.openTariffModal = function(kind){
-    var m = document.getElementById('modalTariff');
-    m.classList.toggle('vip-mode', kind === 'vip');
-    m.querySelector('.mt-name').textContent = kind === 'vip' ? 'VIP-участие' : 'Базовое участие';
-    m.querySelector('.mt-price').textContent = kind === 'vip' ? '990 ₽' : '0 ₽';
-    m.querySelector('.mt-card').classList.toggle('vip', kind === 'vip');
-    m.querySelector('.mt-desc').textContent = kind === 'vip'
-      ? 'Сейчас перенесём тебя на защищённую страницу оплаты.'
-      : 'Останется выбрать имя и контакт, дальше сразу к регистрации.';
-    m.querySelector('.mt-continue').textContent = kind === 'vip' ? 'Перейти к оплате' : 'Продолжить регистрацию';
-    m.dataset.tariff = kind;
-    m.classList.add('on');
-  };
-  document.getElementById('modalTariff').addEventListener('click', function(e){
-    if(e.target.id === 'modalTariff') this.classList.remove('on');
-  });
-  document.querySelector('#modalTariff .mt-close').addEventListener('click', function(){
-    document.getElementById('modalTariff').classList.remove('on');
-  });
-  document.querySelector('#modalTariff .mt-continue').addEventListener('click', function(){
-    var m = document.getElementById('modalTariff');
-    var kind = m.dataset.tariff || 'base';
-    if(kind === 'vip'){
-      sendToSheet({event:'Клик VIP (переход к оплате)', name:'', phone:'', email:'', tariff:'VIP 990 ₽', page: location.href});
-      window.location.href = 'https://puzanovva.tech/page15712';
-      return;
-    }
-    sendToSheet({event:'Выбрал тариф в попапе', name:'', phone:'', email:'', tariff:'Базовый 0 ₽', page: location.href});
+  /* клик по кнопке тарифа — сразу выбираем его в форме и ведём к ней, без промежуточного попапа */
+  window.goToRegWithTariff = function(kind){
     var radio = document.querySelector('.reg-tar input[value="' + kind + '"]');
     if(radio) radio.checked = true;
-    m.classList.remove('on');
+    sendToSheet({
+      event: kind === 'vip' ? 'Клик VIP (переход к форме)' : 'Клик Базовый (переход к форме)',
+      name: '', phone: '', email: '',
+      tariff: kind === 'vip' ? 'VIP 990 ₽' : 'Базовый 0 ₽',
+      page: location.href
+    });
     document.getElementById('reg').scrollIntoView({behavior:'smooth', block:'start'});
-  });
+  };
 
   /* ====== Google Таблица: вставьте сюда URL веб-приложения из Apps Script ====== */
   var SHEET_URL = 'https://script.google.com/macros/s/AKfycbxsbRPa_v5y4gUsBWQA0qInIZBW5U6zoohu0R7xH5j0J-whPFLgE_zzvsZC7mEX-8u2/exec';
