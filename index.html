@@ -1714,7 +1714,9 @@ nav{flex-wrap:wrap;row-gap:8px}
       regForm.style.display = 'none';
       document.getElementById('regDone').classList.add('on');
       document.getElementById('regDone').scrollIntoView({behavior:'smooth', block:'center'});
-      var q = '?name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone) + '&tariff=' + encodeURIComponent(tariffVal);
+      var extra = 'name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone) + '&tariff=' + encodeURIComponent(tariffVal);
+      var utm = location.search ? location.search.slice(1) : '';
+      var q = '?' + (utm ? utm + '&' : '') + extra;
       setTimeout(function(){ window.location.href = 'thanks.html' + q; }, 1400);
     });
   }
