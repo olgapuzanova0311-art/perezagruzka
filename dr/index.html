@@ -2,236 +2,242 @@
 <html lang="ru"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#030A26">
-<meta name="description" content="3 ноября в 12:00 большой праздничный эфир Ольги Пузановой. Забери приглашение и выбери подарок">
+<meta name="theme-color" content="#fff4f1">
+<title>Пойдёшь со мной на свидание? 💌</title>
+<meta name="description" content="3 ноября, 12:00 мск. Свидание с Ольгой Пузановой в её день рождения">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Придёшь ко мне на день рождения? 💙">
-<meta property="og:description" content="3 ноября, 12:00 мск. Большой праздничный эфир Ольги Пузановой. Забери приглашение и подарок">
+<meta property="og:title" content="Пойдёшь со мной на свидание? 💌">
+<meta property="og:description" content="3 ноября, 12:00 мск. Вариант ответа тут, кажется, один 😏">
 <meta property="og:image" content="https://olgapuzanova0311-art.github.io/perezagruzka/dr/og.jpg">
 <meta property="og:url" content="https://olgapuzanova0311-art.github.io/perezagruzka/dr/">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💙</text></svg>">
-<title>Приглашение на ДР Ольги</title>
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Montserrat:wght@500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
-<style>[hidden]{display:none!important}
-/* Layout: one glass card on a night-blue aurora, steps swap inside it like an RSVP flow */
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💌</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+[hidden]{display:none!important}
 :root{
- --ink:#030A26; --card:#0A1C66; --card2:#071450; --royal:#2B59FF; --royal2:#5A86FF; --ice:#BFD2FF; --snow:#F3F6FF; --mute:#90A4DC; --line:#2A44A8;
- --display:"Unbounded","Montserrat",system-ui,sans-serif; --body:"Montserrat",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
- color-scheme:dark;
+  --bg:#fff4f1; --bg-2:#ffe3dd; --card:#ffffff; --ink:#2b1b1f; --muted:#8a6f75;
+  --accent:#ff4d6d; --accent-ink:#ffffff; --soft:#ffd6de; --line:#f3d2d8;
+  --shadow:0 20px 60px -20px rgba(255,77,109,.35);
+  --font-hand:'Caveat', cursive; --font-body:'Inter', ui-sans-serif, system-ui, sans-serif;
+  color-scheme:light;
 }
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;height:100dvh}
-body{margin:0;background:var(--ink);color:var(--snow);font-family:var(--body);overflow:hidden;-webkit-font-smoothing:antialiased}
-.aurora{position:fixed;inset:-20%;filter:blur(80px);opacity:.8;pointer-events:none;
- background:radial-gradient(40% 35% at 25% 20%,#2B59FF88,transparent 70%),radial-gradient(35% 30% at 80% 75%,#4F7DFF66,transparent 70%),radial-gradient(30% 25% at 75% 10%,#1236B088,transparent 70%);animation:drift 18s ease-in-out infinite alternate}
-@keyframes drift{to{transform:translate(4%,-3%) rotate(8deg)}}
-#float{position:fixed;inset:0;pointer-events:none;overflow:hidden}
-.fl{position:absolute;bottom:-40px;animation:rise linear forwards;opacity:.75}
-@keyframes rise{to{transform:translateY(-115vh) rotate(var(--r));opacity:0}}
-#fx{position:fixed;inset:0;pointer-events:none;z-index:60}
-.stage{position:relative;z-index:1;height:100%;overflow-y:auto;display:flex;align-items:center;justify-content:center;
- padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px}
-.card{position:relative;width:100%;max-width:440px;border-radius:30px;padding:26px 22px 24px;text-align:center;
- background:linear-gradient(165deg,var(--card),var(--card2));border:1px solid #8FB0FF33;box-shadow:0 30px 80px #000a}
+body{background:radial-gradient(120% 80% at 50% 0%,var(--bg-2),var(--bg) 60%);background-color:var(--bg);color:var(--ink);font-family:var(--font-body);overflow:hidden;-webkit-font-smoothing:antialiased}
+.stage{height:100%;overflow-y:auto;display:flex;align-items:center;justify-content:center;padding:24px max(16px,env(safe-area-inset-left,0px));position:relative;z-index:1}
+.card{width:100%;max-width:440px;background:var(--card);border:1px solid var(--line);border-radius:28px;padding:32px 24px 28px;text-align:center;box-shadow:var(--shadow);position:relative;margin:auto}
 .step{display:none;animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
 .step.active{display:block}
-@keyframes pop{from{opacity:0;transform:scale(.93) translateY(10px)}to{opacity:1;transform:none}}
-.ava{width:132px;height:132px;border-radius:50%;margin:0 auto 14px;position:relative}
-.ava img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:50% 18%;display:block;border:3px solid #ffffff22}
-.ava::before{content:"";position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,#2B59FF,#9DB7FF,#7FD4FF,#2B59FF);z-index:-1;animation:spin 6s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ice);padding:7px 12px;border-radius:999px;background:#ffffff12;border:1px solid #ffffff22;margin-bottom:12px}
-h1{font-family:var(--display);font-weight:800;font-size:30px;line-height:1.08;margin:0 0 10px;text-wrap:balance}
-h2{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.12;margin:0 0 8px;text-wrap:balance}
-.sub{color:var(--ice);font-size:15px;line-height:1.45;margin:0 0 22px;text-wrap:pretty}
-.emoji{font-size:64px;line-height:1;margin-bottom:10px;display:inline-block}
-.beat{animation:beat 1.2s ease-in-out infinite}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(10px)}to{opacity:1;transform:none}}
+.emoji{font-size:72px;line-height:1;margin-bottom:12px;display:inline-block}
+.emoji.beat{animation:beat 1.2s ease-in-out infinite}
 @keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.15)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
+.hello{font-family:var(--font-hand);font-size:28px;color:var(--accent);margin-bottom:4px}
+h1{font-family:var(--font-hand);font-weight:700;font-size:44px;line-height:1.05;margin-bottom:10px}
+h2{font-family:var(--font-hand);font-weight:700;font-size:36px;line-height:1.1;margin-bottom:8px}
+p.sub{color:var(--muted);font-size:15px;line-height:1.45;margin-bottom:24px}
+.when{display:inline-block;font-weight:800;font-size:14px;color:var(--accent);background:var(--soft);border-radius:999px;padding:7px 14px;margin-bottom:14px}
 .buttons{display:flex;gap:12px;justify-content:center;align-items:center;min-height:64px;flex-wrap:wrap}
-.btn{font-family:var(--body);font-weight:800;font-size:17px;border:0;cursor:pointer;padding:15px 28px;border-radius:999px;transition:transform .2s,filter .2s;user-select:none;touch-action:manipulation;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-.yes{color:#fff;background:linear-gradient(90deg,var(--royal),var(--royal2),var(--royal));background-size:200% 100%;animation:sheen 3s linear infinite;box-shadow:0 10px 30px -6px #2B59FFcc}
-@keyframes sheen{to{background-position:-200% 0}}
-.yes:active{transform:scale(.96)}
-.no{background:#ffffff14;color:var(--snow);border:1px solid #ffffff2a}
-.no.runaway{position:absolute;z-index:5}
-.no.runaway.jump{transition:left .3s cubic-bezier(.3,1.5,.5,1),top .3s cubic-bezier(.3,1.5,.5,1),transform .2s}
-.ghost{background:transparent;color:var(--mute);font-weight:600;font-size:14px;padding:10px 16px}
-.wide{width:100%}
-.btn:focus-visible,.opt:focus-visible,.chip:focus-visible{outline:3px solid var(--ice);outline-offset:3px}
-.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;animation:none}
-.hint{margin-top:16px;font-size:13px;color:var(--mute);min-height:18px}
-.progress{display:flex;gap:6px;justify-content:center;margin-bottom:16px}
-.progress i{width:8px;height:8px;border-radius:50%;background:var(--line);transition:all .2s}
-.progress i.on{background:var(--royal2);width:22px;border-radius:6px}
-.gifts{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;text-align:left}
-.opt{display:flex;gap:14px;align-items:center;width:100%;border:2px solid var(--line);background:#ffffff08;color:var(--snow);border-radius:20px;padding:14px;cursor:pointer;font-family:var(--body);text-align:left;transition:border-color .2s,background .2s,transform .15s}
+.btn{font-family:var(--font-body);font-weight:800;font-size:17px;border:0;cursor:pointer;padding:14px 28px;border-radius:999px;transition:transform .2s,background .2s,box-shadow .2s;user-select:none;touch-action:manipulation;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn-yes{background:var(--accent);color:var(--accent-ink);box-shadow:0 10px 24px -8px var(--accent)}
+.btn-yes:hover{filter:brightness(1.05)}
+.btn-yes:active{transform:scale(.96)}
+.btn-no{background:var(--soft);color:var(--ink)}
+.btn-no.runaway{position:absolute;z-index:5}
+.btn-no.runaway.jump{transition:left .3s cubic-bezier(.3,1.5,.5,1),top .3s cubic-bezier(.3,1.5,.5,1),transform .2s}
+.btn-ghost{background:transparent;color:var(--muted);font-weight:600;font-size:14px;padding:10px 16px}
+.btn-wide{width:100%}
+.btn:focus-visible,.opt:focus-visible,.chip:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.hint{margin-top:18px;font-size:13px;color:var(--muted);min-height:18px}
+.grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px}
+.opt{border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:18px;padding:14px 14px;cursor:pointer;font-family:var(--font-body);font-weight:700;font-size:15px;transition:border-color .2s,background .2s,transform .15s;display:flex;gap:12px;align-items:center;text-align:left}
+.opt span.i{font-size:30px;flex:none}
+.opt small{display:block;font-weight:500;font-size:13px;color:var(--muted);margin-top:2px}
 .opt:hover{transform:translateY(-2px)}
-.opt .ic{flex:none;width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:28px;background:#2B59FF2a}
-.opt b{display:block;font-size:16px;margin-bottom:3px}
-.opt small{display:block;font-size:13px;color:var(--mute);line-height:1.35}
-.opt.selected{border-color:var(--royal2);background:#2B59FF26}
-.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px}
-.chip{border:2px solid var(--line);background:#ffffff08;color:var(--snow);border-radius:999px;padding:10px 16px;font-family:var(--body);font-weight:700;font-size:14px;cursor:pointer}
-.chip.selected{border-color:var(--royal2);background:#2B59FF26}
-.field{text-align:left;margin-bottom:16px}
-.field label{display:block;font-size:13px;font-weight:600;color:var(--mute);margin-bottom:6px}
-.field input{width:100%;font-family:var(--body);font-size:16px;padding:13px 14px;border-radius:14px;border:2px solid var(--line);background:#ffffff08;color:var(--snow)}
-.field input::placeholder{color:#90A4DC99}
-.field input:focus{outline:none;border-color:var(--royal2)}
-.ticket{position:relative;border-radius:20px;padding:18px 18px 14px;margin:16px 0 18px;text-align:left;background:#ffffff0a;border:2px dashed #7FA2FF88}
-.ticket div{display:flex;gap:10px;align-items:baseline;padding:6px 0;font-size:15px;line-height:1.35}
-.ticket b{color:var(--mute);font-weight:600;min-width:84px;font-size:12px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase}
-.ticket span{min-width:0}
+.opt.selected{border-color:var(--accent);background:var(--soft)}
+.field{text-align:left;margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.field input{width:100%;font-family:var(--font-body);font-size:16px;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:transparent;color:var(--ink)}
+.field input:focus{outline:none;border-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;justify-content:center}
+.chip{border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:9px 14px;font-family:var(--font-body);font-weight:600;font-size:14px;cursor:pointer}
+.chip.selected{border-color:var(--accent);background:var(--soft)}
+.ticket{border:2px dashed var(--accent);border-radius:20px;padding:18px 20px;margin:18px 0 20px;text-align:left}
+.ticket div{display:flex;gap:10px;align-items:baseline;padding:6px 0;font-size:15px}
+.ticket b{color:var(--muted);font-weight:600;min-width:74px;font-size:13px;flex:none}
 .row{display:flex;gap:10px}
-.row .btn{flex:1;padding:15px 10px;font-size:15px}
-.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(90px);background:var(--snow);color:var(--ink);padding:12px 18px;border-radius:999px;font-size:14px;font-weight:700;transition:transform .3s;z-index:100}
+.row .btn{flex:1;padding:14px 10px;font-size:15px}
+.progress{display:flex;gap:6px;justify-content:center;margin-bottom:18px}
+.progress i{width:8px;height:8px;border-radius:50%;background:var(--line);transition:background .2s,width .2s}
+.progress i.on{background:var(--accent);width:22px;border-radius:6px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(90px);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:999px;font-size:14px;font-weight:600;transition:transform .3s;z-index:100}
 .toast.show{transform:translateX(-50%) translateY(0)}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-</style>
-
-</head><body>
-<div class="aurora"></div>
-<div id="float"></div>
-<canvas id="fx"></canvas>
+#hearts{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.heart{position:absolute;bottom:-40px;animation:rise linear forwards;opacity:.7}
+@keyframes rise{to{transform:translateY(-115vh) rotate(var(--r));opacity:0}}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:60}
+</style></head><body>
+<div id="hearts"></div>
+<canvas id="confetti"></canvas>
 <main class="stage"><div class="card" id="card">
 
  <section class="step active" id="s-ask">
-  <div class="ava"><img alt="Ольга Пузанова" src="olga.jpg"></div>
-  <div class="badge">3 ноября · 12:00 мск</div>
-  <h1 id="hello">Придёшь ко мне на день рождения?</h1>
-  <p class="sub" id="askSub">Большой праздничный эфир в телеграм-канале: итоги года без фильтров и план на 2027. Вариант ответа тут, кажется, один 😏</p>
-  <div class="buttons"><button class="btn yes" id="yes" type="button">Да, приду!</button><button class="btn no" id="no" type="button">Нет</button></div>
+  <div class="emoji beat" id="askEmoji">💌</div>
+  <div class="hello" id="hello">Привет!</div>
+  <h1>Пойдёшь со мной на свидание?</h1>
+  <div class="when">3 ноября · 12:00 мск</div>
+  <p class="sub">В этот день у меня день рождения, и я хочу провести его с тобой. Подумай хорошенько. Хотя вариант тут, кажется, один 😏</p>
+  <div class="buttons"><button class="btn btn-yes" id="yes" type="button">Да!</button><button class="btn btn-no" id="no" type="button">Нет</button></div>
   <div class="hint" id="hint"></div>
  </section>
 
  <section class="step" id="s-yay">
-  <div class="emoji">🥳</div>
+  <div class="emoji">🥰</div>
   <h1>Ура-а-а!</h1>
-  <p class="sub">Я так и знала! Забирай приглашение, а я приготовила тебе подарок, выбери, какой хочешь.</p>
-  <button class="btn yes wide" data-go="s-gift" type="button">Забрать приглашение 🎁</button>
+  <p class="sub">Я знала, что ты согласишься. Встречаемся 3 ноября в 12:00 у меня в телеграм-канале, будет большой праздничный эфир. Осталось договориться о деталях, это быстро.</p>
+  <button class="btn btn-yes btn-wide" data-go="s-gift" type="button">Поехали →</button>
  </section>
 
  <section class="step" id="s-gift">
-  <div class="progress"><i class="on"></i><i></i></div>
-  <h2>Выбери подарок</h2>
-  <p class="sub">Пришлю его после эфира всем, кто придёт</p>
-  <div class="gifts" id="gifts">
-   <button class="opt" type="button" data-v="100 промптов для бизнеса"><span class="ic">🧠</span><span><b>100 промптов для бизнеса</b><small>Готовые запросы для продаж, контента, цифр и команды</small></span></button>
-   <button class="opt" type="button" data-v="Шаблон контент-завода"><span class="ic">🏭</span><span><b>Шаблон контент-завода</b><small>Как у меня: темы, сценарии и публикации без лица в кадре</small></span></button>
-   <button class="opt" type="button" data-v="План дохода на 2027"><span class="ic">📈</span><span><b>Шаблон плана дохода на 2027</b><small>Цель, направления и задачи на 90 минут в день</small></span></button>
+  <div class="progress"><i class="on"></i><i></i><i></i></div>
+  <h2>Какой подарок тебе принести?</h2>
+  <p class="sub">На свидание с пустыми руками не хожу 🎁</p>
+  <div class="grid" id="giftGrid">
+   <button class="opt" type="button" data-v="100 промптов для бизнеса"><span class="i">🧠</span><span>100 промптов для бизнеса<small>Готовые запросы для продаж, контента, цифр и команды</small></span></button>
+   <button class="opt" type="button" data-v="Шаблон контент-завода"><span class="i">🏭</span><span>Шаблон контент-завода<small>Как у меня: темы, сценарии и публикации без лица в кадре</small></span></button>
+   <button class="opt" type="button" data-v="План дохода на 2027"><span class="i">📈</span><span>Шаблон плана дохода на 2027<small>Цель, направления и задачи на 90 минут в день</small></span></button>
   </div>
-  <button class="btn yes wide" id="giftNext" type="button" disabled>Дальше</button>
+  <button class="btn btn-yes btn-wide" id="giftNext" type="button" disabled>Дальше</button>
+ </section>
+
+ <section class="step" id="s-talk">
+  <div class="progress"><i></i><i class="on"></i><i></i></div>
+  <h2>О чём поговорим?</h2>
+  <p class="sub">Выбери, что тебе интереснее всего</p>
+  <div class="chips" id="talkChips">
+   <button class="chip" type="button" data-v="план дохода на 2027">💰 План дохода на 2027</button>
+   <button class="chip" type="button" data-v="бизнес не только на мне">🤝 Бизнес не только на мне</button>
+   <button class="chip" type="button" data-v="где утекают деньги">⚡️ Где утекают деньги</button>
+   <button class="chip" type="button" data-v="соцсети на 500к охватов">📱 Соцсети на 500к охватов</button>
+   <button class="chip" type="button" data-v="итоги твоего года">🎂 Итоги твоего года</button>
+  </div>
+  <div class="field"><label for="ask">Твой вопрос мне (необязательно)</label><input type="text" id="ask" maxlength="200" placeholder="Например: с чего начать с нейросетями?"></div>
+  <button class="btn btn-yes btn-wide" id="talkNext" type="button" disabled>Дальше</button>
  </section>
 
  <section class="step" id="s-mood">
-  <div class="progress"><i></i><i class="on"></i></div>
+  <div class="progress"><i></i><i></i><i class="on"></i></div>
   <h2>Последний вопрос</h2>
-  <p class="sub">Как настроение перед эфиром?</p>
-  <div class="chips" id="moods">
-   <button class="chip" type="button" data-v="приду точно">💙 Приду точно</button>
-   <button class="chip" type="button" data-v="уже ставлю будильник">⏰ Ставлю будильник</button>
-   <button class="chip" type="button" data-v="считаю минуты">🔥 Считаю минуты</button>
+  <p class="sub">Насколько ты ждёшь этого свидания?</p>
+  <div class="chips" id="moodChips">
+   <button class="chip" type="button" data-v="жду">🙂 Жду</button>
+   <button class="chip" type="button" data-v="очень-очень жду">😍 Очень жду</button>
+   <button class="chip" type="button" data-v="уже считаю минуты">🔥 Считаю минуты</button>
   </div>
-  <div class="field"><label for="ask">Вопрос для эфира (необязательно)</label><input type="text" id="ask" maxlength="140" placeholder="Например: как ИИ поможет с рекламой на вб"></div>
-  <button class="btn yes wide" id="moodNext" type="button" disabled>Готово!</button>
+  <button class="btn btn-yes btn-wide" id="moodNext" type="button" disabled>Готово!</button>
  </section>
 
  <section class="step" id="s-done">
-  <div class="emoji beat">💙</div>
-  <h1>Ты в списке гостей!</h1>
-  <p class="sub">Отправь это приглашение в телеграм моей команде, и мы пришлём подарок после эфира</p>
+  <div class="emoji beat">💖</div>
+  <h1>Договорились!</h1>
+  <p class="sub">Отправь мне этот «билетик», чтобы я точно ничего не перепутала и подготовила твой подарок</p>
   <div class="ticket" id="ticket"></div>
-  <a class="btn yes wide" id="send" href="https://t.me/puzanovateam" target="_blank" rel="noopener">Отправить в Telegram ✈️</a>
-  <div class="row" style="margin-top:10px">
-   <a class="btn no" id="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D0%94%D0%A0%20%D0%9E%D0%BB%D0%B8%20%D0%9F%D1%83%D0%B7%D0%B0%D0%BD%D0%BE%D0%B2%D0%BE%D0%B9.%20%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B7%D0%B4%D0%BD%D0%B8%D1%87%D0%BD%D1%8B%D0%B9%20%D1%8D%D1%84%D0%B8%D1%80%20%F0%9F%8E%89&amp;dates=20261103T090000Z%2F20261103T103000Z&amp;details=%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B7%D0%B4%D0%BD%D0%B8%D1%87%D0%BD%D1%8B%D0%B9%20%D1%8D%D1%84%D0%B8%D1%80%20%D0%B2%20%D0%B4%D0%B5%D0%BD%D1%8C%20%D1%80%D0%BE%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%9E%D0%BB%D1%8C%D0%B3%D0%B8%20%D0%9F%D1%83%D0%B7%D0%B0%D0%BD%D0%BE%D0%B2%D0%BE%D0%B9.%0A%D0%91%D0%B5%D0%B7%20%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D0%B8%2C%20%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE%20%D0%BF%D1%80%D0%B8%D1%85%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%20%D0%B2%20%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB%20%D0%BA%2012%3A00%20%D0%BF%D0%BE%20%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B5%3A%20https%3A%2F%2Ft.me%2Faivwb%0A%0A%D0%98%D1%82%D0%BE%D0%B3%D0%B8%20%D0%B3%D0%BE%D0%B4%D0%B0%20%D0%B1%D0%B5%D0%B7%20%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D0%BE%D0%B2%2C%20%D0%BF%D0%BB%D0%B0%D0%BD%20%D0%B4%D0%BE%D1%85%D0%BE%D0%B4%D0%B0%20%D0%BD%D0%B0%202027%20%D0%B8%20%D0%98%D0%98%20%D0%B2%20%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B5.&amp;location=https%3A%2F%2Ft.me%2Faivwb" target="_blank" rel="noopener">📅 В календарь</a>
-   <button class="btn no" id="copy" type="button">Скопировать</button>
+  <div class="row">
+   <a class="btn btn-yes" id="send" href="https://t.me/puzanovateam" target="_blank" rel="noopener">В Telegram ✈️</a>
+   <a class="btn btn-no" id="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D0%94%D0%A0%20%D0%9E%D0%BB%D0%B8%20%D0%9F%D1%83%D0%B7%D0%B0%D0%BD%D0%BE%D0%B2%D0%BE%D0%B9.%20%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B7%D0%B4%D0%BD%D0%B8%D1%87%D0%BD%D1%8B%D0%B9%20%D1%8D%D1%84%D0%B8%D1%80%20%F0%9F%8E%89&amp;dates=20261103T090000Z%2F20261103T103000Z&amp;details=%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B7%D0%B4%D0%BD%D0%B8%D1%87%D0%BD%D1%8B%D0%B9%20%D1%8D%D1%84%D0%B8%D1%80%20%D0%B2%20%D0%B4%D0%B5%D0%BD%D1%8C%20%D1%80%D0%BE%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%9E%D0%BB%D1%8C%D0%B3%D0%B8%20%D0%9F%D1%83%D0%B7%D0%B0%D0%BD%D0%BE%D0%B2%D0%BE%D0%B9.%0A%D0%91%D0%B5%D0%B7%20%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D0%B8%2C%20%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE%20%D0%BF%D1%80%D0%B8%D1%85%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%20%D0%B2%20%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB%20%D0%BA%2012%3A00%20%D0%BF%D0%BE%20%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B5%3A%20https%3A%2F%2Ft.me%2Faivwb%0A%0A%D0%98%D1%82%D0%BE%D0%B3%D0%B8%20%D0%B3%D0%BE%D0%B4%D0%B0%20%D0%B1%D0%B5%D0%B7%20%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D0%BE%D0%B2%2C%20%D0%BF%D0%BB%D0%B0%D0%BD%20%D0%B4%D0%BE%D1%85%D0%BE%D0%B4%D0%B0%20%D0%BD%D0%B0%202027%20%D0%B8%20%D0%98%D0%98%20%D0%B2%20%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B5.&amp;location=https%3A%2F%2Ft.me%2Faivwb" target="_blank" rel="noopener">📆 В календарь</a>
   </div>
-  <button class="btn ghost" id="restart" type="button" style="margin-top:8px">Начать заново</button>
+  <button class="btn btn-ghost" id="copy" type="button" style="margin-top:10px">Скопировать текст</button>
+  <button class="btn btn-ghost" id="restart" type="button">Начать заново</button>
  </section>
 
 </div></main>
 <div class="toast" id="toast"></div>
 
 <script>
-(()=>{
+(() => {
  const $=s=>document.querySelector(s);
+ const params=new URLSearchParams(location.search);
+ const toName=params.get('to');
+ if(toName)$('#hello').textContent=`Привет, ${toName}!`;
+ const state={gift:null,talk:null,mood:null,ask:''};
+
  const API='https://rsvp-production-250d.up.railway.app/e';
  let VID;try{VID=localStorage.getItem('dr_vid');if(!VID){VID=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('dr_vid',VID);}}catch(e){VID=Math.random().toString(36).slice(2);}
  function track(type,extra){try{fetch(API,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(Object.assign({type,vid:VID},extra||{})),keepalive:true}).catch(()=>{});}catch(e){}}
  track('open');
- const state={gift:null,mood:null,ask:''};
- function go(id){document.querySelectorAll('.step').forEach(s=>s.classList.toggle('active',s.id===id));if(id!=='s-ask')resetNo();}
+
+ function go(id){document.querySelectorAll('.step').forEach(s=>s.classList.toggle('active',s.id===id));if(id!=='s-ask')resetNo();document.querySelector('.stage').scrollTop=0;}
  document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
 
- // runaway "Нет"
+ // убегающая «Нет»
  const yes=$('#yes'),no=$('#no'),hint=$('#hint'),card=$('#card');
- const noTexts=['Нет','Точно?','Подумай ещё','Там будет торт 🎂','Не-а, не выйдет','Я обижусь 🥺','Кнопка сломалась','Ты серьёзно?','Последний шанс!','Жми «Да» 👉'];
- const hints=['','Кнопка «Нет» какая-то пугливая…','Она тебя боится 😅','Может, всё-таки «Да»?','Кнопка «Да» растёт не просто так 👀','Сопротивление бесполезно 💙'];
- const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const noTexts=['Нет','Точно?','Подумай ещё','Ну пожалуйста 🥺','Там будет торт 🎂','Я обижусь 😢','Кнопка сломалась','Ты серьёзно?','Последний шанс!','Жми «Да» 👉'];
+ const hints=['','Хм, кнопка «Нет» какая-то пугливая…','Она тебя боится 😅','Может, всё-таки «Да»?','Кнопка «Да» растёт не просто так 👀','Сопротивление бесполезно 💘'];
+ const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
  let tries=0,scale=1,pos=null,vel=null,jumping=false,startTimer=null;
  function yesBox(sc){const c=card.getBoundingClientRect(),b=yes.getBoundingClientRect();const cx=b.left+b.width/2-c.left,cy=b.top+b.height/2-c.top;const hw=yes.offsetWidth*sc/2+12,hh=yes.offsetHeight*sc/2+12;return{l:cx-hw,r:cx+hw,t:cy-hh,b:cy+hh};}
  const overlaps=(x,y,w,h,Y)=>x<Y.r&&x+w>Y.l&&y<Y.b&&y+h>Y.t;
- const maxX=()=>card.clientWidth-no.offsetWidth-8, maxY=()=>card.clientHeight-no.offsetHeight-8;
+ const maxX=()=>card.clientWidth-no.offsetWidth-8,maxY=()=>card.clientHeight-no.offsetHeight-8;
+ const cx=v=>Math.min(Math.max(v,8),maxX()),cy=v=>Math.min(Math.max(v,8),maxY());
  const place=()=>{const op=(no.offsetParent||card).getBoundingClientRect(),c=card.getBoundingClientRect();no.style.left=(pos.x+c.left-op.left)+'px';no.style.top=(pos.y+c.top-op.top)+'px';};
- const rnd=()=>{const a=Math.random()*Math.PI*2;return{x:Math.cos(a),y:Math.sin(a)};};
- function detach(){if(no.classList.contains('runaway'))return;const c=card.getBoundingClientRect(),r=no.getBoundingClientRect();pos={x:r.left-c.left,y:r.top-c.top};no.classList.add('runaway');place();vel=rnd();}
+ const randomDir=()=>{const a=Math.random()*Math.PI*2;return{x:Math.cos(a),y:Math.sin(a)};};
+ function detach(){if(no.classList.contains('runaway'))return;const c=card.getBoundingClientRect(),r=no.getBoundingClientRect();pos={x:r.left-c.left,y:r.top-c.top};no.classList.add('runaway');place();vel=randomDir();}
  function drift(){requestAnimationFrame(drift);if(!pos||jumping||!$('#s-ask').classList.contains('active'))return;
   const sp=.9+tries*.3,w=no.offsetWidth,h=no.offsetHeight;let nx=pos.x+vel.x*sp,ny=pos.y+vel.y*sp;
-  if(nx<8||nx>maxX()){vel.x*=-1;nx=Math.min(Math.max(nx,8),maxX());}
-  if(ny<8||ny>maxY()){vel.y*=-1;ny=Math.min(Math.max(ny,8),maxY());}
-  const cx=v=>Math.min(Math.max(v,8),maxX()),cy=v=>Math.min(Math.max(v,8),maxY());
+  if(nx<8||nx>maxX()){vel.x*=-1;nx=cx(nx);}if(ny<8||ny>maxY()){vel.y*=-1;ny=cy(ny);}
   const Y=yesBox(scale);if(overlaps(nx,ny,w,h,Y)){const dx=nx+w/2-(Y.l+Y.r)/2,dy=ny+h/2-(Y.t+Y.b)/2,d=Math.hypot(dx,dy)||1;vel={x:dx/d,y:dy/d};nx=cx(pos.x+vel.x*sp*2);ny=cy(pos.y+vel.y*sp*2);
    if(overlaps(nx,ny,w,h,Y)){vel={x:vel.x*.3,y:dy>2?1:-1};nx=cx(pos.x+vel.x*sp);ny=cy(pos.y+vel.y*sp*3);}}
-  nx=cx(nx);ny=cy(ny);
-  pos={x:nx,y:ny};place();}
- function dodge(e){if(e){e.preventDefault();e.stopPropagation();}if(jumping)return;detach();tries++;scale=Math.min(1+tries*.12,2.1);
+  pos={x:cx(nx),y:cy(ny)};place();}
+ function dodge(e){if(e){e.preventDefault();e.stopPropagation();}if(jumping)return;detach();tries++;scale=Math.min(1+tries*.12,2.2);
   no.textContent=noTexts[Math.min(tries,noTexts.length-1)];yes.style.transform=`scale(${scale})`;
   const Y=yesBox(scale),w=no.offsetWidth,h=no.offsetHeight;let x,y,g=0;
   do{x=8+Math.random()*Math.max(0,maxX()-8);y=8+Math.random()*Math.max(0,maxY()-8);g++;}while(g<100&&(overlaps(x,y,w,h,Y)||Math.hypot(x-pos.x,y-pos.y)<90));
-  jumping=true;no.classList.add('jump');pos={x,y};place();vel=rnd();
+  jumping=true;no.classList.add('jump');pos={x,y};place();vel=randomDir();
   no.style.transform=`rotate(${(Math.random()*30-15).toFixed(1)}deg) scale(${Math.max(.7,1-tries*.03)})`;
-  setTimeout(()=>{jumping=false;no.classList.remove('jump');},320);hint.textContent=hints[Math.min(tries,hints.length-1)];}
- function startFloating(){clearTimeout(startTimer);if(reduce)return;startTimer=setTimeout(detach,900);}
- function resetNo(){clearTimeout(startTimer);tries=0;scale=1;pos=null;jumping=false;no.classList.remove('runaway','jump');no.removeAttribute('style');yes.removeAttribute('style');no.textContent='Нет';hint.textContent='';}
+  setTimeout(()=>{jumping=false;no.classList.remove('jump');},320);hint.textContent=hints[Math.min(tries,hints.length-1)];
+  if(tries===6)$('#askEmoji').textContent='🥺';}
+ function startFloating(){clearTimeout(startTimer);if(reduceMotion)return;startTimer=setTimeout(detach,700);}
+ function resetNo(){clearTimeout(startTimer);tries=0;scale=1;pos=null;jumping=false;no.classList.remove('runaway','jump');no.removeAttribute('style');yes.removeAttribute('style');no.textContent='Нет';hint.textContent='';$('#askEmoji').textContent='💌';}
  (document.fonts?document.fonts.ready:Promise.resolve()).then(startFloating);requestAnimationFrame(drift);
  no.addEventListener('touchstart',dodge,{passive:false});no.addEventListener('pointerdown',dodge);no.addEventListener('click',dodge);
+ no.addEventListener('focus',()=>{if(tries>0)dodge();});
  document.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||!$('#s-ask').classList.contains('active'))return;const r=no.getBoundingClientRect();if(Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2))<Math.max(r.width,r.height)*.8)dodge();});
  yes.addEventListener('click',()=>{track('yes');confetti();go('s-yay');});
 
- function single(box,key,cb){box.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;box.querySelectorAll('[data-v]').forEach(x=>x.classList.toggle('selected',x===b));state[key]=b.dataset.v;cb&&cb();});}
- single($('#gifts'),'gift',()=>$('#giftNext').disabled=false);
+ function single(container,key,cb){container.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;container.querySelectorAll('[data-v]').forEach(x=>x.classList.toggle('selected',x===b));state[key]=b.dataset.v;cb&&cb();});}
+ single($('#giftGrid'),'gift',()=>$('#giftNext').disabled=false);
+ $('#giftNext').addEventListener('click',()=>go('s-talk'));
+ single($('#talkChips'),'talk',()=>$('#talkNext').disabled=false);
+ $('#talkNext').addEventListener('click',()=>{state.ask=$('#ask').value.trim();go('s-mood');});
+ single($('#moodChips'),'mood',()=>$('#moodNext').disabled=false);
+ $('#moodNext').addEventListener('click',()=>{track('done',{gift:state.gift,mood:state.mood,ask:[state.talk?('Тема: '+state.talk):'',state.ask].filter(Boolean).join(' · ')});renderTicket();confetti();go('s-done');});
+
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ function rows(){const r=[['Что','Свидание с Олей 💖 Большой праздничный эфир'],['Когда','вторник, 3 ноября, 12:00 мск'],['Где','телеграм-канал Оли'],['Подарок',state.gift],['Поговорим',state.talk],['Настрой',state.mood]];if(state.ask)r.push(['Вопрос',state.ask]);return r;}
+ function renderTicket(){$('#ticket').innerHTML=rows().map(([k,v])=>`<div><b>${k}</b><span>${esc(v)}</span></div>`).join('');$('#send').href='https://t.me/puzanovateam?text='+encodeURIComponent(message());}
+ function message(){return 'Да, я пойду с тобой на свидание! 💖\n\n'+rows().map(([k,v])=>`${k}: ${v}`).join('\n');}
+ function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2000);}
+ $('#copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(message());toast('Скопировано 💌');}catch(e){const r=document.createRange();r.selectNodeContents($('#ticket'));getSelection().removeAllRanges();getSelection().addRange(r);toast('Текст выделен, скопируй его');}});
  $('#send').addEventListener('click',()=>track('tg'));
- $('#giftNext').addEventListener('click',()=>go('s-mood'));
- single($('#moods'),'mood',()=>$('#moodNext').disabled=false);
- $('#moodNext').addEventListener('click',()=>{state.ask=$('#ask').value.trim();track('done',{gift:state.gift,mood:state.mood,ask:state.ask});render();confetti();go('s-done');});
+ $('#restart').addEventListener('click',()=>{setTimeout(startFloating,0);Object.assign(state,{gift:null,talk:null,mood:null,ask:''});document.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));['#giftNext','#talkNext','#moodNext'].forEach(s=>$(s).disabled=true);$('#ask').value='';go('s-ask');});
 
- const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- function rows(){const r=[['Что','Большой праздничный эфир'],['Когда','вторник, 3 ноября, 12:00 мск'],['Где','телеграм-канал Ольги'],['Подарок',state.gift],['Настрой',state.mood]];if(state.ask)r.push(['Вопрос',state.ask]);return r;}
- function render(){$('#ticket').innerHTML=rows().map(([k,v])=>`<div><b>${k}</b><span>${esc(v)}</span></div>`).join('');
-  $('#send').href='https://t.me/puzanovateam?text='+encodeURIComponent(message());}
- function message(){return 'Да, я приду на день рождения Ольги! 🎉\n\n'+rows().map(([k,v])=>`${k}: ${v}`).join('\n');}
- function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2200);}
- $('#copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(message());toast('Скопировано 💙');}catch(e){const s=getSelection(),r=document.createRange();r.selectNodeContents($('#ticket'));s.removeAllRanges();s.addRange(r);toast('Текст выделен, скопируйте его');}});
- $('#restart').addEventListener('click',()=>{setTimeout(startFloating,0);Object.assign(state,{gift:null,mood:null,ask:''});document.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));['#giftNext','#moodNext'].forEach(s=>$(s).disabled=true);$('#ask').value='';go('s-ask');});
+ // сердечки
+ const hearts=$('#hearts'),hc=['💗','💕','💖','❤️','💘'];
+ function spawnHeart(){const h=document.createElement('div');h.className='heart';h.textContent=hc[Math.random()*hc.length|0];h.style.left=Math.random()*100+'vw';h.style.fontSize=14+Math.random()*22+'px';h.style.animationDuration=7+Math.random()*6+'s';h.style.setProperty('--r',(Math.random()*120-60)+'deg');hearts.appendChild(h);setTimeout(()=>h.remove(),14000);}
+ if(!reduceMotion){for(let i=0;i<6;i++)setTimeout(spawnHeart,i*400);setInterval(spawnHeart,900);}
 
- // floating sparkles
- const fl=$('#float'),chars=['💙','✨','❄️','🎉','💎'];
- function spawn(){const h=document.createElement('div');h.className='fl';h.textContent=chars[Math.random()*chars.length|0];h.style.left=Math.random()*100+'vw';h.style.fontSize=14+Math.random()*20+'px';h.style.animationDuration=8+Math.random()*6+'s';h.style.setProperty('--r',(Math.random()*120-60)+'deg');fl.appendChild(h);setTimeout(()=>h.remove(),15000);}
- if(!reduce){for(let i=0;i<6;i++)setTimeout(spawn,i*400);setInterval(spawn,1000);}
-
- // confetti
- const cv=$('#fx'),ctx=cv.getContext('2d');let parts=[],raf=null;
- function rs(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}addEventListener('resize',rs);rs();
- function confetti(){if(reduce)return;const cols=['#2B59FF','#5A86FF','#BFD2FF','#FFFFFF','#7FD4FF','#9D7BFF'];
-  for(let i=0;i<170;i++)parts.push({x:innerWidth/2,y:innerHeight/2,vx:(Math.random()-.5)*16,vy:Math.random()*-16-4,s:5+Math.random()*6,c:cols[Math.random()*cols.length|0],r:Math.random()*3,vr:(Math.random()-.5)*.3,life:0,h:Math.random()<.2});
-  if(!raf)tick();}
+ // конфетти
+ const cv=$('#confetti'),ctx=cv.getContext('2d');let parts=[],raf=null;
+ function resize(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}
+ addEventListener('resize',resize);resize();
+ function confetti(){if(reduceMotion)return;const colors=['#ff4d6d','#ff8fa3','#ffd166','#c77dff','#ffffff'];for(let i=0;i<160;i++)parts.push({x:innerWidth/2,y:innerHeight/2,vx:(Math.random()-.5)*16,vy:Math.random()*-16-4,s:5+Math.random()*6,c:colors[Math.random()*colors.length|0],r:Math.random()*Math.PI,vr:(Math.random()-.5)*.3,life:0,heart:Math.random()<.25});if(!raf)tick();}
  function tick(){ctx.clearRect(0,0,innerWidth,innerHeight);parts=parts.filter(p=>p.life<180&&p.y<innerHeight+40);
   for(const p of parts){p.vy+=.35;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;p.life++;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.globalAlpha=Math.max(0,1-p.life/180);
-   if(p.h){ctx.font=`${p.s*2.4}px serif`;ctx.fillText('💙',0,0);}else{ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);}ctx.restore();}
+   if(p.heart){ctx.font=`${p.s*2.4}px serif`;ctx.fillText('💖',0,0);}else{ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);}ctx.restore();}
   raf=parts.length?requestAnimationFrame(tick):(ctx.clearRect(0,0,innerWidth,innerHeight),null);}
 })();
 </script>
-
 </body></html>
