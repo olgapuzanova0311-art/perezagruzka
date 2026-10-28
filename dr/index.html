@@ -157,6 +157,10 @@ h2{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.12;ma
 <script>
 (()=>{
  const $=s=>document.querySelector(s);
+ const API='https://rsvp-production-250d.up.railway.app/e';
+ let VID;try{VID=localStorage.getItem('dr_vid');if(!VID){VID=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('dr_vid',VID);}}catch(e){VID=Math.random().toString(36).slice(2);}
+ function track(type,extra){try{fetch(API,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(Object.assign({type,vid:VID},extra||{})),keepalive:true}).catch(()=>{});}catch(e){}}
+ track('open');
  const state={gift:null,mood:null,ask:''};
  function go(id){document.querySelectorAll('.step').forEach(s=>s.classList.toggle('active',s.id===id));if(id!=='s-ask')resetNo();}
  document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
@@ -194,13 +198,14 @@ h2{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.12;ma
  (document.fonts?document.fonts.ready:Promise.resolve()).then(startFloating);requestAnimationFrame(drift);
  no.addEventListener('touchstart',dodge,{passive:false});no.addEventListener('pointerdown',dodge);no.addEventListener('click',dodge);
  document.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||!$('#s-ask').classList.contains('active'))return;const r=no.getBoundingClientRect();if(Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2))<Math.max(r.width,r.height)*.8)dodge();});
- yes.addEventListener('click',()=>{confetti();go('s-yay');});
+ yes.addEventListener('click',()=>{track('yes');confetti();go('s-yay');});
 
  function single(box,key,cb){box.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;box.querySelectorAll('[data-v]').forEach(x=>x.classList.toggle('selected',x===b));state[key]=b.dataset.v;cb&&cb();});}
  single($('#gifts'),'gift',()=>$('#giftNext').disabled=false);
+ $('#send').addEventListener('click',()=>track('tg'));
  $('#giftNext').addEventListener('click',()=>go('s-mood'));
  single($('#moods'),'mood',()=>$('#moodNext').disabled=false);
- $('#moodNext').addEventListener('click',()=>{state.ask=$('#ask').value.trim();render();confetti();go('s-done');});
+ $('#moodNext').addEventListener('click',()=>{state.ask=$('#ask').value.trim();track('done',{gift:state.gift,mood:state.mood,ask:state.ask});render();confetti();go('s-done');});
 
  const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function rows(){const r=[['Что','Большой праздничный эфир'],['Когда','вторник, 3 ноября, 12:00 мск'],['Где','телеграм-канал Ольги'],['Подарок',state.gift],['Настрой',state.mood]];if(state.ask)r.push(['Вопрос',state.ask]);return r;}
