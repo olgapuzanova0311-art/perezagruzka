@@ -80,6 +80,9 @@ h2{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.12;ma
 .field input{width:100%;font-family:var(--body);font-size:16px;padding:13px 14px;border-radius:14px;border:2px solid var(--line);background:#ffffff08;color:var(--snow)}
 .field input::placeholder{color:#90A4DC99}
 .field input:focus{outline:none;border-color:var(--royal2)}
+.field input.bad{border-color:#FF6B85}
+.ferr{color:#FF8FA3;font-size:13.5px;margin:-6px 0 12px;text-align:left}
+.consent{font-size:11.5px;line-height:1.4;color:var(--mute);margin:12px 0 0;opacity:.85}
 .ticket{position:relative;border-radius:20px;padding:18px 18px 14px;margin:16px 0 18px;text-align:left;background:#ffffff0a;border:2px dashed #7FA2FF88}
 .ticket div{display:flex;gap:10px;align-items:baseline;padding:6px 0;font-size:15px;line-height:1.35}
 .ticket b{color:var(--mute);font-weight:600;min-width:84px;font-size:12px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase}
@@ -114,7 +117,7 @@ h2{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.12;ma
  </section>
 
  <section class="step" id="s-gift">
-  <div class="progress"><i class="on"></i><i></i></div>
+  <div class="progress"><i class="on"></i><i></i><i></i></div>
   <h2>Выбери подарок</h2>
   <p class="sub">Пришлю его после эфира всем, кто придёт</p>
   <div class="gifts" id="gifts">
@@ -126,8 +129,8 @@ h2{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.12;ma
  </section>
 
  <section class="step" id="s-mood">
-  <div class="progress"><i></i><i class="on"></i></div>
-  <h2>Последний вопрос</h2>
+  <div class="progress"><i></i><i class="on"></i><i></i></div>
+  <h2>Ещё чуть-чуть</h2>
   <p class="sub">Как настроение перед эфиром?</p>
   <div class="chips" id="moods">
    <button class="chip" type="button" data-v="приду точно">💙 Приду точно</button>
@@ -135,13 +138,27 @@ h2{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.12;ma
    <button class="chip" type="button" data-v="считаю минуты">🔥 Считаю минуты</button>
   </div>
   <div class="field"><label for="ask">Вопрос для эфира (необязательно)</label><input type="text" id="ask" maxlength="140" placeholder="Например: как ИИ поможет с рекламой на вб"></div>
-  <button class="btn yes wide" id="moodNext" type="button" disabled>Готово!</button>
+  <button class="btn yes wide" id="moodNext" type="button" disabled>Дальше</button>
+ </section>
+
+ <section class="step" id="s-secret">
+  <div class="progress"><i></i><i></i><i class="on"></i></div>
+  <div class="emoji beat">🎟️</div>
+  <h2>Секретный билет</h2>
+  <p class="sub">Оставь имя и телефон, и мы пришлём тебе секретный билет на мой день рождения. Что внутри, узнаешь раньше всех 🤫</p>
+  <form id="leadForm" novalidate>
+   <div class="field"><label for="lname">Как тебя зовут</label><input type="text" id="lname" name="name" autocomplete="name" maxlength="60" placeholder="Имя" required></div>
+   <div class="field"><label for="lphone">Телефон</label><input type="tel" id="lphone" name="tel" autocomplete="tel" inputmode="tel" maxlength="20" placeholder="+7 900 000-00-00" required></div>
+   <p class="ferr" id="ferr" hidden></p>
+   <button class="btn yes wide" id="leadBtn" type="submit">Получить секретный билет 🎟️</button>
+   <p class="consent">Нажимая кнопку, ты соглашаешься на обработку персональных данных и получение сообщений о мероприятии</p>
+  </form>
  </section>
 
  <section class="step" id="s-done">
   <div class="emoji beat">💙</div>
   <h1>Ты в списке гостей!</h1>
-  <p class="sub">Отправь это приглашение в телеграм моей команде, и мы пришлём подарок после эфира</p>
+  <p class="sub">Секретный билет уже в пути 🎟️ А ещё отправь это приглашение в телеграм моей команде, и мы пришлём подарок после эфира</p>
   <div class="ticket" id="ticket"></div>
   <a class="btn yes wide" id="send" href="https://t.me/puzanovateam" target="_blank" rel="noopener">Отправить в Telegram ✈️</a>
   <div class="row" style="margin-top:10px">
@@ -205,16 +222,25 @@ h2{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.12;ma
  $('#send').addEventListener('click',()=>track('tg'));
  $('#giftNext').addEventListener('click',()=>go('s-mood'));
  single($('#moods'),'mood',()=>$('#moodNext').disabled=false);
- $('#moodNext').addEventListener('click',()=>{state.ask=$('#ask').value.trim();track('done',{gift:state.gift,mood:state.mood,ask:state.ask});render();confetti();go('s-done');});
+ $('#moodNext').addEventListener('click',()=>{state.ask=$('#ask').value.trim();track('done',{gift:state.gift,mood:state.mood,ask:state.ask});go('s-secret');setTimeout(()=>{try{$('#lname').focus({preventScroll:true})}catch(e){}},350);});
+ const digits=v=>v.replace(/\D/g,'');
+ function fmtPhone(v){let d=digits(v);if(!d)return '';if(d[0]==='8')d='7'+d.slice(1);if(d[0]!=='7'&&d.length<=10)d='7'+d;d=d.slice(0,11);const p=[d.slice(1,4),d.slice(4,7),d.slice(7,9),d.slice(9,11)];let r='+7';if(p[0])r+=' '+p[0];if(p[1])r+=' '+p[1];if(p[2])r+='-'+p[2];if(p[3])r+='-'+p[3];return r;}
+ $('#lphone').addEventListener('input',e=>{const el=e.target;if(el.value.trim().startsWith('+')&&!el.value.trim().startsWith('+7'))return;el.value=fmtPhone(el.value);el.classList.remove('bad');$('#ferr').hidden=true;});
+ $('#lname').addEventListener('input',e=>{e.target.classList.remove('bad');$('#ferr').hidden=true;});
+ $('#leadForm').addEventListener('submit',e=>{e.preventDefault();const name=$('#lname').value.trim(),phone=$('#lphone').value.trim();let err='';
+  if(!name){err='Напиши, как тебя зовут';$('#lname').classList.add('bad');}
+  else if(digits(phone).length<10){err='Проверь номер телефона, кажется, в нём не хватает цифр';$('#lphone').classList.add('bad');}
+  if(err){$('#ferr').textContent=err;$('#ferr').hidden=false;return;}
+  state.name=name;state.phone=phone;track('lead',{name,phone,gift:state.gift,mood:state.mood,ask:state.ask});render();confetti();go('s-done');});
 
  const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- function rows(){const r=[['Что','Большой праздничный эфир'],['Когда','вторник, 3 ноября, 12:00 мск'],['Где','телеграм-канал Ольги'],['Подарок',state.gift],['Настрой',state.mood]];if(state.ask)r.push(['Вопрос',state.ask]);return r;}
+ function rows(){const r=[['Гость',state.name||''],['Что','Большой праздничный эфир'],['Когда','вторник, 3 ноября, 12:00 мск'],['Где','телеграм-канал Ольги'],['Подарок',state.gift],['Настрой',state.mood]];if(state.ask)r.push(['Вопрос',state.ask]);return r.filter(x=>x[1]);}
  function render(){$('#ticket').innerHTML=rows().map(([k,v])=>`<div><b>${k}</b><span>${esc(v)}</span></div>`).join('');
   $('#send').href='https://t.me/puzanovateam?text='+encodeURIComponent(message());}
  function message(){return 'Да, я приду на день рождения Ольги! 🎉\n\n'+rows().map(([k,v])=>`${k}: ${v}`).join('\n');}
  function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2200);}
  $('#copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(message());toast('Скопировано 💙');}catch(e){const s=getSelection(),r=document.createRange();r.selectNodeContents($('#ticket'));s.removeAllRanges();s.addRange(r);toast('Текст выделен, скопируйте его');}});
- $('#restart').addEventListener('click',()=>{setTimeout(startFloating,0);Object.assign(state,{gift:null,mood:null,ask:''});document.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));['#giftNext','#moodNext'].forEach(s=>$(s).disabled=true);$('#ask').value='';go('s-ask');});
+ $('#restart').addEventListener('click',()=>{setTimeout(startFloating,0);Object.assign(state,{gift:null,mood:null,ask:'',name:'',phone:''});document.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));['#giftNext','#moodNext'].forEach(s=>$(s).disabled=true);$('#ask').value='';go('s-ask');});
 
  // floating sparkles
  const fl=$('#float'),chars=['💙','✨','❄️','🎉','💎'];
