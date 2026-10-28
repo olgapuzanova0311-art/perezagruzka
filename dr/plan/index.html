@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#030A26">
+<title>План дохода на 2027</title>
+<meta name="description" content="Интерактивный шаблон: цель, направления дохода и задачи на 90 минут в день. Подарок от Ольги Пузановой">
+<meta property="og:title" content="План дохода на 2027 📈">
+<meta property="og:description" content="Цель, направления и задачи на 90 минут в день. Заполняй прямо на странице, всё посчитается само">
+<meta property="og:image" content="https://olgapuzanova0311-art.github.io/perezagruzka/dr/plan/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Montserrat:wght@500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+[hidden]{display:none!important}
+:root{--ink:#030A26;--card:#0A1C66;--card2:#071450;--royal:#2B59FF;--royal2:#5A86FF;--ice:#BFD2FF;--snow:#F3F6FF;--mute:#90A4DC;--line:#ffffff1c;--ok:#35C98A;--warn:#FFB547;
+--display:"Unbounded","Montserrat",system-ui,sans-serif;--body:"Montserrat",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--ink);color:var(--snow);font-family:var(--body);-webkit-font-smoothing:antialiased;line-height:1.5}
+.aurora{position:fixed;inset:-20%;filter:blur(90px);opacity:.55;pointer-events:none;z-index:0;background:radial-gradient(40% 35% at 15% 10%,#2B59FF88,transparent 70%),radial-gradient(35% 30% at 85% 70%,#4F7DFF55,transparent 70%)}
+.w{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left)) 60px}
+.hero{padding:56px 0 18px}
+.badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ice);padding:7px 12px;border-radius:999px;background:#ffffff12;border:1px solid #ffffff22}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,7vw,62px);line-height:1.02;margin:18px 0 14px;letter-spacing:-.02em}
+h1 em{font-style:normal;background:linear-gradient(90deg,#9DB7FF,#5A86FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:clamp(16px,2.2vw,19px);color:var(--ice);margin:0;max-width:640px}
+.top{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:800 15px var(--body);text-decoration:none;color:#fff;background:linear-gradient(90deg,#2B59FF,#4F7DFF);border:0;border-radius:999px;padding:13px 20px;cursor:pointer;box-shadow:0 10px 30px #2B59FF55}
+.btn.g{background:#ffffff14;box-shadow:none;border:1px solid #ffffff26}
+.saved{font-size:13px;color:var(--mute);margin-top:12px}
+.steps{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:26px 0 0;padding-bottom:2px}
+.steps::-webkit-scrollbar{display:none}
+.steps a{flex:none;font:700 13px var(--body);color:var(--ice);text-decoration:none;background:#ffffff0f;border:1px solid #ffffff22;border-radius:999px;padding:8px 12px}
+.blk{margin-top:18px;background:linear-gradient(165deg,var(--card),var(--card2));border:1px solid #8FB0FF26;border-radius:24px;padding:24px;scroll-margin-top:16px}
+.bh{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px}
+.bn{flex:none;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font:800 18px var(--display);background:linear-gradient(135deg,#2B59FF,#5A86FF);box-shadow:0 8px 24px #2B59FF55}
+.blk h2{font-family:var(--display);font-size:clamp(19px,3.4vw,24px);margin:0;line-height:1.15}
+.blk .bs{margin:6px 0 0;color:var(--mute);font-size:14.5px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:12px}
+label.f{display:flex;flex-direction:column;gap:6px;font-size:13.5px;font-weight:700;color:var(--ice)}
+label.f small{font-weight:500;color:var(--mute)}
+input,textarea{width:100%;font:500 16px var(--body);color:var(--snow);background:#030A2680;border:1px solid #ffffff26;border-radius:12px;padding:12px 13px;outline:none;transition:border-color .2s}
+textarea{min-height:84px;resize:vertical;line-height:1.45}
+input:focus,textarea:focus{border-color:var(--royal2);box-shadow:0 0 0 3px #2B59FF33}
+input::placeholder,textarea::placeholder{color:#6F82BC}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:6px}
+.kpi{background:#030A2680;border:1px solid #ffffff1a;border-radius:16px;padding:14px}
+.kpi b{display:block;font:800 clamp(20px,3.6vw,26px) var(--display);letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi span{font-size:13px;color:var(--mute)}
+.tip{margin-top:14px;font-size:14px;color:#D8E2FF;background:#2B59FF1f;border:1px solid #2B59FF55;border-radius:14px;padding:12px 14px}
+.dirs{display:flex;flex-direction:column;gap:10px}
+.dir{display:grid;grid-template-columns:1.6fr 1fr .8fr 1fr 36px;gap:8px;align-items:end;background:#030A2655;border:1px solid #ffffff14;border-radius:16px;padding:12px}
+.dir .sum{font:800 16px var(--display);padding:12px 0;white-space:nowrap}
+.dir .sum small{display:block;font:600 11px var(--body);color:var(--mute)}
+.x{width:36px;height:44px;border:0;background:transparent;color:var(--mute);font-size:22px;cursor:pointer;border-radius:10px}
+.x:hover{color:#fff;background:#ffffff14}
+.add{margin-top:10px}
+.prog{margin-top:16px}
+.pbar{height:14px;border-radius:99px;background:#ffffff14;overflow:hidden}
+.pbar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#2B59FF,#7FA0FF);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.pbar i.full{background:linear-gradient(90deg,#1F9D63,#35C98A)}
+.pl{display:flex;justify-content:space-between;gap:10px;margin-top:8px;font-size:14px;flex-wrap:wrap}
+.gap{font-weight:800}.gap.ok{color:var(--ok)}.gap.no{color:var(--warn)}
+.qs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.q{background:#030A2655;border:1px solid #ffffff14;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.q h3{margin:0;font:800 15px var(--display)}
+.q .qa{font:800 17px var(--display);color:var(--ice)}
+.q .pctw{display:flex;align-items:center;gap:6px}.q .pctw input{padding:9px 10px}.q .pctw span{color:var(--mute);font-weight:700}
+.q textarea{min-height:70px;font-size:14.5px}
+.qwarn{font-size:13.5px;margin-top:8px;color:var(--warn)}
+.min{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mb{background:#030A2655;border:1px solid #ffffff14;border-radius:16px;padding:12px}
+.mb .t{font:800 12px var(--mono);letter-spacing:.12em;color:var(--royal2);margin-bottom:6px}
+.trk{display:grid;grid-template-columns:repeat(15,1fr);gap:5px;margin-top:10px}
+.trk button{aspect-ratio:1;border-radius:7px;border:1px solid #ffffff1f;background:#030A2680;color:#6F82BC;font:700 10px var(--mono);cursor:pointer;padding:0;transition:background .15s,transform .15s}
+.trk button.on{background:linear-gradient(135deg,#2B59FF,#5A86FF);border-color:transparent;color:#fff}
+.trk button:active{transform:scale(.9)}
+.tc{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;font-size:14px}
+.tc b{font:800 22px var(--display)}
+.ai pre{white-space:pre-wrap;font:500 13.5px/1.55 var(--mono);background:#030A2699;border:1px solid #ffffff1a;border-radius:16px;padding:16px;margin:0 0 14px;max-height:340px;overflow:auto}
+.foot{margin-top:40px;color:var(--mute);font-size:14px;text-align:center}.foot a{color:var(--ice)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,40px);opacity:0;background:#fff;color:#030A26;font-weight:700;padding:12px 18px;border-radius:999px;transition:.25s;z-index:9;pointer-events:none}
+.toast.on{transform:translate(-50%,0);opacity:1}
+@media (max-width:720px){
+ .qs{grid-template-columns:1fr 1fr}
+ .dir{grid-template-columns:1fr 1fr;position:relative;padding-right:44px}
+ .dir label:first-child{grid-column:1/-1}
+ .dir .x{position:absolute;top:8px;right:6px}
+ .dir .sum{grid-column:1/-1;padding:4px 0 0}
+ .min{grid-template-columns:1fr}
+ .trk{grid-template-columns:repeat(10,1fr)}
+}
+@media (max-width:520px){.qs{grid-template-columns:1fr}.q textarea{min-height:56px}.hero{padding-top:36px}.blk{padding:18px;border-radius:20px}.bh{gap:12px}.bn{width:38px;height:38px;font-size:16px}}
+@media print{
+ body{background:#fff;color:#111}.aurora,.top,.steps,.x,.add,.toast,.saved,#cpa,.trk button:not(.on){}
+ .aurora,.top,.steps,.x,.add,.toast,.saved,#cpa{display:none!important}
+ h1{color:#111}h1 em{-webkit-text-fill-color:#2B59FF}.lead,.blk .bs,.kpi span,label.f small{color:#555}
+ .blk{background:#fff;border:1px solid #ccd;break-inside:avoid;color:#111}
+ label.f{color:#1236B0}input,textarea{background:#fff;color:#111;border:1px solid #ccd}
+ .kpi,.dir,.q,.mb{background:#F4F7FF;border-color:#dde}.tip{background:#F0F4FF;color:#222}.q .qa{color:#1236B0}
+ .ai pre{background:#fff;color:#111;max-height:none;border-color:#ccd}.trk button{border-color:#ccd;background:#fff}
+}
+</style></head><body>
+<div class="aurora"></div>
+<div class="w">
+<header class="hero">
+<span class="badge">Подарок от Ольги Пузановой 💙</span>
+<h1>План дохода <em>на 2027</em></h1>
+<p class="lead">Заполни 7 блоков, и у тебя будет понятная цифра, направления, откуда придут деньги, и одно ключевое действие на 90 минут в день. Всё считается само и сохраняется в этом браузере. Займёт минут 30-40.</p>
+<div class="top">
+<a class="btn" href="#b1">Начать ↓</a>
+<button class="btn g" type="button" id="demo">Показать на примере</button>
+<button class="btn g" type="button" onclick="window.print()">Сохранить в PDF</button>
+</div>
+<p class="saved" id="saved">Ответы сохраняются автоматически</p>
+<nav class="steps"><a href="#b1">1. Точка А</a><a href="#b2">2. Цель</a><a href="#b3">3. Направления</a><a href="#b4">4. Кварталы</a><a href="#b5">5. Воронка</a><a href="#b6">6. 90 минут</a><a href="#b7">7. Стоп-лист</a><a href="#b8">ИИ-разбор</a></nav>
+</header>
+
+<section class="blk" id="b1">
+<div class="bh"><div class="bn">1</div><div><h2>Точка А: честные итоги 2026</h2><p class="bs">Без этого план превращается в мечту. Посмотри в выписки и отчёты, а не в ощущения.</p></div></div>
+<div class="row">
+<label class="f">Доход за 2026, ₽<small>Сколько реально заработала за год</small><input inputmode="numeric" data-k="inc26" data-num placeholder="2 400 000"></label>
+<label class="f">Лучший месяц, ₽<small>Твой потолок на сегодня</small><input inputmode="numeric" data-k="best26" data-num placeholder="350 000"></label>
+</div>
+<div class="row">
+<label class="f">Что принесло больше всего денег<textarea data-k="win26" placeholder="Например: консультации и запуск курса в сентябре"></textarea></label>
+<label class="f">Что съело силы и не дало денег<textarea data-k="loss26" placeholder="Например: три месяца на новый продукт, который купили 4 человека"></textarea></label>
+</div>
+<label class="f">3 главных урока года<textarea data-k="lessons" placeholder="1. ...&#10;2. ...&#10;3. ..."></textarea></label>
+<div class="kpis" style="margin-top:12px">
+<div class="kpi"><b id="avg26">-</b><span>средний месяц 2026</span></div>
+<div class="kpi"><b id="bestx">-</b><span>лучший месяц выше среднего</span></div>
+</div>
+</section>
+
+<section class="blk" id="b2">
+<div class="bh"><div class="bn">2</div><div><h2>Цель: сколько ты хочешь в 2027</h2><p class="bs">Одна цифра дохода за год. Смелая, но такая, чтобы ты в неё верила хотя бы на 70%.</p></div></div>
+<div class="row">
+<label class="f">Цель дохода на 2027, ₽<input inputmode="numeric" data-k="goal" data-num placeholder="6 000 000"></label>
+<label class="f">Зачем мне эти деньги<small>Конкретно: на что, для кого, что изменится</small><textarea data-k="why" placeholder="Квартира, команда, чтобы не работать по выходным"></textarea></label>
+</div>
+<div class="kpis">
+<div class="kpi"><b id="gm">-</b><span>в месяц</span></div>
+<div class="kpi"><b id="gw">-</b><span>в неделю</span></div>
+<div class="kpi"><b id="gd">-</b><span>в рабочий день</span></div>
+<div class="kpi"><b id="gx">-</b><span>к доходу 2026</span></div>
+</div>
+<p class="tip" id="goaltip">💡 Заполни доход 2026 и цель, и я подскажу, насколько это реалистично.</p>
+</section>
+
+<section class="blk" id="b3">
+<div class="bh"><div class="bn">3</div><div><h2>Направления: откуда придут деньги</h2><p class="bs">Разложи цель по источникам. Правило 70/20/10: 70% дохода из того, что уже работает, 20% из того, что растёт, 10% на эксперименты.</p></div></div>
+<div class="dirs" id="dirs"></div>
+<button class="btn g add" type="button" id="addDir">+ Добавить направление</button>
+<div class="prog">
+<div class="pbar"><i id="pb"></i></div>
+<div class="pl"><span>Направления дают <b id="dsum">0 ₽</b> в год</span><span class="gap" id="dgap"></span></div>
+</div>
+</section>
+
+<section class="blk" id="b4">
+<div class="bh"><div class="bn">4</div><div><h2>Кварталы: цель по шагам</h2><p class="bs">Год длинный, квартал понятный. Распредели цель с учётом сезонности и напиши один фокус на каждый квартал.</p></div></div>
+<div class="qs" id="qs"></div>
+<p class="qwarn" id="qwarn" hidden></p>
+</section>
+
+<section class="blk" id="b5">
+<div class="bh"><div class="bn">5</div><div><h2>Воронка: сколько нужно людей</h2><p class="bs">Посчитаем для главного направления, сколько охвата и заявок нужно каждый месяц, чтобы цифра сошлась.</p></div></div>
+<div class="row">
+<label class="f">Главное направление<input data-k="mainDir" placeholder="Консультации"></label>
+<label class="f">Средний чек, ₽<input inputmode="numeric" data-k="fCheck" data-num placeholder="30 000"></label>
+<label class="f">Нужно дохода в месяц, ₽<small>Сколько должно приносить это направление</small><input inputmode="numeric" data-k="fNeed" data-num placeholder="300 000"></label>
+</div>
+<div class="row">
+<label class="f">Из заявки в покупку, %<small>Сколько из 100 заявок покупают</small><input inputmode="decimal" data-k="crSale" placeholder="20"></label>
+<label class="f">Из охвата в заявку, %<small>Обычно 0,5-2% для соцсетей</small><input inputmode="decimal" data-k="crLead" placeholder="1"></label>
+</div>
+<div class="kpis">
+<div class="kpi"><b id="fs">-</b><span>продаж в месяц</span></div>
+<div class="kpi"><b id="fl">-</b><span>заявок в месяц</span></div>
+<div class="kpi"><b id="fld">-</b><span>заявок в день</span></div>
+<div class="kpi"><b id="fr">-</b><span>охвата в месяц</span></div>
+</div>
+<p class="tip">💡 Если цифры пугают, есть три рычага: поднять чек, поднять конверсию продаж (скрипты, консультации, отзывы) или поднять охват (контент, реклама, партнёры). Поиграй с цифрами и посмотри, какой рычаг сильнее.</p>
+</section>
+
+<section class="blk" id="b6">
+<div class="bh"><div class="bn">6</div><div><h2>90 минут в день</h2><p class="bs">Не надо делать всё. Надо каждый день 90 минут делать одно действие, которое двигает цифру. Остальное потом.</p></div></div>
+<label class="f">Одно ключевое действие, которое двигает доход<small>Если бы можно было делать только одно, что бы это было</small><textarea data-k="key" style="min-height:60px" placeholder="Контент, который приводит заявки, и ответы на них"></textarea></label>
+<div class="min" style="margin-top:12px">
+<div class="mb"><div class="t">0-30 МИН</div><textarea data-k="m1" placeholder="Пишу пост или сценарий ролика"></textarea></div>
+<div class="mb"><div class="t">30-60 МИН</div><textarea data-k="m2" placeholder="Снимаю и публикую"></textarea></div>
+<div class="mb"><div class="t">60-90 МИН</div><textarea data-k="m3" placeholder="Отвечаю на заявки и дожимаю"></textarea></div>
+</div>
+<div class="row" style="margin-top:12px">
+<label class="f">Метрика, которую смотрю каждую пятницу<input data-k="metric" placeholder="Количество заявок за неделю"></label>
+<label class="f">Когда в день мои 90 минут<input data-k="when" placeholder="С 9:00 до 10:30, телефон в другой комнате"></label>
+</div>
+<p class="bs" style="margin:14px 0 0">Трекер на 90 дней: отмечай каждый день, когда сделала свои 90 минут.</p>
+<div class="trk" id="trk"></div>
+<div class="tc"><span><b id="tdone">0</b> из 90 дней</span><span id="tstreak"></span></div>
+</section>
+
+<section class="blk" id="b7">
+<div class="bh"><div class="bn">7</div><div><h2>Стоп-лист и план Б</h2><p class="bs">Чтобы освободить время на главное, что-то придётся отпустить. И честно подумать, что может пойти не так.</p></div></div>
+<div class="row">
+<label class="f">Что я перестаю делать в 2027<textarea data-k="stop" placeholder="Бесплатные консультации всем подряд, ручную отчётность, проекты не по профилю"></textarea></label>
+<label class="f">Что делегирую людям или нейросетям<textarea data-k="deleg" placeholder="Монтаж, ответы на типовые вопросы, сбор аналитики"></textarea></label>
+</div>
+<div class="row">
+<label class="f">Главный риск<textarea data-k="risk" placeholder="Падение продаж на маркетплейсах, выгорание"></textarea></label>
+<label class="f">Мой план Б<textarea data-k="planb" placeholder="Подушка на 3 месяца, второе направление дохода"></textarea></label>
+</div>
+</section>
+
+<section class="blk ai" id="b8">
+<div class="bh"><div class="bn">🤖</div><div><h2>Разбор плана нейросетью</h2><p class="bs">Промпт ниже собирается сам из твоих ответов. Скопируй его в ChatGPT, Claude или DeepSeek, и получишь разбор плана с рисками и советами.</p></div></div>
+<pre id="aiP"></pre>
+<button class="btn" type="button" id="cpa">Скопировать промпт</button>
+</section>
+
+<p class="foot">Сделано с любовью к 3 ноября · <a href="https://t.me/aivwb">Канал Ольги про ИИ и бизнес</a> · <a href="#" id="reset">Очистить все поля</a></p>
+</div>
+<div class="toast" id="toast">Скопировано ✓</div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const KEY='plan2027_v1';
+let S={};try{S=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){S={}}
+S.dirs=S.dirs||[{n:'',c:'',q:''},{n:'',c:'',q:''},{n:'',c:'',q:''}];
+S.q=S.q||[{p:20,f:''},{p:25,f:''},{p:25,f:''},{p:30,f:''}];
+S.trk=S.trk||[];
+const num=v=>{const x=parseFloat(String(v??'').replace(/\s/g,'').replace(',','.'));return isFinite(x)?x:0};
+const rub=v=>Math.round(v).toLocaleString('ru-RU')+' ₽';
+const short=v=>{v=Math.round(v);if(v>=1e6)return (v/1e6).toLocaleString('ru-RU',{maximumFractionDigits:1})+' млн ₽';if(v>=1e3)return Math.round(v/1e3).toLocaleString('ru-RU')+' тыс ₽';return v.toLocaleString('ru-RU')+' ₽'};
+const fmtNum=el=>{const n=num(el.value);if(!el.value.trim())return;const p=el.selectionStart,l=el.value.length;el.value=n?Math.round(n).toLocaleString('ru-RU'):el.value;};
+let saveT;function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S));$('#saved').textContent='Сохранено ✓ '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}catch(e){$('#saved').textContent='Не получается сохранить в этом браузере, сохрани в PDF'}},300)}
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+// simple fields
+$$('[data-k]').forEach(el=>{const k=el.dataset.k;if(S[k]!=null)el.value=S[k];
+ el.addEventListener('input',()=>{S[k]=el.value;calc();save()});
+ if(el.hasAttribute('data-num'))el.addEventListener('blur',()=>{fmtNum(el);S[k]=el.value;save()});});
+
+// directions
+function drawDirs(){$('#dirs').innerHTML=S.dirs.map((d,i)=>`<div class="dir">
+<label class="f">Направление<input data-d="n" data-i="${i}" value="${esc(d.n)}" placeholder="${['Основной продукт','Растущее направление','Эксперимент'][i]||'Ещё направление'}"></label>
+<label class="f">Чек, ₽<input inputmode="numeric" data-d="c" data-i="${i}" value="${esc(d.c)}" placeholder="30 000"></label>
+<label class="f">Продаж/мес<input inputmode="numeric" data-d="q" data-i="${i}" value="${esc(d.q)}" placeholder="5"></label>
+<div class="sum" id="ds${i}"><small>в год</small>0 ₽</div>
+<button class="x" type="button" data-del="${i}" aria-label="Удалить направление">×</button></div>`).join('');
+ $$('[data-d]').forEach(el=>{el.addEventListener('input',()=>{S.dirs[el.dataset.i][el.dataset.d]=el.value;calc();save()});
+  if(el.dataset.d==='c')el.addEventListener('blur',()=>{fmtNum(el);S.dirs[el.dataset.i].c=el.value;save()})});
+ $$('[data-del]').forEach(b=>b.addEventListener('click',()=>{S.dirs.splice(+b.dataset.del,1);if(!S.dirs.length)S.dirs.push({n:'',c:'',q:''});drawDirs();calc();save()}));}
+$('#addDir').addEventListener('click',()=>{if(S.dirs.length>=7)return;S.dirs.push({n:'',c:'',q:''});drawDirs();calc();save()});
+
+// quarters
+function drawQ(){$('#qs').innerHTML=S.q.map((q,i)=>`<div class="q"><h3>Q${i+1}</h3>
+<div class="pctw"><input inputmode="numeric" data-qp="${i}" value="${esc(q.p)}" aria-label="Доля Q${i+1} в процентах"><span>%</span></div>
+<div class="qa" id="qa${i}">0 ₽</div>
+<textarea data-qf="${i}" placeholder="${['Фокус: упаковка и продукт','Фокус: трафик','Фокус: масштаб','Фокус: запуск и пик продаж'][i]}">${esc(q.f)}</textarea></div>`).join('');
+ $$('[data-qp]').forEach(el=>el.addEventListener('input',()=>{S.q[el.dataset.qp].p=el.value;calc();save()}));
+ $$('[data-qf]').forEach(el=>el.addEventListener('input',()=>{S.q[el.dataset.qf].f=el.value;calc();save()}));}
+
+// tracker
+function drawT(){$('#trk').innerHTML=Array.from({length:90},(_,i)=>`<button type="button" class="${S.trk.includes(i)?'on':''}" data-t="${i}" aria-label="День ${i+1}">${i+1}</button>`).join('');
+ $$('#trk button').forEach(b=>b.addEventListener('click',()=>{const i=+b.dataset.t;const k=S.trk.indexOf(i);if(k>=0)S.trk.splice(k,1);else S.trk.push(i);b.classList.toggle('on');tstat();save()}));tstat();}
+function tstat(){const n=S.trk.length;$('#tdone').textContent=n;let st=0;for(let i=89;i>=0;i--){if(S.trk.includes(i)){st=0;for(let j=i;j>=0&&S.trk.includes(j);j--)st++;break}}
+ $('#tstreak').textContent=n?(n>=90?'🏆 Ты сделала это!':st>=7?`🔥 Серия ${st} дней подряд`:`Серия: ${st}`):'Начни с сегодняшнего дня';}
+
+function calc(){
+ const inc=num(S.inc26),best=num(S.best26),goal=num(S.goal);
+ $('#avg26').textContent=inc?short(inc/12):'-';$('#bestx').textContent=inc&&best?'в '+(best/(inc/12)).toLocaleString('ru-RU',{maximumFractionDigits:1})+' раза':'-';
+ $('#gm').textContent=goal?short(goal/12):'-';$('#gw').textContent=goal?short(goal/52):'-';$('#gd').textContent=goal?short(goal/247):'-';
+ $('#gx').textContent=goal&&inc?'×'+(goal/inc).toLocaleString('ru-RU',{maximumFractionDigits:1}):'-';
+ let tip='💡 Заполни доход 2026 и цель, и я подскажу, насколько это реалистично.';
+ if(goal&&inc){const x=goal/inc,bm=best*12;
+  if(x<=1.3)tip='💡 Рост до 30%: это можно сделать, просто усилив то, что уже работает. Подумай, не стоит ли цель поднять.';
+  else if(x<=2.2)tip='💡 Рост в '+x.toLocaleString('ru-RU',{maximumFractionDigits:1})+' раза: реально, если поднять чек или добавить одно сильное направление. Блок 3 покажет, из чего он сложится.';
+  else if(x<=4)tip='🚀 Амбициозно, в '+x.toLocaleString('ru-RU',{maximumFractionDigits:1})+' раза. Одних усилий не хватит, понадобятся команда, новый продукт или системный трафик. Посмотри внимательно на блоки 3 и 5.';
+  else tip='🌋 Рост в '+Math.round(x)+' раз: это уже другой бизнес. Отлично, если есть план, но проверь, чтобы направления в блоке 3 честно давали эту сумму.';
+  if(best&&goal/12>bm/12*1.5)tip+=' Сейчас твой лучший месяц '+short(best)+', а нужно стабильно '+short(goal/12)+' каждый месяц.';}
+ $('#goaltip').textContent=tip;
+ let total=0;S.dirs.forEach((d,i)=>{const y=num(d.c)*num(d.q)*12;total+=y;const el=$('#ds'+i);if(el)el.innerHTML='<small>в год</small>'+short(y)});
+ $('#dsum').textContent=rub(total);const pct=goal?Math.min(100,total/goal*100):0;const pb=$('#pb');pb.style.width=pct+'%';pb.classList.toggle('full',goal&&total>=goal);
+ const g=$('#dgap');if(!goal){g.textContent='';g.className='gap'}else if(total>=goal){g.textContent='✓ Цель покрыта'+(total>goal?' с запасом '+short(total-goal):'');g.className='gap ok'}else{g.textContent='Не хватает '+short(goal-total)+' в год ('+short((goal-total)/12)+' в месяц)';g.className='gap no'}
+ let ps=0;S.q.forEach((q,i)=>{const p=num(q.p);ps+=p;const el=$('#qa'+i);if(el)el.textContent=goal?short(goal*p/100):'0 ₽'});
+ const w=$('#qwarn');if(Math.round(ps)!==100){w.hidden=false;w.textContent='Сумма долей '+Math.round(ps)+'%, а должна быть 100%'}else w.hidden=true;
+ const ch=num(S.fCheck),need=num(S.fNeed),cs=num(S.crSale)/100,cl=num(S.crLead)/100;
+ const sales=ch?Math.ceil(need/ch):0,leads=sales&&cs?Math.ceil(sales/cs):0,reach=leads&&cl?Math.ceil(leads/cl):0;
+ $('#fs').textContent=sales||'-';$('#fl').textContent=leads||'-';$('#fld').textContent=leads?(leads/30).toLocaleString('ru-RU',{maximumFractionDigits:1}):'-';$('#fr').textContent=reach?reach.toLocaleString('ru-RU'):'-';
+ ai(total,sales,leads,reach);}
+
+function ai(total,sales,leads,reach){const v=(k,d='не указано')=>(S[k]&&String(S[k]).trim())||d;
+ const dirs=S.dirs.filter(d=>d.n||num(d.c)).map(d=>`- ${d.n||'Без названия'}: чек ${d.c||0} ₽ × ${d.q||0} продаж в месяц = ${short(num(d.c)*num(d.q)*12)} в год`).join('\n')||'- не заполнено';
+ const qs=S.q.map((q,i)=>`Q${i+1}: ${q.p||0}% цели${q.f?', фокус: '+q.f.trim():''}`).join('\n');
+ $('#aiP').textContent=`Ты опытный бизнес-стратег и финансовый директор. Разбери мой план дохода на 2027 год. Будь честным: если план нереалистичен или в нём дыры, скажи прямо.
+
+ИТОГИ 2026
+Доход за год: ${v('inc26')} ₽, лучший месяц: ${v('best26')} ₽
+Что принесло больше всего денег: ${v('win26')}
+Что съело силы и не дало денег: ${v('loss26')}
+Уроки года: ${v('lessons')}
+
+ЦЕЛЬ 2027
+Доход: ${v('goal')} ₽. Зачем: ${v('why')}
+
+НАПРАВЛЕНИЯ ДОХОДА (итого ${rub(total)} в год)
+${dirs}
+
+КВАРТАЛЫ
+${qs}
+
+ВОРОНКА ГЛАВНОГО НАПРАВЛЕНИЯ (${v('mainDir')})
+Чек ${v('fCheck')} ₽, нужно ${v('fNeed')} ₽ в месяц, конверсия заявка→покупка ${v('crSale')}%, охват→заявка ${v('crLead')}%
+Значит нужно: ${sales||'?'} продаж, ${leads||'?'} заявок и ${reach?reach.toLocaleString('ru-RU'):'?'} охвата в месяц
+
+90 МИНУТ В ДЕНЬ
+Ключевое действие: ${v('key')}
+Блоки: ${v('m1','-')} / ${v('m2','-')} / ${v('m3','-')}
+Метрика недели: ${v('metric')}
+
+СТОП-ЛИСТ И РИСКИ
+Перестаю делать: ${v('stop')}
+Делегирую: ${v('deleg')}
+Главный риск: ${v('risk')}, план Б: ${v('planb')}
+
+Что нужно от тебя:
+1. Оцени реалистичность цели по шкале от 1 до 10 и объясни оценку.
+2. Найди 3 главные слабые места плана.
+3. Предложи 3 способа быстрее прийти к цели (чек, конверсия, новые каналы, партнёрства).
+4. Распиши первые 30 дней января по неделям с конкретными задачами.
+5. Предложи, что из моих задач автоматизировать нейросетями.`;}
+$('#cpa').addEventListener('click',async()=>{const t=$('#aiP').textContent;try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(_){}a.remove()}const o=$('#toast');o.classList.add('on');setTimeout(()=>o.classList.remove('on'),1400)});
+
+const DEMO={inc26:'2 400 000',best26:'380 000',win26:'Консультации для селлеров и осенний запуск курса',loss26:'Полгода делала мобильное приложение, его так и не запустили',lessons:'1. Продаёт то, что я показываю каждый день\n2. Без команды упираюсь в потолок\n3. Цены надо поднимать раньше, чем кажется',goal:'6 000 000',why:'Нанять ассистента и монтажёра, купить квартиру, не работать по воскресеньям',
+ mainDir:'Наставничество',fCheck:'60 000',fNeed:'300 000',crSale:'20',crLead:'1',key:'Контент, который приводит заявки, и ответы на них',m1:'Пишу сценарий ролика и пост',m2:'Снимаю и публикую',m3:'Отвечаю на заявки и провожу 1 созвон',metric:'Количество заявок за неделю',when:'С 9:00 до 10:30, телефон в другой комнате',
+ stop:'Бесплатные созвоны «просто поболтать», ручные отчёты, проекты не по профилю',deleg:'Монтаж, ответы на типовые вопросы ботом, аналитику таблицей',risk:'Выгорание и просадка маркетплейсов',planb:'Подушка на 3 месяца и второе направление с регулярным доходом',
+ dirs:[{n:'Наставничество',c:'60 000',q:'5'},{n:'Онлайн-курс',c:'15 000',q:'12'},{n:'Консалтинг под ключ',c:'150 000',q:'1'}],q:[{p:20,f:'Упаковка наставничества и отзывы'},{p:25,f:'Системный трафик: рилс каждый день'},{p:25,f:'Курс на автопилоте'},{p:30,f:'Большой запуск к ДР и Новому году'}],trk:[0,1,2,3,4,6,7]};
+$('#demo').addEventListener('click',()=>{const has=Object.keys(S).some(k=>!['dirs','q','trk'].includes(k)&&S[k]);if(has&&!confirm('Заменить твои ответы примером?'))return;S=JSON.parse(JSON.stringify(DEMO));init();save();location.hash='b1'});
+$('#reset').addEventListener('click',e=>{e.preventDefault();if(!confirm('Очистить все поля?'))return;S={};try{localStorage.removeItem(KEY)}catch(_){}location.reload()});
+function init(){$$('[data-k]').forEach(el=>el.value=S[el.dataset.k]??'');S.dirs=S.dirs||[{n:'',c:'',q:''}];S.q=S.q||[{p:20,f:''},{p:25,f:''},{p:25,f:''},{p:30,f:''}];S.trk=S.trk||[];drawDirs();drawQ();drawT();calc();}
+init();
+</script>
+</body></html>
