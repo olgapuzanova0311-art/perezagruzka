@@ -43,6 +43,7 @@ p.sub{color:var(--muted);font-size:15px;line-height:1.45;margin-bottom:24px}
 .btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 .hint{margin-top:18px;font-size:13px;color:var(--muted);min-height:18px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+#foodGrid .opt{padding:12px 4px;font-size:13px}#foodGrid .opt span{font-size:28px;margin-bottom:4px}
 .opt{border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:18px;padding:16px 8px;cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:14px;transition:border-color .2s,background .2s,transform .15s}
 .opt span{display:block;font-size:32px;margin-bottom:6px}
 .opt.selected{border-color:var(--accent);background:var(--soft)}
@@ -55,7 +56,7 @@ p.sub{color:var(--muted);font-size:15px;line-height:1.45;margin-bottom:24px}
 .chip.selected{border-color:var(--accent);background:var(--soft)}
 .ticket{border:2px dashed var(--accent);border-radius:20px;padding:20px;margin:18px 0 20px;text-align:left}
 .ticket div{display:flex;gap:10px;align-items:baseline;padding:6px 0;font-size:15px}
-.ticket b{color:var(--muted);font-weight:600;min-width:70px;font-size:13px}
+.ticket b{color:var(--muted);font-weight:600;min-width:70px;font-size:13px;flex:none}
 .row{display:flex;gap:10px}
 .row .btn{flex:1;padding:14px 12px;font-size:15px}
 .progress{display:flex;gap:6px;justify-content:center;margin-bottom:18px}
@@ -89,38 +90,73 @@ p.sub{color:var(--muted);font-size:15px;line-height:1.45;margin-bottom:24px}
  </section>
 
  <section class="step" id="s-what">
-  <div class="progress"><i class="on"></i><i></i><i></i></div>
+  <div class="progress"><i class="on"></i><i></i><i></i><i></i><i></i></div>
   <h2>Куда пойдём?</h2>
   <p class="sub">Выбери, что больше по душе</p>
   <div class="grid" id="whatGrid">
-   <button class="opt" type="button" data-v="Кофе и болтовня"><span>☕</span>Кофе</button>
+   <button class="opt" type="button" data-v="Ужин"><span>🍝</span>Ужин</button>
    <button class="opt" type="button" data-v="Кино"><span>🍿</span>Кино</button>
    <button class="opt" type="button" data-v="Прогулка"><span>🌙</span>Прогулка</button>
-   <button class="opt" type="button" data-v="Ужин"><span>🍝</span>Ужин</button>
+   <button class="opt" type="button" data-v="Кофе и болтовня"><span>☕</span>Кофе</button>
    <button class="opt" type="button" data-v="Каток / активность"><span>⛸️</span>Активность</button>
    <button class="opt" type="button" data-v="Сюрприз"><span>🎁</span>Сюрприз</button>
   </div>
   <button class="btn btn-yes btn-wide" id="whatNext" type="button" disabled>Дальше</button>
  </section>
 
+ <section class="step" id="s-where">
+  <div class="progress"><i></i><i class="on"></i><i></i><i></i><i></i></div>
+  <h2>Как хочешь провести время?</h2>
+  <p class="sub">Только мы вдвоём или вместе куда-нибудь выбраться</p>
+  <div class="grid" id="whereGrid">
+   <button class="opt" type="button" data-v="Наедине, только мы вдвоём"><span>🕯️</span>Наедине</button>
+   <button class="opt" type="button" data-v="Дома: фильм и плед"><span>🛋️</span>Дома с пледом</button>
+   <button class="opt" type="button" data-v="На мероприятии: концерт, стендап, выставка"><span>🎤</span>Мероприятие</button>
+   <button class="opt" type="button" data-v="Пусть будет сюрприз"><span>✨</span>Удиви меня</button>
+  </div>
+  <button class="btn btn-yes btn-wide" id="whereNext" type="button" disabled>Дальше</button>
+ </section>
+
  <section class="step" id="s-when">
-  <div class="progress"><i></i><i class="on"></i><i></i></div>
+  <div class="progress"><i></i><i></i><i class="on"></i><i></i><i></i></div>
   <h2>Когда тебе удобно?</h2>
   <p class="sub">Выбери день и время</p>
-  <div class="field"><label for="date">День</label><input type="date" id="date"></div>
-  <span class="lbl">Время</span>
-  <div class="chips" id="timeChips">
-   <button class="chip" type="button" data-v="12:00">12:00</button>
-   <button class="chip" type="button" data-v="15:00">15:00</button>
-   <button class="chip" type="button" data-v="18:00">18:00</button>
-   <button class="chip" type="button" data-v="19:30">19:30</button>
-   <button class="chip" type="button" data-v="21:00">21:00</button>
+  <div class="chips" id="whenChips" style="justify-content:center"></div>
+  <div id="custom" hidden>
+   <div class="field"><label for="date">День</label><input type="date" id="date"></div>
+   <span class="lbl">Время</span>
+   <div class="chips" id="timeChips">
+    <button class="chip" type="button" data-v="12:00">12:00</button>
+    <button class="chip" type="button" data-v="15:00">15:00</button>
+    <button class="chip" type="button" data-v="18:00">18:00</button>
+    <button class="chip" type="button" data-v="19:00">19:00</button>
+    <button class="chip" type="button" data-v="20:00">20:00</button>
+    <button class="chip" type="button" data-v="21:00">21:00</button>
+   </div>
   </div>
   <button class="btn btn-yes btn-wide" id="whenNext" type="button" disabled>Дальше</button>
  </section>
 
+ <section class="step" id="s-food">
+  <div class="progress"><i></i><i></i><i></i><i class="on"></i><i></i></div>
+  <h2>Что будем кушать?</h2>
+  <p class="sub">Можно выбрать несколько 😋</p>
+  <div class="grid" id="foodGrid" style="grid-template-columns:1fr 1fr 1fr">
+   <button class="opt" type="button" data-v="пицца"><span>🍕</span>Пицца</button>
+   <button class="opt" type="button" data-v="роллы"><span>🍣</span>Роллы</button>
+   <button class="opt" type="button" data-v="крылышки"><span>🍗</span>Крылышки</button>
+   <button class="opt" type="button" data-v="бургеры"><span>🍔</span>Бургеры</button>
+   <button class="opt" type="button" data-v="паста"><span>🍝</span>Паста</button>
+   <button class="opt" type="button" data-v="шашлык"><span>🍢</span>Шашлык</button>
+   <button class="opt" type="button" data-v="стейк"><span>🥩</span>Стейк</button>
+   <button class="opt" type="button" data-v="десерты"><span>🍰</span>Десерты</button>
+   <button class="opt" type="button" data-v="на твой вкус"><span>🤭</span>На твой вкус</button>
+  </div>
+  <button class="btn btn-yes btn-wide" id="foodNext" type="button" disabled>Дальше</button>
+ </section>
+
  <section class="step" id="s-mood">
-  <div class="progress"><i></i><i></i><i class="on"></i></div>
+  <div class="progress"><i></i><i></i><i></i><i></i><i class="on"></i></div>
   <h2>Последний вопрос</h2>
   <p class="sub">Насколько ты ждёшь этого свидания?</p>
   <div class="chips" id="moodChips" style="justify-content:center">
@@ -152,7 +188,7 @@ p.sub{color:var(--muted);font-size:15px;line-height:1.45;margin-bottom:24px}
  const params=new URLSearchParams(location.search);
  const toName=params.get('to'),fromName=params.get('from'),tg=(params.get('tg')||'').replace(/^@/,'');
  if(toName)$('#hello').textContent=`Привет, ${toName}!`;
- const state={what:null,date:null,time:null,mood:null,note:''};
+ const state={what:null,where:null,date:null,time:null,food:[],mood:null,note:''};
  function go(id){document.querySelectorAll('.step').forEach(s=>s.classList.toggle('active',s.id===id));if(id!=='s-ask')resetNo();document.querySelector('.stage').scrollTop=0;}
  document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
 
@@ -192,24 +228,41 @@ p.sub{color:var(--muted);font-size:15px;line-height:1.45;margin-bottom:24px}
 
  function single(container,key,cb){container.addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;container.querySelectorAll('[data-v]').forEach(x=>x.classList.toggle('selected',x===b));state[key]=b.dataset.v;cb&&cb();});}
  single($('#whatGrid'),'what',()=>$('#whatNext').disabled=false);
- $('#whatNext').addEventListener('click',()=>go('s-when'));
- const dateInput=$('#date');const today=new Date();today.setMinutes(today.getMinutes()-today.getTimezoneOffset());dateInput.min=today.toISOString().slice(0,10);
- const checkWhen=()=>{state.date=dateInput.value;$('#whenNext').disabled=!(state.date&&state.time);};
- dateInput.addEventListener('input',checkWhen);dateInput.addEventListener('change',checkWhen);
- single($('#timeChips'),'time',checkWhen);
- $('#whenNext').addEventListener('click',()=>go('s-mood'));
+ $('#whatNext').addEventListener('click',()=>go('s-where'));
+ single($('#whereGrid'),'where',()=>$('#whereNext').disabled=false);
+ $('#whereNext').addEventListener('click',()=>go('s-when'));
+ // когда: готовые варианты на ближайшие дни
+ const iso=d=>{const x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)};
+ const day=n=>{const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+n);return d};
+ const wd=d=>d.toLocaleDateString('ru-RU',{weekday:'short',day:'numeric',month:'short'}).replace('.','');
+ const opts=[];opts.push({l:'Сегодня в 19:00',d:iso(day(0)),t:'19:00'});opts.push({l:'Завтра в 19:00',d:iso(day(1)),t:'19:00'});opts.push({l:'Послезавтра в 19:00',d:iso(day(2)),t:'19:00'});
+ for(let n=3;n<10&&opts.length<5;n++){const d=day(n);if(d.getDay()===6||d.getDay()===0)opts.push({l:wd(d)+' в 18:00',d:iso(d),t:'18:00'});}
+ if(new Date().getHours()>=18)opts.shift();
+ $('#whenChips').innerHTML=opts.map((o,i)=>`<button class="chip" type="button" data-i="${i}">${o.l}</button>`).join('')+'<button class="chip" type="button" data-i="custom">📅 Другой день</button>';
+ const dateInput=$('#date');dateInput.min=iso(day(0));
+ const checkWhen=()=>{$('#whenNext').disabled=!(state.date&&state.time);};
+ $('#whenChips').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;$('#whenChips').querySelectorAll('.chip').forEach(x=>x.classList.toggle('selected',x===b));
+  if(b.dataset.i==='custom'){$('#custom').hidden=false;state.date=dateInput.value||null;state.time=($('#timeChips .selected')||{}).dataset?.v||null;}
+  else{$('#custom').hidden=true;const o=opts[+b.dataset.i];state.date=o.d;state.time=o.t;}checkWhen();});
+ const setD=()=>{state.date=dateInput.value||null;checkWhen();};dateInput.addEventListener('input',setD);dateInput.addEventListener('change',setD);
+ $('#timeChips').addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;$('#timeChips').querySelectorAll('.chip').forEach(x=>x.classList.toggle('selected',x===b));state.time=b.dataset.v;checkWhen();});
+ $('#whenNext').addEventListener('click',()=>go('s-food'));
+ // еда: несколько вариантов
+ $('#foodGrid').addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;b.classList.toggle('selected');state.food=[...$('#foodGrid').querySelectorAll('.selected')].map(x=>x.dataset.v);$('#foodNext').disabled=!state.food.length;});
+ $('#foodNext').addEventListener('click',()=>go('s-mood'));
  single($('#moodChips'),'mood',()=>$('#moodNext').disabled=false);
  $('#moodNext').addEventListener('click',()=>{state.note=$('#note').value.trim();renderTicket();confetti();go('s-done');});
 
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function prettyDate(v){return new Date(v+'T00:00').toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});}
- function renderTicket(){const rows=[['Что',state.what],['Когда',`${prettyDate(state.date)}, ${state.time}`],['Настрой',state.mood]];if(state.note)rows.push(['P.S.',state.note]);
+ function renderTicket(){const rows=rowsData();
   $('#ticket').innerHTML=rows.map(([k,v])=>`<div><b>${k}</b><span>${esc(v)}</span></div>`).join('');
   $('#send').href=tg?`https://t.me/${encodeURIComponent(tg)}?text=${encodeURIComponent(message())}`:'https://t.me/share/url?url='+encodeURIComponent(' ')+'&text='+encodeURIComponent(message());}
- function message(){let t=`Да, я пойду с тобой на свидание! 💖\n\nЧто: ${state.what}\nКогда: ${prettyDate(state.date)}, ${state.time}\nНастрой: ${state.mood}`;if(state.note)t+=`\nP.S. ${state.note}`;if(fromName)t=`${fromName}, `+t.charAt(0).toLowerCase()+t.slice(1);return t;}
+ function rowsData(){const r=[['Куда',state.what],['Как',state.where],['Когда',`${prettyDate(state.date)}, ${state.time}`],['Кушаем',state.food.join(', ')],['Настрой',state.mood]];if(state.note)r.push(['P.S.',state.note]);return r;}
+ function message(){let t='Да, я пойду с тобой на свидание! 💖\n\n'+rowsData().map(([k,v])=>`${k}: ${v}`).join('\n');if(fromName)t=`${fromName}, `+t.charAt(0).toLowerCase()+t.slice(1);return t;}
  function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2000);}
  $('#copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(message());toast('Скопировано 💌');}catch(e){const r=document.createRange();r.selectNodeContents($('#ticket'));getSelection().removeAllRanges();getSelection().addRange(r);toast('Текст выделен, скопируй его');}});
- $('#restart').addEventListener('click',()=>{setTimeout(startFloating,0);Object.assign(state,{what:null,date:null,time:null,mood:null,note:''});document.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));['#whatNext','#whenNext','#moodNext'].forEach(s=>$(s).disabled=true);dateInput.value='';$('#note').value='';go('s-ask');});
+ $('#restart').addEventListener('click',()=>{setTimeout(startFloating,0);Object.assign(state,{what:null,where:null,date:null,time:null,food:[],mood:null,note:''});$('#custom').hidden=true;document.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));['#whatNext','#whereNext','#whenNext','#foodNext','#moodNext'].forEach(s=>$(s).disabled=true);dateInput.value='';$('#note').value='';go('s-ask');});
 
  const hearts=$('#hearts'),hc=['💗','💕','💖','❤️','💘'];
  function spawnHeart(){const h=document.createElement('div');h.className='heart';h.textContent=hc[Math.random()*hc.length|0];h.style.left=Math.random()*100+'vw';h.style.fontSize=14+Math.random()*22+'px';h.style.animationDuration=7+Math.random()*6+'s';h.style.setProperty('--r',(Math.random()*120-60)+'deg');hearts.appendChild(h);setTimeout(()=>h.remove(),14000);}
