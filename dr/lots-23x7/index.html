@@ -421,6 +421,28 @@ body.sheet-on .tgw{opacity:0;pointer-events:none}
 
 @media(min-width:900px){.hero .lead{max-width:34em;font-size:clamp(17px,1.55vw,21px);line-height:1.4}}
 @media(min-width:900px){.qa{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:48px;border-top:0}.qa details{border-top:1px solid var(--line);border-bottom:0;align-self:start}.qa details:nth-last-child(-n+2){border-bottom:1px solid var(--line)}}
+
+/* mobile hero: centered, photo on first screen */
+.hero .lm{display:none}
+@media(max-width:899px){
+  .hero .ld{display:none}.hero .lm{display:inline}
+  .hgrid{margin-top:22px;gap:14px;text-align:center;justify-items:center}
+  .hgrid>div:first-child,.hgrid>.side{display:contents}
+  .hgrid .k{order:1}
+  .hero h1{order:2;margin-top:0;font-size:clamp(64px,19vw,96px)}
+  .hero .lead{order:3;margin:0 auto;max-width:30ch;font-size:16px;line-height:1.4}
+  .hphoto{order:4;aspect-ratio:auto;height:min(42vh,340px);max-width:100%}
+  .hphoto .cdbox{padding:10px 12px}.hphoto .cd{margin-top:6px}.hphoto .cd b{font-size:22px}.hphoto .cd div{padding:6px 0}
+  .hero .go{order:5;width:100%}
+  .stats{order:6;margin-top:0;width:100%;text-align:left}
+  .cue{order:7;display:flex!important;flex-direction:column;gap:6px;margin-top:4px;font-size:12px;color:#aab3cc}
+  .cue br{display:none}
+  .cue .arr{width:28px;height:44px}
+}
+
+.pill{white-space:nowrap}.brand span{white-space:nowrap}
+@media(max-width:400px){.pill{font-size:11px;padding:7px 10px;gap:6px}.brand{font-size:13px;gap:8px}.brand img{width:32px;height:32px}}
+@media(max-width:899px){body:not(.hdr-on) .tgw{opacity:0;pointer-events:none;transform:translateY(20px)}.tgw{transition:opacity .3s,transform .3s}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -435,13 +457,13 @@ body.sheet-on .tgw{opacity:0;pointer-events:none}
       <div>
         <div class="k">Лоты дня рождения</div>
         <h1>Мне 23</h1>
-        <p class="lead blurin" style="animation-delay:.15s">Поэтому все лоты <b>по 23</b>. Раз в год я открываю доступ к тому, что нельзя купить остальные 364 дня. Если ты сейчас здесь, тебе повезло: любой лот можно забрать себе или подарить</p>
+        <p class="lead blurin" style="animation-delay:.15s"><span class="ld">Поэтому все лоты <b>по 23</b>. Раз в год я открываю доступ к тому, что нельзя купить остальные 364 дня. Если ты сейчас здесь, тебе повезло: любой лот можно забрать себе или подарить</span><span class="lm">Раз в год открываю доступ к тому, что нельзя купить остальные 364 дня. Ты здесь, значит, тебе повезло</span></p>
         <div class="stats blurin" style="animation-delay:.25s">
           <div><b>8</b><span>подарков в коробках</span></div>
           <div><b>от 923 ₽</b><span>цены дня рождения</span></div>
           <div><b>0%</b><span>рассрочка до 12 мес</span></div>
         </div>
-        <a class="cue" href="#gifts"><span class="arr" aria-hidden="true"><i></i></span><span>Листай вниз,<br>там подарки</span></a>
+        <a class="cue" href="#gifts"><span class="arr" aria-hidden="true"><i></i></span><span>Листай вниз, <br>там подарки</span></a>
       </div>
       <div class="side blurin" style="animation-delay:.3s">
         <figure class="hphoto"><img src="../olga.jpg" alt="Ольга Пузанова с букетом синих роз">
@@ -741,7 +763,7 @@ const tick=()=>{let s=Math.max(0,(T-Date.now())/1000|0);const d=s/86400|0;s%=864
  const b=document.querySelectorAll('[data-cd] b');b[0].textContent=d;b[1].textContent=p(h);b[2].textContent=p(m);b[3].textContent=p(s);
  document.querySelector('[data-cdt]').textContent=(d?d+'д ':'')+p(h)+':'+p(m)+':'+p(s);};tick();setInterval(tick,1000);
 // dock
-const dock=$('#dock');const hero=document.querySelector('.hero');let hv=true,fv=false;const dk=()=>{dock.classList.toggle('on',!hv)};new IntersectionObserver(es=>{hv=es[0].isIntersecting;dk()}).observe(hero);new IntersectionObserver(es=>{fv=es[0].isIntersecting;dk()}).observe(document.querySelector('.final'));
+const dock=$('#dock');const hero=document.querySelector('.hero');let hv=true,fv=false;const dk=()=>{dock.classList.toggle('on',!hv);document.body.classList.toggle('hdr-on',!hv)};new IntersectionObserver(es=>{hv=es[0].isIntersecting;dk()}).observe(hero);new IntersectionObserver(es=>{fv=es[0].isIntersecting;dk()}).observe(document.querySelector('.final'));
 // phone tilt → boxes lean (works on the real site; asks iOS permission on first tap)
 let tiltOn=false;function tilt(e){const gx=Math.max(-20,Math.min(20,e.gamma||0)),gy=Math.max(-20,Math.min(20,(e.beta||45)-45));
  document.documentElement.style.setProperty('--tx',gx/20);document.documentElement.style.setProperty('--ty',gy/20);}
