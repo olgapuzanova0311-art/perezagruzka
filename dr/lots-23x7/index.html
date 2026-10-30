@@ -321,13 +321,31 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
 .tgi::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #37aee2;animation:tgr 2.2s ease-out infinite}
 @keyframes tgr{from{transform:scale(1);opacity:.8}to{transform:scale(1.6);opacity:0}}
 .tgl{font:600 14px var(--sans);color:#05060a;background:#fff;padding:10px 14px;border-radius:99px;box-shadow:0 8px 24px rgba(0,0,0,.35);white-space:nowrap}
-@media(max-width:899px){.tgl{display:none}.tgi{width:54px;height:54px}body.dock-on .tgw{bottom:calc(80px + env(safe-area-inset-bottom,0px))}}
+@media(max-width:899px){.tgl{display:none}.tgi{width:54px;height:54px}}
 @media(min-width:900px){body.dock-on .tgw{bottom:24px}}
 body.sheet-on .tgw{opacity:0;pointer-events:none}
+
+/* sticky header after hero (replaces bottom dock) */
+.dock{display:none!important}
+#gifts,#pay{scroll-margin-top:64px}
+.hdr{position:fixed;left:0;right:0;top:0;z-index:40;padding-top:env(safe-area-inset-top,0px);background:rgba(6,8,12,.78);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid var(--line);transform:translateY(-110%);transition:transform .4s cubic-bezier(.2,.9,.2,1)}
+.hdr.on{transform:none}
+.hin{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+.hb{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font:500 14px var(--sans)}
+.hb img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:50% 15%;border:1px solid rgba(255,255,255,.3)}
+.ht{display:flex;flex-direction:column;align-items:center;line-height:1.1}
+.ht small{font:400 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.ht span{font:600 17px var(--sans);letter-spacing:-.01em;color:#fff}
+.hbtn{display:flex;gap:8px}
+.hbtn a{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:12px;text-decoration:none;font:600 14px var(--sans);white-space:nowrap}
+.h1{background:#fff;color:#05060a}
+.h2{background:linear-gradient(145deg,#37aee2,#1e96c8);color:#fff}
+@media(max-width:899px){.hn{display:none}.hb img{width:30px;height:30px}.ht{align-items:flex-start;margin-right:auto}.ht span{font-size:15px}.h2 span{display:none}.h2{width:42px;padding:0;justify-content:center}.hbtn a{height:40px;padding:0 14px}.h2{padding:0}}
+@media(max-width:360px){.hb{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
-<header class="hero gut">
+<header class="hero gut" id="top">
   <canvas aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="top">
@@ -415,7 +433,11 @@ body.sheet-on .tgw{opacity:0;pointer-events:none}
   </div>
 </section>
 
-<div class="dock" id="dock"><div class="t num"><small>до 23:23</small><span data-cdt>00:00:00</span></div><a href="#gifts">Открыть подарки</a></div>
+<header class="hdr" id="dock"><div class="hin">
+  <a class="hb" href="#top"><img src="../olga.jpg" alt=""><span class="hn">Ольга Пузанова</span></a>
+  <div class="ht num"><small>лоты сгорят через</small><span data-cdt>00:00:00</span></div>
+  <div class="hbtn"><a class="h1" href="#gifts">Выбрать лот</a><a class="h2" target="_blank" rel="noopener" href="https://t.me/puzanovateam?text=%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82!%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%20%D0%BB%D0%BE%D1%82%D1%8B%20%D0%B4%D0%BD%D1%8F%20%D1%80%D0%BE%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F" aria-label="Написать менеджеру"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="#fff" d="M9.04 15.6 8.9 19.4c.4 0 .58-.17.8-.38l1.92-1.84 3.98 2.92c.73.4 1.25.19 1.45-.67l2.62-12.3c.24-1.08-.39-1.5-1.1-1.24L3.18 11.8c-1.05.41-1.04 1-.18 1.27l3.93 1.23 9.13-5.76c.43-.28.82-.12.5.16L9.04 15.6Z"/></svg><span>Написать менеджеру</span></a></div>
+</div></header>
 
 <a class="tgw" id="tgw" target="_blank" rel="noopener" href="https://t.me/puzanovateam?text=%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82!%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%20%D0%BB%D0%BE%D1%82%D1%8B%20%D0%B4%D0%BD%D1%8F%20%D1%80%D0%BE%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F" aria-label="Написать менеджеру в Telegram"><span class="tgl">Написать менеджеру</span><span class="tgi"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="#fff" d="M9.04 15.6 8.9 19.4c.4 0 .58-.17.8-.38l1.92-1.84 3.98 2.92c.73.4 1.25.19 1.45-.67l2.62-12.3c.24-1.08-.39-1.5-1.1-1.24L3.18 11.8c-1.05.41-1.04 1-.18 1.27l3.93 1.23 9.13-5.76c.43-.28.82-.12.5.16L9.04 15.6Z"/></svg></span></a>
 <div class="ov" id="ov" hidden>
@@ -569,7 +591,7 @@ const tick=()=>{let s=Math.max(0,(T-Date.now())/1000|0);const d=s/86400|0;s%=864
  const b=document.querySelectorAll('[data-cd] b');b[0].textContent=d;b[1].textContent=p(h);b[2].textContent=p(m);b[3].textContent=p(s);
  document.querySelector('[data-cdt]').textContent=(d?d+'д ':'')+p(h)+':'+p(m)+':'+p(s);};tick();setInterval(tick,1000);
 // dock
-const dock=$('#dock');const hero=document.querySelector('.hero');let hv=true,fv=false;const dk=()=>{const on=!hv&&!fv;dock.classList.toggle('on',on);document.body.classList.toggle('dock-on',on)};new IntersectionObserver(es=>{hv=es[0].isIntersecting;dk()}).observe(hero);new IntersectionObserver(es=>{fv=es[0].isIntersecting;dk()}).observe(document.querySelector('.final'));
+const dock=$('#dock');const hero=document.querySelector('.hero');let hv=true,fv=false;const dk=()=>{dock.classList.toggle('on',!hv)};new IntersectionObserver(es=>{hv=es[0].isIntersecting;dk()}).observe(hero);new IntersectionObserver(es=>{fv=es[0].isIntersecting;dk()}).observe(document.querySelector('.final'));
 // phone tilt → boxes lean (works on the real site; asks iOS permission on first tap)
 let tiltOn=false;function tilt(e){const gx=Math.max(-20,Math.min(20,e.gamma||0)),gy=Math.max(-20,Math.min(20,(e.beta||45)-45));
  document.documentElement.style.setProperty('--tx',gx/20);document.documentElement.style.setProperty('--ty',gy/20);}
