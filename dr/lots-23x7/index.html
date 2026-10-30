@@ -501,7 +501,7 @@ body.sheet-on .tgw{opacity:0;pointer-events:none}
     <div class="whtxt">
       <div class="k">Колесо дня рождения</div>
       <h2 class="sec">Крутани <em>и забери бонус</em></h2>
-      <p>Один раз на человека. Что выпадет, добавится к любому лоту, который ты выберешь. Бонус сгорит в 23:23 вместе с лотами.</p>
+      <p>Один раз на человека. Что выпадет, добавится к лоту, который ты выберешь. Бонус работает только вместе с лотом и сгорит в 23:23.</p>
       <button type="button" class="spin" id="spinBtn">🎡 Крутить колесо</button>
       <div class="won" id="won" hidden>
         <div class="k">Тебе выпало</div>
@@ -768,15 +768,15 @@ const track=(type,extra)=>{try{fetch(EV,{method:'POST',headers:{'Content-Type':'
 track('lots');
 // ===== wheel =====
 const PRIZES=[
- {t:'+1 неделя Клуба ИИ',w:18,c:'#2a3f9e'},
- {t:'Запись лагеря по Claude',w:22,c:'#3d6bff'},
- {t:'Запись интенсива',w:20,c:'#1c2a6b'},
- {t:'+1 месяц Клуба ИИ',w:8,c:'#7ea0ff'},
- {t:'+1 неделя Клуба ИИ',w:18,c:'#2a3f9e'},
- {t:'Спринт по фотоконтенту',w:10,c:'#4f74e8'},
- {t:'Созвон с Олей 23 минуты',w:3,c:'#9aa6cc'},
- {t:'ЗОЛОТО: ИИ-помощник в подарок',w:1,c:'#e8744f',gold:true}];
-let BONUS='';try{BONUS=localStorage.getItem('lots23bonus')||''}catch(e){}
+ {t:'Шаблон дашборда бизнеса',w:16,c:'#2a3f9e'},
+ {t:'+1 месяц поддержки в чате',w:16,c:'#3d6bff'},
+ {t:'Сертификат 2 323 ₽ другу',w:16,c:'#1c2a6b'},
+ {t:'Настройка нейросетей с техспецом',w:12,c:'#7ea0ff'},
+ {t:'Шаблон дашборда бизнеса',w:16,c:'#2a3f9e'},
+ {t:'+1 месяц поддержки в чате',w:16,c:'#4f74e8'},
+ {t:'Созвон с Олей 23 минуты',w:4,c:'#9aa6cc'},
+ {t:'ЗОЛОТО: ужин с Олей в Петербурге',w:1,c:'#e8744f',gold:true}];
+let BONUS='';try{BONUS=localStorage.getItem('lots23bonus2')||''}catch(e){}
 const cv=$('#wheelCv'),cx=cv.getContext('2d'),N=PRIZES.length,SEG=Math.PI*2/N;let ang=0,spinning=false;
 function drawWheel(){const W=cv.width,R=W/2-10;cx.clearRect(0,0,W,W);cx.save();cx.translate(W/2,W/2);cx.rotate(ang);
  for(let i=0;i<N;i++){const p=PRIZES[i],a0=-Math.PI/2+i*SEG-SEG/2;cx.beginPath();cx.moveTo(0,0);cx.arc(0,0,R,a0,a0+SEG);cx.closePath();
@@ -798,7 +798,7 @@ function spin(){if(spinning)return;if(BONUS){showWon(BONUS);return}spinning=true
  const start=ang,end=target+Math.PI*2*turns+(Math.ceil((start-target)/(Math.PI*2))*Math.PI*2);const dur=reduce?10:5200,t0=performance.now();let lastSeg=-1;
  const step=now=>{const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,4);ang=start+(end-start)*e;drawWheel();
   const s=Math.floor(((ang%(Math.PI*2))+Math.PI*2)/SEG);if(s!==lastSeg){lastSeg=s;wtick()}
-  if(k<1)requestAnimationFrame(step);else{spinning=false;BONUS=PRIZES[i].t.replace('ЗОЛОТО: ','');try{localStorage.setItem('lots23bonus',BONUS)}catch(e){}track('spin',{prize:BONUS});
+  if(k<1)requestAnimationFrame(step);else{spinning=false;BONUS=PRIZES[i].t.replace('ЗОЛОТО: ','').replace(/^у/,'У');try{localStorage.setItem('lots23bonus2',BONUS)}catch(e){}track('spin',{prize:BONUS});
    showWon(BONUS);const r=cv.getBoundingClientRect();fakeBurst(r.left+r.width/2,r.top+r.height/2);if(navigator.vibrate)try{navigator.vibrate([30,40,30])}catch(e){}}};
  requestAnimationFrame(step);}
 function fakeBurst(x,y){if(reduce)return;const cols=['#fff','#ffb79c','#e8744f','#b9ccff','#3d6bff'];for(let k=0;k<60;k++){const s=document.createElement('i');s.className='spark';s.style.background=cols[k%5];s.style.left=x+'px';s.style.top=y+'px';document.body.appendChild(s);
@@ -831,7 +831,7 @@ $('#sCta').addEventListener('click',e=>{e.preventDefault();coOpen(false)});
 $('#sGift').addEventListener('click',e=>{e.preventDefault();coOpen(true)});
 cf.addEventListener('submit',async e=>{e.preventDefault();if(!valid())return;const btn=$('#coGo');btn.disabled=true;btn.textContent='Создаём заказ…';$('#coErr').hidden=true;
  const body={lot:coLot.n,term:coTerm,name:$('#coName').value.trim(),email:$('#coEmail').value.trim(),phone:$('#coPhone').value,giftTo:coGift?$('#coGiftTo').value.trim():'',c1:$('#c1').checked,c2:$('#c2').checked,c3:$('#c3').checked,bonus:BONUS};
- try{const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const j=await r.json();
+ try{const r=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(body)});const j=await r.json();
   if(j.ok&&j.link){btn.textContent='Переходим к оплате…';location.href=j.link;return}
   throw new Error(j.error||'err')}
  catch(err){$('#coErr').textContent='Не получилось открыть оплату. Нажми «Оформить через менеджера» ниже, он пришлёт ссылку за пару минут.';$('#coErr').hidden=false;cf.classList.add('err');$('#coErr').scrollIntoView({block:'nearest'});
