@@ -344,7 +344,7 @@ function render(){const l=LOTS[cur];seen.add(cur);upd();
  $('#sMeta').textContent=`Лот 0${l.n} · ${l.who}`;$('#sTitle').textContent=l.name;$('#sFor').textContent=l.for;
  $('#sList').innerHTML=l.items.map(x=>`<li>${x}</li>`).join('');
  $('#sPrice').textContent=fmt(l.price)+' ₽';$('#sOld').textContent=l.old?fmt(l.old)+' ₽':'';
- $('#sSeats').textContent='Мест: '+l.seats;
+ $('#sSeats').textContent=/^\d/.test(l.seats)?'Всего '+l.seats:'Открыто '+l.seats;
  $('#sInst').hidden=!l.inst;seg.innerHTML='';
  if(l.inst){[3,6,12].forEach(m=>{const b=document.createElement('button');b.type='button';b.textContent=m+' мес';b.setAttribute('aria-pressed',m===term);b.onclick=()=>{term=m;render()};seg.appendChild(b)});
   $('#sMo').innerHTML=`${fmt(Math.ceil(l.price/term))} ₽/мес<small>${term} платежей, без переплаты</small>`;}
