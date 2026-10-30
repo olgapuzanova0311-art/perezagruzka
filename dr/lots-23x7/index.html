@@ -89,8 +89,8 @@ h2.sec em{font-style:normal;background:linear-gradient(100deg,#8a95b5,#fff 30%,#
 .gift .tap{white-space:nowrap}.gift .tap .lg{display:none}
 @media(min-width:900px){.gift .tap .lg{display:inline}.gift .tap .sm{display:none}}
 .gift.big .tap .lg{display:inline}.gift.big .tap .sm{display:none}
-.gift.big .tap{font-size:13px;padding:8px 14px}
-.gift.big h3{font-size:22px}.gift.big .p{font-size:30px}
+
+
 .gift.seen::after{content:"открыт";position:absolute;top:12px;right:12px;font:500 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#05060a;background:var(--ice);padding:3px 6px;border-radius:6px}
 
 /* the box */
@@ -274,6 +274,8 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
 /* big lot cards */
 .grid{grid-template-columns:minmax(0,1fr)!important;gap:16px}
 .gift{all:unset;box-sizing:border-box;position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:22px 18px;border-radius:28px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));border:1px solid var(--line);cursor:pointer;transition:opacity .35s,transform .35s,border-color .35s;min-width:0;-webkit-tap-highlight-color:transparent}
+.gift.big h3{font-size:clamp(30px,7vw,46px)}
+.gift.big .pp .p{font-size:clamp(36px,8vw,56px)}
 .gift.big{grid-column:auto;border-color:rgba(126,160,255,.45);box-shadow:0 0 60px rgba(61,107,255,.18)}
 .gvis{display:grid;place-items:center;min-height:170px}
 .gvis .box{width:150px;max-width:none;margin:34px auto 8px}
