@@ -309,6 +309,8 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
   .why4{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .gift .tap{justify-self:start;width:auto;min-width:260px}
 }
+.gift.pop{animation:pop .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -507,7 +509,7 @@ LOTS.forEach((l,i)=>{const b=document.createElement('article');b.className='gift
  b.addEventListener('click',()=>openBox(i,b));grid.appendChild(b);});
 // filters
 document.querySelectorAll('.filters button').forEach(f=>f.onclick=()=>{document.querySelectorAll('.filters button').forEach(x=>x.setAttribute('aria-pressed',x===f));
- grid.querySelectorAll('.gift').forEach(g=>g.classList.toggle('dim',f.dataset.f!=='all'&&g.dataset.t!==f.dataset.f));});
+ grid.querySelectorAll('.gift').forEach(g=>{const show=f.dataset.f==='all'||g.dataset.t===f.dataset.f;g.hidden=!show;if(show){g.classList.remove('pop');void g.offsetWidth;g.classList.add('pop')}});});
 // opened progress
 const seen=new Set();try{JSON.parse(localStorage.getItem('lots23seen2')||'[]').forEach(x=>seen.add(x))}catch(e){}
 const upd=()=>{grid.querySelectorAll('.gift').forEach((g,i)=>g.classList.toggle('seen',seen.has(i)));$('#openedTxt').textContent=`Открыто ${seen.size} из ${LOTS.length}`;$('#openedBar').style.width=seen.size/LOTS.length*100+'%';try{localStorage.setItem('lots23seen2',JSON.stringify([...seen]))}catch(e){}};upd();
