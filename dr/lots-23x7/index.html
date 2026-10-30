@@ -123,9 +123,11 @@ h2.sec em{font-style:normal;background:linear-gradient(100deg,#8a95b5,#fff 30%,#
 .ov{position:fixed;inset:0;z-index:50;background:rgba(2,3,6,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;justify-content:center}
 [hidden]{display:none!important}
 .ov.on{opacity:1}
-.sheet{position:relative;width:100%;max-width:560px;max-height:92vh;overflow:auto;overscroll-behavior:contain;border-radius:26px 26px 0 0;background:rgba(10,12,18,.94);padding:22px max(20px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));transform:translateY(40px);transition:transform .4s cubic-bezier(.2,.9,.2,1)}
+.sheet{position:relative;width:100%;max-width:560px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;border-radius:26px 26px 0 0;background:rgba(10,12,18,.96);transform:translateY(40px);transition:transform .4s cubic-bezier(.2,.9,.2,1)}
+.sbody{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:22px max(20px,env(safe-area-inset-right,0px)) 18px max(20px,env(safe-area-inset-left,0px))}
+.sbuy{flex:none;padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));border-top:1px solid var(--line);background:rgba(8,10,15,.98);box-shadow:0 -14px 30px rgba(0,0,0,.45)}
 .ov.on .sheet{transform:none}
-@media(min-width:700px){.ov{align-items:center}.sheet{border-radius:26px;max-height:88vh}}
+@media(min-width:700px){.ov{align-items:center;padding:16px}.sheet{border-radius:26px;max-height:calc(100vh - 32px)}}
 .sheet::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:radial-gradient(300px circle at var(--x,80%) var(--y,0%),rgba(185,204,255,.9),rgba(255,255,255,.08) 60%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
 .grab{width:40px;height:4px;border-radius:9px;background:rgba(255,255,255,.2);margin:-8px auto 14px}
 @media(min-width:700px){.grab{display:none}}
@@ -225,6 +227,46 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
 @keyframes cue{0%{transform:translateY(0) rotate(45deg);opacity:0}30%{opacity:1}100%{transform:translateY(22px) rotate(45deg);opacity:0}}
 @media(max-width:899px){.cue{display:none}}
 @media(min-width:900px){.hero{padding-bottom:28px}}
+
+/* sheet: buy panel always visible without scrolling */
+.prow{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.sbuy .price{margin:0}
+.mo2{font:500 14px var(--sans);color:#dfe6ff;white-space:nowrap}
+.btns{display:grid;grid-template-columns:1.35fr 1fr;gap:8px;margin-top:10px}
+.btns .cta,.btns .cta2{margin-top:0;height:50px}
+.btns .cta2 .lg{display:none}.btns .cta2 .sm{display:inline}
+.dq{display:none}
+.ask{display:inline-block;margin-top:16px;color:var(--ice);font:500 14px var(--sans);text-decoration:none}
+.sbuy .seats{margin-top:10px}
+@media(max-width:899px){
+  .sbuy .price b{font-size:32px}.sbuy .price s{font-size:13px}
+  .sbuy .inst{margin-top:8px;padding:0;background:none;border:0}.sbuy .inst .k{display:none}.sbuy .inst .row{margin-top:0}.sbuy .mo{display:none}
+  .sbuy .seats{display:none}
+  .sheet .for{margin-bottom:14px}
+}
+@media(min-width:900px){
+  .sheet{max-width:1040px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.9fr);max-height:min(calc(100vh - 32px),760px)}
+  .sbody{padding:30px 32px 26px;overflow:auto}
+  .sbuy{display:flex;flex-direction:column;justify-content:center;padding:30px 30px;border-top:0;border-left:1px solid var(--line);background:rgba(255,255,255,.025);box-shadow:none;overflow:auto}
+  .sheet h3{font-size:clamp(26px,3vw,34px)}
+  .sheet .for{font-size:14.5px;margin-bottom:14px}
+  .note{font-size:13.5px;padding:12px 14px;margin-bottom:14px}
+  .lst li{padding:9px 0;font-size:14.5px}
+  .prow{flex-direction:column;align-items:flex-start;gap:4px}.mo2{display:none}
+  .sbuy .price b{font-size:clamp(38px,4vw,50px)}
+  .btns{grid-template-columns:1fr;gap:8px;margin-top:14px}
+  .btns .cta{height:54px}.btns .cta2{height:48px}.btns .cta2 .lg{display:inline}.btns .cta2 .sm{display:none}
+  .dq{display:flex;height:44px;margin-top:8px;font-size:14px;border-color:rgba(255,255,255,.1);color:#c3cbe0}
+  .ask{display:none}
+  .seats{flex-direction:column;gap:4px}
+  .x{position:absolute;top:18px;right:18px;z-index:3}
+  .shead{padding-right:46px}
+}
+@media(min-width:900px) and (max-height:640px){
+  .sbody{padding:22px 26px}.sbuy{padding:20px 24px}
+  .sheet h3{font-size:26px;margin-top:8px}.lst li{padding:7px 0;font-size:13.5px}
+  .inst{margin-top:10px;padding:10px}.btns .cta{height:48px}.btns .cta2{height:42px}.dq{height:38px}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -320,19 +362,26 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
 
 <div class="ov" id="ov" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sTitle" id="sheet">
-    <div class="grab"></div>
-    <div class="shead"><span class="k" id="sMeta"></span><button class="x" id="sClose" type="button" aria-label="Закрыть">✕</button></div>
-    <h3 id="sTitle"></h3>
-    <p class="for" id="sFor"></p>
-    <div class="note" id="sNote" hidden></div>
-    <ul class="lst" id="sList"></ul>
-    <div class="price"><b class="num" id="sPrice"></b><s id="sOld"></s></div>
-    <div class="inst" id="sInst"><div class="k">Рассрочка без процентов</div><div class="row"><div class="seg" role="group" aria-label="Срок рассрочки" id="sSeg"></div><span class="mo num" id="sMo"></span></div></div>
-    <a class="cta" id="sCta" target="_blank" rel="noopener" href="https://t.me/puzanovateam">Забрать лот <span>→</span></a>
-    <a class="cta2 giftbtn" id="sGift" target="_blank" rel="noopener" href="https://t.me/puzanovateam">🎁 Купить в подарок</a>
-    <a class="cta2" id="sCta2" target="_blank" rel="noopener" href="https://t.me/puzanovateam">Задать вопрос менеджеру</a>
-    <div class="seats"><span id="sSeats"></span><span>рассрочка 0% · счёт для ИП и ООО</span></div>
-    <div class="nav"><button type="button" id="sPrev">← Предыдущий</button><button type="button" id="sNext">Следующий →</button></div>
+    <div class="sbody" id="sBody">
+      <div class="grab"></div>
+      <div class="shead"><span class="k" id="sMeta"></span><button class="x" id="sClose" type="button" aria-label="Закрыть">✕</button></div>
+      <h3 id="sTitle"></h3>
+      <p class="for" id="sFor"></p>
+      <div class="note" id="sNote" hidden></div>
+      <ul class="lst" id="sList"></ul>
+      <a class="ask" id="sAsk" target="_blank" rel="noopener" href="https://t.me/puzanovateam">Задать вопрос менеджеру →</a>
+      <div class="nav"><button type="button" id="sPrev">← Предыдущий</button><button type="button" id="sNext">Следующий →</button></div>
+    </div>
+    <div class="sbuy">
+      <div class="prow"><div class="price"><b class="num" id="sPrice"></b><s id="sOld"></s></div><span class="mo2 num" id="sMo2"></span></div>
+      <div class="inst" id="sInst"><div class="k">Рассрочка без процентов</div><div class="row"><div class="seg" role="group" aria-label="Срок рассрочки" id="sSeg"></div><span class="mo num" id="sMo"></span></div></div>
+      <div class="btns">
+        <a class="cta" id="sCta" target="_blank" rel="noopener" href="https://t.me/puzanovateam">Забрать лот <span>→</span></a>
+        <a class="cta2 giftbtn" id="sGift" target="_blank" rel="noopener" href="https://t.me/puzanovateam"><span class="lg">🎁 Купить в подарок</span><span class="sm">🎁 В подарок</span></a>
+      </div>
+      <a class="cta2 dq" id="sCta2" target="_blank" rel="noopener" href="https://t.me/puzanovateam">Задать вопрос менеджеру</a>
+      <div class="seats"><span id="sSeats"></span><span>рассрочка 0% · счёт для ИП и ООО</span></div>
+    </div>
   </div>
 </div>
 
@@ -400,20 +449,22 @@ function render(){const l=LOTS[cur];seen.add(cur);upd();
  $('#sInst').hidden=!l.inst;seg.innerHTML='';
  if(l.inst){[3,6,12].forEach(m=>{const b=document.createElement('button');b.type='button';b.textContent=m+' мес';b.setAttribute('aria-pressed',m===term);b.onclick=()=>{term=m;render()};seg.appendChild(b)});
   $('#sMo').innerHTML=`${fmt(Math.ceil(l.price/term))} ₽/мес<small>${term} платежей, без переплаты</small>`;}
+ $('#sMo2').textContent=l.inst?`или ${fmt(Math.ceil(l.price/term))} ₽/мес`:'';
  const msg=t=>MGR+'?text='+encodeURIComponent(t);
  $('#sCta').href=msg(`Хочу лот ${l.n} «${l.name}»`+(l.inst?`, рассрочка на ${term} мес или оплата сразу`:''));
  $('#sGift').href=msg(`Хочу купить лот ${l.n} «${l.name}» в подарок другому человеку`);
- $('#sCta2').href=msg(`У меня вопрос по лоту ${l.n} «${l.name}»`);}
+ $('#sCta2').href=msg(`У меня вопрос по лоту ${l.n} «${l.name}»`);
+ $('#sAsk').href=$('#sCta2').href;}
 function show(i){cur=i;render();ov.hidden=false;requestAnimationFrame(()=>ov.classList.add('on'));document.body.style.overflow='hidden';$('#sClose').focus();}
 function hide(){ov.classList.remove('on');document.body.style.overflow='';setTimeout(()=>{ov.hidden=true},300);lastFocus&&lastFocus.focus();}
 $('#sClose').onclick=hide;ov.addEventListener('click',e=>{if(e.target===ov)hide()});
 addEventListener('keydown',e=>{if(ov.hidden)return;if(e.key==='Escape')hide();if(e.key==='ArrowRight')$('#sNext').click();if(e.key==='ArrowLeft')$('#sPrev').click();});
-$('#sNext').onclick=()=>{cur=(cur+1)%LOTS.length;render();$('#sheet').scrollTop=0};
-$('#sPrev').onclick=()=>{cur=(cur+LOTS.length-1)%LOTS.length;render();$('#sheet').scrollTop=0};
+$('#sNext').onclick=()=>{cur=(cur+1)%LOTS.length;render();$('#sBody').scrollTop=0};
+$('#sPrev').onclick=()=>{cur=(cur+LOTS.length-1)%LOTS.length;render();$('#sBody').scrollTop=0};
 // swipe down to close on phone
-let sy=null;const sh=$('#sheet');sh.addEventListener('touchstart',e=>{sy=sh.scrollTop<=0?e.touches[0].clientY:null},{passive:true});
-sh.addEventListener('touchmove',e=>{if(sy===null)return;const d=e.touches[0].clientY-sy;if(d>0)sh.style.transform=`translateY(${d}px)`},{passive:true});
-sh.addEventListener('touchend',e=>{if(sy===null)return;const d=(e.changedTouches[0].clientY-sy);sh.style.transform='';sy=null;if(d>110)hide();});
+let sy=null;const sh=$('#sheet'),sbd=$('#sBody');sbd.addEventListener('touchstart',e=>{sy=sbd.scrollTop<=0?e.touches[0].clientY:null},{passive:true});
+sbd.addEventListener('touchmove',e=>{if(sy===null)return;const d=e.touches[0].clientY-sy;if(d>0)sh.style.transform=`translateY(${d}px)`},{passive:true});
+sbd.addEventListener('touchend',e=>{if(sy===null)return;const d=(e.changedTouches[0].clientY-sy);sh.style.transform='';sy=null;if(d>110)hide();});
 // spotlight
 document.querySelectorAll('[data-spot],#sheet').forEach(el=>el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();el.style.setProperty('--x',(e.clientX-r.left)+'px');el.style.setProperty('--y',(e.clientY-r.top)+'px')}));
 // countdown
