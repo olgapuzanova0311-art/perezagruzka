@@ -377,6 +377,7 @@ body.sheet-on .tgw{opacity:0;pointer-events:none}
 .cof{max-width:880px!important;display:block!important;overflow:hidden}
 .cof .sbody{overflow:visible;padding:18px 18px calc(16px + env(safe-area-inset-bottom,0px))}
 .cohead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.cohead .k{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62vw}
 .cohead h3{font:500 22px/1.15 var(--sans);letter-spacing:-.03em;margin:4px 0 0;text-wrap:balance}
 .cof .x{position:static;flex:none}
 .cocols{display:grid;gap:12px;margin-top:10px}
@@ -443,6 +444,25 @@ body.sheet-on .tgw{opacity:0;pointer-events:none}
 .pill{white-space:nowrap}.brand span{white-space:nowrap}
 @media(max-width:400px){.pill{font-size:11px;padding:7px 10px;gap:6px}.brand{font-size:13px;gap:8px}.brand img{width:32px;height:32px}}
 @media(max-width:899px){body:not(.hdr-on) .tgw{opacity:0;pointer-events:none;transform:translateY(20px)}.tgw{transition:opacity .3s,transform .3s}}
+
+/* wheel */
+.wheel{padding-block:40px 24px;position:relative}
+.whgrid{display:grid;gap:28px;grid-template-columns:minmax(0,1fr);align-items:center}
+@media(min-width:900px){.whgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px}}
+.whtxt p{color:#b7c0d8;font-size:16px;line-height:1.55;margin:14px 0 0;max-width:42ch}
+.spin{all:unset;box-sizing:border-box;cursor:pointer;margin-top:22px;display:inline-flex;align-items:center;justify-content:center;height:58px;padding:0 28px;border-radius:16px;background:linear-gradient(135deg,#ffb79c,#e8744f);color:#1b0b05;font:700 17px var(--sans);box-shadow:0 12px 40px rgba(232,116,79,.45);animation:spinpulse 2s ease-in-out infinite}
+@keyframes spinpulse{50%{transform:scale(1.04)}}
+.spin[disabled]{opacity:.5;cursor:default;animation:none}
+.won{margin-top:22px;padding:18px;border-radius:20px;background:linear-gradient(135deg,rgba(232,116,79,.18),rgba(61,107,255,.12));border:1px solid rgba(255,183,156,.5);display:grid;gap:8px;max-width:440px}
+.won b{font:600 24px/1.15 var(--sans);letter-spacing:-.02em}
+.won span{color:#c7d0ea;font-size:14px;line-height:1.45}
+.won .go{margin-top:6px}
+.whwrap{position:relative;width:min(100%,420px);aspect-ratio:1;margin:0 auto}
+.whwrap canvas{width:100%;height:100%;display:block;filter:drop-shadow(0 20px 60px rgba(61,107,255,.35));transition:none}
+.pointer{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:34px solid #ffb79c;z-index:2;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
+.hub{all:unset;cursor:pointer;position:absolute;left:50%;top:50%;width:22%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#b9c4e6 40%,#5b6890 75%,#2a3150);box-shadow:0 6px 20px rgba(0,0,0,.5),inset 0 2px 4px rgba(255,255,255,.8);display:grid;place-items:center;font:800 clamp(11px,2.6vw,14px) var(--sans);letter-spacing:.06em;color:#0b1028}
+@media(max-width:899px){.whtxt{text-align:center}.whtxt p{margin-inline:auto}.won{margin-inline:auto;text-align:center}.wheel{padding-top:28px}.whwrap{width:min(88vw,360px)}}
+@media(max-width:899px){.whgrid{display:flex;flex-direction:column;align-items:center;gap:14px}.whtxt{display:contents}.whtxt .k{order:1}.whtxt h2{order:2;margin-top:0}.whtxt p{order:3;margin-top:0}.whwrap{order:4;margin-top:8px}.spin{order:5;margin-top:6px}.won{order:6;margin-top:0}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -475,6 +495,28 @@ body.sheet-on .tgw{opacity:0;pointer-events:none}
     </div>
   </div>
 </header>
+
+<section class="wheel gut" id="wheel">
+  <div class="wrap whgrid">
+    <div class="whtxt">
+      <div class="k">Колесо дня рождения</div>
+      <h2 class="sec">Крутани <em>и забери бонус</em></h2>
+      <p>Один раз на человека. Что выпадет, добавится к любому лоту, который ты выберешь. Бонус сгорит в 23:23 вместе с лотами.</p>
+      <button type="button" class="spin" id="spinBtn">🎡 Крутить колесо</button>
+      <div class="won" id="won" hidden>
+        <div class="k">Тебе выпало</div>
+        <b id="wonTxt"></b>
+        <span>Бонус уже закреплён за тобой и добавится к лоту при оформлении</span>
+        <a class="go" href="#gifts">Выбрать лот <span>↓</span></a>
+      </div>
+    </div>
+    <div class="whwrap">
+      <div class="pointer" aria-hidden="true"></div>
+      <canvas id="wheelCv" width="840" height="840" aria-label="Колесо с бонусами"></canvas>
+      <button type="button" class="hub" id="hubBtn" aria-label="Крутить колесо">КРУТИ</button>
+    </div>
+  </div>
+</section>
 
 <section class="gifts gut" id="gifts">
   <div class="wrap">
@@ -718,6 +760,51 @@ addEventListener('keydown',e=>{if(ov.hidden)return;if(e.key==='Escape')hide();if
 $('#sNext').onclick=()=>{cur=(cur+1)%LOTS.length;render();$('#sBody').scrollTop=0};
 $('#sPrev').onclick=()=>{cur=(cur+LOTS.length-1)%LOTS.length;render();$('#sBody').scrollTop=0};
 
+
+
+// ===== tracking =====
+const EV='https://rsvp-production-250d.up.railway.app/e';let VID='';try{VID=localStorage.getItem('lots23vid')||'';if(!VID){VID='v'+Math.random().toString(36).slice(2,10);localStorage.setItem('lots23vid',VID)}}catch(e){VID='v'+Math.random().toString(36).slice(2,10)}
+const track=(type,extra)=>{try{fetch(EV,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(Object.assign({type,vid:VID},extra||{})),keepalive:true}).catch(()=>{})}catch(e){}};
+track('lots');
+// ===== wheel =====
+const PRIZES=[
+ {t:'+1 неделя Клуба ИИ',w:18,c:'#2a3f9e'},
+ {t:'Запись лагеря по Claude',w:22,c:'#3d6bff'},
+ {t:'Запись интенсива',w:20,c:'#1c2a6b'},
+ {t:'+1 месяц Клуба ИИ',w:8,c:'#7ea0ff'},
+ {t:'+1 неделя Клуба ИИ',w:18,c:'#2a3f9e'},
+ {t:'Спринт по фотоконтенту',w:10,c:'#4f74e8'},
+ {t:'Созвон с Олей 23 минуты',w:3,c:'#9aa6cc'},
+ {t:'ЗОЛОТО: ИИ-помощник в подарок',w:1,c:'#e8744f',gold:true}];
+let BONUS='';try{BONUS=localStorage.getItem('lots23bonus')||''}catch(e){}
+const cv=$('#wheelCv'),cx=cv.getContext('2d'),N=PRIZES.length,SEG=Math.PI*2/N;let ang=0,spinning=false;
+function drawWheel(){const W=cv.width,R=W/2-10;cx.clearRect(0,0,W,W);cx.save();cx.translate(W/2,W/2);cx.rotate(ang);
+ for(let i=0;i<N;i++){const p=PRIZES[i],a0=-Math.PI/2+i*SEG-SEG/2;cx.beginPath();cx.moveTo(0,0);cx.arc(0,0,R,a0,a0+SEG);cx.closePath();
+  const g=cx.createLinearGradient(-R,-R,R,R);g.addColorStop(0,p.c);g.addColorStop(.5,p.gold?'#ffb79c':shade(p.c,30));g.addColorStop(1,p.c);cx.fillStyle=g;cx.fill();
+  cx.strokeStyle='rgba(255,255,255,.35)';cx.lineWidth=3;cx.stroke();
+  cx.save();cx.rotate(a0+SEG/2);cx.translate(R*0.6,0);cx.fillStyle=p.gold?'#1b0b05':'#fff';cx.font='600 25px "Inter Tight",system-ui,sans-serif';cx.textAlign='center';cx.textBaseline='middle';
+  const words=p.t.split(' ');let lines=[],cur='';for(const w of words){const t=cur?cur+' '+w:w;if(cx.measureText(t).width>R*0.5&&cur){lines.push(cur);cur=w}else cur=t}lines.push(cur);
+  cx.rotate(Math.PI/2);lines.forEach((l,k)=>cx.fillText(l,0,(k-(lines.length-1)/2)*28));cx.restore();}
+ cx.beginPath();cx.arc(0,0,R,0,Math.PI*2);cx.lineWidth=14;const rim=cx.createLinearGradient(-R,-R,R,R);rim.addColorStop(0,'#e7ecff');rim.addColorStop(.5,'#5b6890');rim.addColorStop(1,'#dfe6ff');cx.strokeStyle=rim;cx.stroke();
+ for(let i=0;i<N;i++){const a=-Math.PI/2+i*SEG-SEG/2;cx.beginPath();cx.arc(Math.cos(a)*(R-1),Math.sin(a)*(R-1),7,0,Math.PI*2);cx.fillStyle='#fff';cx.fill();}
+ cx.restore();}
+function shade(h,p){const n=parseInt(h.slice(1),16);let r=(n>>16)+p,g=((n>>8)&255)+p,b=(n&255)+p;r=Math.min(255,r);g=Math.min(255,g);b=Math.min(255,b);return `rgb(${r},${g},${b})`}
+drawWheel();
+let actx=null;function wtick(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),gn=actx.createGain();o.type='triangle';o.frequency.value=900;gn.gain.setValueAtTime(.08,actx.currentTime);gn.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.05);o.connect(gn);gn.connect(actx.destination);o.start();o.stop(actx.currentTime+.05)}catch(e){}}
+function showWon(t){$('#wonTxt').textContent=t;$('#won').hidden=false;$('#spinBtn').disabled=true;$('#spinBtn').textContent='Колесо уже прокручено';}
+function pick(){const tot=PRIZES.reduce((s,p)=>s+p.w,0);let r=Math.random()*tot;for(let i=0;i<N;i++){r-=PRIZES[i].w;if(r<=0)return i}return 0}
+function spin(){if(spinning)return;if(BONUS){showWon(BONUS);return}spinning=true;$('#spinBtn').disabled=true;
+ const i=pick();const target=-(i*SEG)+(Math.random()-.5)*SEG*.6;const turns=6+Math.floor(Math.random()*2);
+ const start=ang,end=target+Math.PI*2*turns+(Math.ceil((start-target)/(Math.PI*2))*Math.PI*2);const dur=reduce?10:5200,t0=performance.now();let lastSeg=-1;
+ const step=now=>{const k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,4);ang=start+(end-start)*e;drawWheel();
+  const s=Math.floor(((ang%(Math.PI*2))+Math.PI*2)/SEG);if(s!==lastSeg){lastSeg=s;wtick()}
+  if(k<1)requestAnimationFrame(step);else{spinning=false;BONUS=PRIZES[i].t.replace('ЗОЛОТО: ','');try{localStorage.setItem('lots23bonus',BONUS)}catch(e){}track('spin',{prize:BONUS});
+   showWon(BONUS);const r=cv.getBoundingClientRect();fakeBurst(r.left+r.width/2,r.top+r.height/2);if(navigator.vibrate)try{navigator.vibrate([30,40,30])}catch(e){}}};
+ requestAnimationFrame(step);}
+function fakeBurst(x,y){if(reduce)return;const cols=['#fff','#ffb79c','#e8744f','#b9ccff','#3d6bff'];for(let k=0;k<60;k++){const s=document.createElement('i');s.className='spark';s.style.background=cols[k%5];s.style.left=x+'px';s.style.top=y+'px';document.body.appendChild(s);
+ const a=Math.random()*Math.PI*2,v=120+Math.random()*220;s.animate([{transform:'translate(0,0) rotate(0)',opacity:1},{transform:`translate(${Math.cos(a)*v}px,${Math.sin(a)*v+160}px) rotate(${Math.random()*900}deg)`,opacity:0}],{duration:1200+Math.random()*600,easing:'cubic-bezier(.2,.7,.4,1)'}).onfinish=()=>s.remove();}}
+$('#spinBtn').onclick=spin;$('#hubBtn').onclick=spin;
+if(BONUS)showWon(BONUS);
 // ===== checkout =====
 const co=$('#co'),cf=$('#coForm');let coLot=null,coGift=false,coTerm=0;
 document.querySelectorAll('[data-doc]').forEach(a=>{const u=DOCS[a.dataset.doc];if(u)a.href=u;});
@@ -729,7 +816,7 @@ function check(){$('#coGo').disabled=!valid();}
 ['coName','coEmail','c1','c2','c3','coGiftTo'].forEach(id=>{$('#'+id).addEventListener('input',check);$('#'+id).addEventListener('change',check)});
 ['coName','coEmail','coPhone'].forEach(id=>$('#'+id).addEventListener('blur',e=>{const el=e.target,v=el.value.trim();const ok=id==='coEmail'?/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v):id==='coPhone'?v.replace(/\D/g,'').length===11:v.length>1;el.classList.toggle('bad',!!v&&!ok)}));
 $('#cAll').onclick=()=>{['c1','c2','c3'].forEach(id=>$('#'+id).checked=true);check()};
-function coRender(){const l=coLot;$('#coMeta').textContent=`Лот 0${l.n}`+(coGift?' · в подарок':'');$('#coTitle').textContent=l.name;
+function coRender(){const l=coLot;$('#coMeta').textContent=`Лот 0${l.n}`+(coGift?' · в подарок':'')+(BONUS?` · 🎁 ${BONUS}`:'');$('#coTitle').textContent=l.name;
  const s=$('#coSeg');s.innerHTML='';const opts=l.inst?[0,3,6,12]:[0];
  if(opts.length>1){opts.forEach(m=>{const bt=document.createElement('button');bt.type='button';bt.textContent=m?m+' мес':'Сразу';bt.setAttribute('aria-pressed',m===coTerm);bt.onclick=()=>{coTerm=m;coRender()};s.appendChild(bt)});s.hidden=false}else s.hidden=true;
  $('#coPrice').textContent=coTerm?fmt(Math.ceil(l.price/coTerm))+' ₽/мес':fmt(l.price)+' ₽';
@@ -743,12 +830,12 @@ addEventListener('keydown',e=>{if(!co.hidden&&e.key==='Escape'){e.stopImmediateP
 $('#sCta').addEventListener('click',e=>{e.preventDefault();coOpen(false)});
 $('#sGift').addEventListener('click',e=>{e.preventDefault();coOpen(true)});
 cf.addEventListener('submit',async e=>{e.preventDefault();if(!valid())return;const btn=$('#coGo');btn.disabled=true;btn.textContent='Создаём заказ…';$('#coErr').hidden=true;
- const body={lot:coLot.n,term:coTerm,name:$('#coName').value.trim(),email:$('#coEmail').value.trim(),phone:$('#coPhone').value,giftTo:coGift?$('#coGiftTo').value.trim():'',c1:$('#c1').checked,c2:$('#c2').checked,c3:$('#c3').checked};
+ const body={lot:coLot.n,term:coTerm,name:$('#coName').value.trim(),email:$('#coEmail').value.trim(),phone:$('#coPhone').value,giftTo:coGift?$('#coGiftTo').value.trim():'',c1:$('#c1').checked,c2:$('#c2').checked,c3:$('#c3').checked,bonus:BONUS};
  try{const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const j=await r.json();
   if(j.ok&&j.link){btn.textContent='Переходим к оплате…';location.href=j.link;return}
   throw new Error(j.error||'err')}
  catch(err){$('#coErr').textContent='Не получилось открыть оплату. Нажми «Оформить через менеджера» ниже, он пришлёт ссылку за пару минут.';$('#coErr').hidden=false;cf.classList.add('err');$('#coErr').scrollIntoView({block:'nearest'});
-  $('#coMgr').href=MGR+'?text='+encodeURIComponent(`Хочу лот ${coLot.n} «${coLot.name}»`+(coGift?' в подарок':'')+(coTerm?`, рассрочка на ${coTerm} мес`:'')+`. ${body.name}, ${body.phone}, ${body.email}`);
+  $('#coMgr').href=MGR+'?text='+encodeURIComponent(`Хочу лот ${coLot.n} «${coLot.name}»`+(coGift?' в подарок':'')+(coTerm?`, рассрочка на ${coTerm} мес`:'')+(BONUS?`, бонус с колеса: ${BONUS}`:'')+`. ${body.name}, ${body.phone}, ${body.email}`);
   btn.innerHTML='Перейти к оплате <span>→</span>';check();}
 });
 // swipe down to close on phone
