@@ -342,6 +342,34 @@ body.sheet-on .tgw{opacity:0;pointer-events:none}
 .h2{background:linear-gradient(145deg,#37aee2,#1e96c8);color:#fff}
 @media(max-width:899px){.hn{display:none}.hb img{width:30px;height:30px}.ht{align-items:flex-start;margin-right:auto}.ht span{font-size:15px}.h2 span{display:none}.h2{width:42px;padding:0;justify-content:center}.hbtn a{height:40px;padding:0 14px}.h2{padding:0}}
 @media(max-width:360px){.hb{display:none}}
+
+/* checkout */
+.co{z-index:55}
+.cof{max-width:520px!important;display:flex!important;flex-direction:column}
+@media(min-width:900px){.cof .sbuy{border-left:0;border-top:1px solid var(--line);justify-content:flex-start}}
+.cosum{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:6px 0 12px}
+.cosum b{font:500 34px/1 var(--sans);letter-spacing:-.04em}
+.cosum span{color:#c7d0ea;font-size:14px}
+.cotm{margin-bottom:14px;flex-wrap:wrap}
+.fl{display:block;margin-top:10px}
+.fl span{display:block;font:500 12px var(--sans);color:#aab3cc;margin-bottom:6px}
+.fl input{width:100%;height:48px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:#fff;font:400 16px var(--sans);padding:0 14px;outline:none}
+.fl input:focus{border-color:var(--glow);box-shadow:0 0 0 3px rgba(126,160,255,.25)}
+.fl input.bad{border-color:#ff8a7a}
+.chk{margin-top:16px;display:grid;gap:10px}
+.chk label{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4;color:#d7ddef;cursor:pointer}
+.chk input{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;margin:0;border-radius:7px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.04);display:grid;place-items:center;cursor:pointer;transition:background .15s,border-color .15s}
+.chk input:checked{background:#fff;border-color:#fff}
+.chk input:checked::after{content:"";width:6px;height:11px;border:solid #05060a;border-width:0 2.5px 2.5px 0;transform:translateY(-1px) rotate(45deg)}
+.chk input:focus-visible{outline:2px solid var(--ice);outline-offset:2px}
+.chk a{color:var(--ice);text-underline-offset:3px}
+.chk a:not([href]){text-decoration:none;color:#d7ddef;cursor:inherit}
+.all{all:unset;cursor:pointer;justify-self:start;font:500 13px var(--sans);color:var(--ice);padding:4px 0}
+.coerr{margin:12px 0 0;padding:10px 12px;border-radius:12px;background:rgba(255,120,100,.12);border:1px solid rgba(255,120,100,.35);color:#ffd2ca;font-size:14px;line-height:1.45}
+.cof .cta[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.cof .sbuy .cta2{display:flex}
+.cof .cta{width:100%;border:0;cursor:pointer;margin-top:0}
+.cof .sbuy{display:flex;flex-direction:column;gap:8px}.cof .sbuy .cta2{margin-top:0}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -440,6 +468,32 @@ body.sheet-on .tgw{opacity:0;pointer-events:none}
 </div></header>
 
 <a class="tgw" id="tgw" target="_blank" rel="noopener" href="https://t.me/puzanovateam?text=%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82!%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%20%D0%BB%D0%BE%D1%82%D1%8B%20%D0%B4%D0%BD%D1%8F%20%D1%80%D0%BE%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F" aria-label="Написать менеджеру в Telegram"><span class="tgl">Написать менеджеру</span><span class="tgi"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="#fff" d="M9.04 15.6 8.9 19.4c.4 0 .58-.17.8-.38l1.92-1.84 3.98 2.92c.73.4 1.25.19 1.45-.67l2.62-12.3c.24-1.08-.39-1.5-1.1-1.24L3.18 11.8c-1.05.41-1.04 1-.18 1.27l3.93 1.23 9.13-5.76c.43-.28.82-.12.5.16L9.04 15.6Z"/></svg></span></a>
+<div class="ov co" id="co" hidden>
+  <form class="sheet cof" id="coForm" novalidate role="dialog" aria-modal="true" aria-labelledby="coTitle">
+    <div class="sbody">
+      <div class="shead"><span class="k" id="coMeta">Оформление</span><button class="x" id="coClose" type="button" aria-label="Закрыть">✕</button></div>
+      <h3 id="coTitle"></h3>
+      <div class="cosum"><b class="num" id="coPrice"></b><span id="coPay"></span></div>
+      <div class="seg cotm" role="group" aria-label="Как платить" id="coSeg"></div>
+      <label class="fl"><span>Имя</span><input id="coName" name="name" autocomplete="name" required placeholder="Как к тебе обращаться"></label>
+      <label class="fl"><span>Почта</span><input id="coEmail" name="email" type="email" autocomplete="email" required placeholder="name@mail.ru"></label>
+      <label class="fl"><span>Телефон</span><input id="coPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="+7 900 123-45-67"></label>
+      <label class="fl" id="coGiftRow" hidden><span>Кому дарим</span><input id="coGiftTo" name="giftTo" placeholder="Имя и телеграм получателя"></label>
+      <div class="chk">
+        <label><input type="checkbox" id="c1"><span>Принимаю условия <a data-doc="offer" target="_blank" rel="noopener">договора-оферты</a></span></label>
+        <label><input type="checkbox" id="c2"><span>Ознакомлен(а) с <a data-doc="policy" target="_blank" rel="noopener">политикой конфиденциальности</a></span></label>
+        <label><input type="checkbox" id="c3"><span>Даю <a data-doc="consent" target="_blank" rel="noopener">согласие на обработку персональных данных</a></span></label>
+        <button type="button" class="all" id="cAll">Отметить всё</button>
+      </div>
+      <p class="coerr" id="coErr" role="alert" hidden></p>
+    </div>
+    <div class="sbuy">
+      <button class="cta" id="coGo" type="submit" disabled>Перейти к оплате <span>→</span></button>
+      <a class="cta2" id="coMgr" target="_blank" rel="noopener" href="https://t.me/puzanovateam">Оформить через менеджера</a>
+      <div class="seats"><span>Оплата на защищённой странице GetCourse</span><span>карта · СБП · рассрочка</span></div>
+    </div>
+  </form>
+</div>
 <div class="ov" id="ov" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sTitle" id="sheet">
     <div class="sbody" id="sBody">
@@ -529,6 +583,9 @@ const LOTS=[
   items:['12 месяцев встреч со мной каждую неделю вместо 3','Позиционирование и упаковка тебя и продукта','Моя команда ведёт твои соцсети и ролики до 5 млн просмотров','Система, которая приводит клиентов из соцсетей','Запуск продукта с нуля','Найм команды и кураторов, и мы вместе учим их управлять','Всё из лотов 3, 5 и 6']}
 ];
 const MGR='https://t.me/puzanovateam';
+const API='https://rsvp-production-250d.up.railway.app/order';
+/* ссылки на документы: вставь адреса, когда будут готовы */
+const DOCS={offer:'',policy:'',consent:''};
 /* =============================== */
 (()=>{
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -579,6 +636,40 @@ $('#sClose').onclick=hide;ov.addEventListener('click',e=>{if(e.target===ov)hide(
 addEventListener('keydown',e=>{if(ov.hidden)return;if(e.key==='Escape')hide();if(e.key==='ArrowRight')$('#sNext').click();if(e.key==='ArrowLeft')$('#sPrev').click();});
 $('#sNext').onclick=()=>{cur=(cur+1)%LOTS.length;render();$('#sBody').scrollTop=0};
 $('#sPrev').onclick=()=>{cur=(cur+LOTS.length-1)%LOTS.length;render();$('#sBody').scrollTop=0};
+
+// ===== checkout =====
+const co=$('#co'),cf=$('#coForm');let coLot=null,coGift=false,coTerm=0;
+document.querySelectorAll('[data-doc]').forEach(a=>{const u=DOCS[a.dataset.doc];if(u)a.href=u;});
+const fmtPh=v=>{let d=v.replace(/\D/g,'');if(d.startsWith('8'))d='7'+d.slice(1);if(d&&!d.startsWith('7'))d='7'+d;d=d.slice(0,11);let o='+7';if(d.length>1)o+=' '+d.slice(1,4);if(d.length>4)o+=' '+d.slice(4,7);if(d.length>7)o+='-'+d.slice(7,9);if(d.length>9)o+='-'+d.slice(9,11);return d?o:''};
+$('#coPhone').addEventListener('input',e=>{e.target.value=fmtPh(e.target.value);check()});
+const valid=()=>{const n=$('#coName').value.trim(),em=$('#coEmail').value.trim(),ph=$('#coPhone').value.replace(/\D/g,'');
+ return n.length>1&&/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)&&ph.length===11&&$('#c1').checked&&$('#c2').checked&&$('#c3').checked};
+function check(){$('#coGo').disabled=!valid();}
+['coName','coEmail','c1','c2','c3','coGiftTo'].forEach(id=>{$('#'+id).addEventListener('input',check);$('#'+id).addEventListener('change',check)});
+['coName','coEmail','coPhone'].forEach(id=>$('#'+id).addEventListener('blur',e=>{const el=e.target,v=el.value.trim();const ok=id==='coEmail'?/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v):id==='coPhone'?v.replace(/\D/g,'').length===11:v.length>1;el.classList.toggle('bad',!!v&&!ok)}));
+$('#cAll').onclick=()=>{['c1','c2','c3'].forEach(id=>$('#'+id).checked=true);check()};
+function coRender(){const l=coLot;$('#coMeta').textContent=`Лот 0${l.n}`+(coGift?' · в подарок':'');$('#coTitle').textContent=l.name;
+ const s=$('#coSeg');s.innerHTML='';const opts=l.inst?[0,3,6,12]:[0];
+ if(opts.length>1){opts.forEach(m=>{const bt=document.createElement('button');bt.type='button';bt.textContent=m?m+' мес':'Сразу';bt.setAttribute('aria-pressed',m===coTerm);bt.onclick=()=>{coTerm=m;coRender()};s.appendChild(bt)});s.hidden=false}else s.hidden=true;
+ $('#coPrice').textContent=coTerm?fmt(Math.ceil(l.price/coTerm))+' ₽/мес':fmt(l.price)+' ₽';
+ $('#coPay').textContent=coTerm?`${coTerm} платежей без переплаты, всего ${fmt(l.price)} ₽`:(l.inst?'одним платежом':'');
+ $('#coGiftRow').hidden=!coGift;$('#coGo').innerHTML=`Перейти к оплате <span>→</span>`;
+ $('#coMgr').href=MGR+'?text='+encodeURIComponent(`Хочу лот ${l.n} «${l.name}»`+(coGift?' в подарок':'')+(coTerm?`, рассрочка на ${coTerm} мес`:''));check();}
+function coOpen(gift){coLot=LOTS[cur];coGift=gift;coTerm=coLot.inst?term:0;if(!coLot.inst)coTerm=0;$('#coErr').hidden=true;coRender();co.hidden=false;requestAnimationFrame(()=>co.classList.add('on'));setTimeout(()=>$('#coName').focus(),300);}
+function coHide(){co.classList.remove('on');setTimeout(()=>{co.hidden=true},300);}
+$('#coClose').onclick=coHide;co.addEventListener('click',e=>{if(e.target===co)coHide()});
+addEventListener('keydown',e=>{if(!co.hidden&&e.key==='Escape'){e.stopImmediatePropagation();coHide()}},true);
+$('#sCta').addEventListener('click',e=>{e.preventDefault();coOpen(false)});
+$('#sGift').addEventListener('click',e=>{e.preventDefault();coOpen(true)});
+cf.addEventListener('submit',async e=>{e.preventDefault();if(!valid())return;const btn=$('#coGo');btn.disabled=true;btn.textContent='Создаём заказ…';$('#coErr').hidden=true;
+ const body={lot:coLot.n,term:coTerm,name:$('#coName').value.trim(),email:$('#coEmail').value.trim(),phone:$('#coPhone').value,giftTo:coGift?$('#coGiftTo').value.trim():'',c1:$('#c1').checked,c2:$('#c2').checked,c3:$('#c3').checked};
+ try{const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const j=await r.json();
+  if(j.ok&&j.link){btn.textContent='Переходим к оплате…';location.href=j.link;return}
+  throw new Error(j.error||'err')}
+ catch(err){$('#coErr').textContent='Не получилось открыть оплату автоматически. Нажми «Оформить через менеджера», он пришлёт ссылку на оплату за пару минут. Твои данные мы уже получили.';$('#coErr').hidden=false;$('#coErr').scrollIntoView({block:'nearest'});
+  $('#coMgr').href=MGR+'?text='+encodeURIComponent(`Хочу лот ${coLot.n} «${coLot.name}»`+(coGift?' в подарок':'')+(coTerm?`, рассрочка на ${coTerm} мес`:'')+`. ${body.name}, ${body.phone}, ${body.email}`);
+  btn.innerHTML='Перейти к оплате <span>→</span>';check();}
+});
 // swipe down to close on phone
 let sy=null;const sh=$('#sheet'),sbd=$('#sBody');sbd.addEventListener('touchstart',e=>{sy=sbd.scrollTop<=0?e.touches[0].clientY:null},{passive:true});
 sbd.addEventListener('touchmove',e=>{if(sy===null)return;const d=e.touches[0].clientY-sy;if(d>0)sh.style.transform=`translateY(${d}px)`},{passive:true});
