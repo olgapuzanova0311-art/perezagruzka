@@ -192,6 +192,9 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
 .final p{color:#b7c0d8;font-size:16px;line-height:1.5;margin:18px auto 26px;max-width:40ch}
 .final .go{max-width:360px;margin:0 auto}
 .foot{font:400 12px var(--mono);color:var(--mute);margin-top:48px;line-height:1.7}
+.foot a{color:var(--ice);text-decoration:underline;text-underline-offset:3px;padding:6px 2px}
+.foot a:hover{color:#fff}
+.final{padding-bottom:140px}
 
 /* sticky mobile bar */
 .dock{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:10px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));display:flex;gap:10px;align-items:center;justify-content:space-between;background:rgba(6,8,12,.8);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .4s}
@@ -354,7 +357,7 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
     <h2>Раз в год.<br>Только до 23:23</h2>
     <p>Следующий мой день рождения будет только через год, и таких цен до него не будет.</p>
     <a class="go" href="#gifts">Выбрать подарок <span>↑</span></a>
-    <div class="foot">ИП Пузанова О.В. · канал t.me/aivwb · менеджер t.me/puzanovateam</div>
+    <div class="foot">ИП Пузанова О.В. · <a href="https://t.me/aivwb" target="_blank" rel="noopener">канал @aivwb</a> · <a href="https://t.me/puzanovateam" target="_blank" rel="noopener">менеджер @puzanovateam</a></div>
   </div>
 </section>
 
@@ -473,7 +476,7 @@ const tick=()=>{let s=Math.max(0,(T-Date.now())/1000|0);const d=s/86400|0;s%=864
  const b=document.querySelectorAll('[data-cd] b');b[0].textContent=d;b[1].textContent=p(h);b[2].textContent=p(m);b[3].textContent=p(s);
  document.querySelector('[data-cdt]').textContent=(d?d+'д ':'')+p(h)+':'+p(m)+':'+p(s);};tick();setInterval(tick,1000);
 // dock
-const dock=$('#dock');const hero=document.querySelector('.hero');new IntersectionObserver(es=>dock.classList.toggle('on',!es[0].isIntersecting)).observe(hero);
+const dock=$('#dock');const hero=document.querySelector('.hero');let hv=true,fv=false;const dk=()=>dock.classList.toggle('on',!hv&&!fv);new IntersectionObserver(es=>{hv=es[0].isIntersecting;dk()}).observe(hero);new IntersectionObserver(es=>{fv=es[0].isIntersecting;dk()}).observe(document.querySelector('.final'));
 // phone tilt → boxes lean (works on the real site; asks iOS permission on first tap)
 let tiltOn=false;function tilt(e){const gx=Math.max(-20,Math.min(20,e.gamma||0)),gy=Math.max(-20,Math.min(20,(e.beta||45)-45));
  document.documentElement.style.setProperty('--tx',gx/20);document.documentElement.style.setProperty('--ty',gy/20);}
