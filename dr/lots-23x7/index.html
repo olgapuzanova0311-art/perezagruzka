@@ -84,7 +84,12 @@ h2.sec em{font-style:normal;background:linear-gradient(100deg,#8a95b5,#fff 30%,#
 .gift .who{color:var(--ice);text-align:right}
 .gift h3{font:500 17px/1.2 var(--sans);letter-spacing:-.02em;margin:0;text-wrap:balance}
 .gift .p{font:500 22px/1 var(--sans);letter-spacing:-.03em}
-.gift .tap{font:400 11px var(--mono);color:#a3abc2}
+.gift .tap{align-self:flex-start;font:600 12px var(--sans);color:#05060a;background:#fff;padding:7px 12px;border-radius:99px;box-shadow:0 4px 18px rgba(126,160,255,.35);transition:transform .2s}
+.gift:hover .tap{transform:translateY(-2px)}
+.gift .tap{white-space:nowrap}.gift .tap .lg{display:none}
+@media(min-width:900px){.gift .tap .lg{display:inline}.gift .tap .sm{display:none}}
+.gift.big .tap .lg{display:inline}.gift.big .tap .sm{display:none}
+.gift.big .tap{font-size:13px;padding:8px 14px}
 .gift.big h3{font-size:22px}.gift.big .p{font-size:30px}
 .gift.seen::after{content:"открыт";position:absolute;top:12px;right:12px;font:500 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#05060a;background:var(--ice);padding:3px 6px;border-radius:6px}
 
@@ -144,6 +149,8 @@ h2.sec em{font-style:normal;background:linear-gradient(100deg,#8a95b5,#fff 30%,#
 .mo small{display:block;font:400 11px var(--mono);color:var(--mute);letter-spacing:.04em;margin-top:2px;text-align:right}
 .cta{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:10px;height:56px;border-radius:16px;background:#fff;color:#05060a;font:600 16px var(--sans);text-decoration:none;box-shadow:0 10px 40px rgba(61,107,255,.45)}
 .cta2{margin-top:8px;display:flex;align-items:center;justify-content:center;height:50px;border-radius:16px;border:1px solid rgba(255,255,255,.18);color:#fff;text-decoration:none;font:500 15px var(--sans)}
+.giftbtn{border-color:rgba(126,160,255,.55);background:linear-gradient(90deg,rgba(61,107,255,.22),rgba(126,160,255,.08));font-weight:600}
+.giftbtn:hover{background:linear-gradient(90deg,rgba(61,107,255,.35),rgba(126,160,255,.15))}
 .seats{display:flex;justify-content:space-between;font:400 12px var(--mono);color:var(--mute);margin-top:14px}
 .nav{display:flex;justify-content:space-between;margin-top:18px;gap:8px}
 .nav button{all:unset;cursor:pointer;font:500 13px var(--sans);color:#c3cbe0;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.05)}
@@ -191,6 +198,22 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
 .dock .t small{display:block;color:var(--mute);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
 .dock a{display:inline-flex;align-items:center;height:44px;padding:0 18px;border-radius:12px;background:#fff;color:#05060a;font:600 14px var(--sans);text-decoration:none}
 @media(min-width:900px){.dock{left:50%;right:auto;bottom:18px;transform:translate(-50%,160%);border-radius:18px;border:1px solid var(--line);padding:10px 10px 10px 18px;gap:24px}.dock.on{transform:translate(-50%,0)}}
+
+/* desktop/laptop fit: hero must fit one screen, including short laptop windows */
+.hero h1{word-spacing:.12em}
+@media(max-width:899px){.hphoto{max-width:520px}}
+@media(min-width:900px){
+  .hero{padding-block:24px 48px}
+  .hgrid{align-items:center;margin-top:24px;gap:40px}
+  .hero h1{font-size:clamp(72px,min(13vw,22vh),196px)}
+  .hero .lead{font-size:clamp(17px,min(1.8vw,3vh),24px)}
+  .hphoto{aspect-ratio:auto;height:min(62vh,600px);min-height:300px}
+  .side{max-width:440px;justify-self:end;width:100%}
+  .go{height:52px}
+}
+@media(min-width:900px) and (max-height:700px){
+  .hphoto .cdbox{padding:12px}.cd b{font-size:22px}.cd div{padding:6px 0}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -260,7 +283,7 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
       <details><summary>Что будет после 23:23?</summary><p>Цены дня рождения закончатся. Лот 1 закроется совсем, остальные вернутся к обычной цене до следующего дня рождения.</p></details>
       <details><summary>Как работает рассрочка?</summary><p>Это банковская рассрочка до 12 месяцев без процентов и переплат. В карточке каждого лота видно, сколько выйдет в месяц на 3, 6 или 12 месяцев. Оформляется онлайн за несколько минут.</p></details>
       <details><summary>Можно оплатить от компании?</summary><p>Да, выставим счёт на ИП или ООО. Напиши менеджеру реквизиты.</p></details>
-      <details><summary>Можно взять лот в подарок другому человеку?</summary><p>Можно. Напиши менеджеру, кому дарим, и мы оформим доступ на этого человека.</p></details>
+      <details><summary>Можно купить лот в подарок?</summary><p>Да. Открой коробку и нажми «Купить в подарок». Менеджер уточнит, кому дарим, оформит доступ на этого человека и пришлёт красивый сертификат, который можно переслать.</p></details>
       <details><summary>Не понимаю, какой лот мой</summary><p>Напиши менеджеру «Помоги выбрать» и пару слов о себе. Подскажем честно, даже если это самый недорогой лот.</p></details>
     </div>
   </div>
@@ -289,6 +312,7 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
     <div class="price"><b class="num" id="sPrice"></b><s id="sOld"></s></div>
     <div class="inst" id="sInst"><div class="k">Рассрочка без процентов</div><div class="row"><div class="seg" role="group" aria-label="Срок рассрочки" id="sSeg"></div><span class="mo num" id="sMo"></span></div></div>
     <a class="cta" id="sCta" target="_blank" rel="noopener" href="https://t.me/puzanovateam">Забрать лот <span>→</span></a>
+    <a class="cta2 giftbtn" id="sGift" target="_blank" rel="noopener" href="https://t.me/puzanovateam">🎁 Купить в подарок</a>
     <a class="cta2" id="sCta2" target="_blank" rel="noopener" href="https://t.me/puzanovateam">Задать вопрос менеджеру</a>
     <div class="seats"><span id="sSeats"></span><span>рассрочка 0% · счёт для ИП и ООО</span></div>
     <div class="nav"><button type="button" id="sPrev">← Предыдущий</button><button type="button" id="sNext">Следующий →</button></div>
@@ -333,7 +357,7 @@ LOTS.forEach((l,i)=>{const b=document.createElement('button');b.type='button';b.
  b.setAttribute('aria-label',`Открыть лот ${l.n}: ${l.name}`);
  b.innerHTML=`<div class="meta"><span>Лот 0${l.n}</span><span class="who">${l.who}</span></div>
  <div class="box"><div class="lid chrome"><div class="rib"></div><div class="bow"></div></div><div class="body chrome"><div class="rib"></div></div><span class="no">0${l.n}</span><div class="burst"></div></div>
- <h3>${l.name}</h3><div class="p num">${fmt(l.price)} ₽</div><div class="tap">нажми, чтобы открыть</div>`;
+ <h3>${l.name}</h3><div class="p num">${fmt(l.price)} ₽</div><div class="tap">🎁 <span class="lg">Нажми, чтобы открыть</span><span class="sm">Открыть</span></div>`;
  b.onclick=()=>openBox(i,b);grid.appendChild(b);});
 // filters
 document.querySelectorAll('.filters button').forEach(f=>f.onclick=()=>{document.querySelectorAll('.filters button').forEach(x=>x.setAttribute('aria-pressed',x===f));
@@ -361,6 +385,7 @@ function render(){const l=LOTS[cur];seen.add(cur);upd();
   $('#sMo').innerHTML=`${fmt(Math.ceil(l.price/term))} ₽/мес<small>${term} платежей, без переплаты</small>`;}
  const msg=t=>MGR+'?text='+encodeURIComponent(t);
  $('#sCta').href=msg(`Хочу лот ${l.n} «${l.name}»`+(l.inst?`, рассрочка на ${term} мес или оплата сразу`:''));
+ $('#sGift').href=msg(`Хочу купить лот ${l.n} «${l.name}» в подарок другому человеку`);
  $('#sCta2').href=msg(`У меня вопрос по лоту ${l.n} «${l.name}»`);}
 function show(i){cur=i;render();ov.hidden=false;requestAnimationFrame(()=>ov.classList.add('on'));document.body.style.overflow='hidden';$('#sClose').focus();}
 function hide(){ov.classList.remove('on');document.body.style.overflow='';setTimeout(()=>{ov.hidden=true},300);lastFocus&&lastFocus.focus();}
