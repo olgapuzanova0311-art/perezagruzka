@@ -270,6 +270,43 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
   .sheet h3{font-size:26px;margin-top:8px}.lst li{padding:7px 0;font-size:13.5px}
   .inst{margin-top:10px;padding:10px}.btns .cta{height:48px}.btns .cta2{height:42px}.dq{height:38px}
 }
+
+/* big lot cards */
+.grid{grid-template-columns:minmax(0,1fr)!important;gap:16px}
+.gift{all:unset;box-sizing:border-box;position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:22px 18px;border-radius:28px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));border:1px solid var(--line);cursor:pointer;transition:opacity .35s,transform .35s,border-color .35s;min-width:0;-webkit-tap-highlight-color:transparent}
+.gift.big{grid-column:auto;border-color:rgba(126,160,255,.45);box-shadow:0 0 60px rgba(61,107,255,.18)}
+.gvis{display:grid;place-items:center;min-height:170px}
+.gvis .box{width:150px;max-width:none;margin:34px auto 8px}
+.gift .meta{display:flex;justify-content:space-between;gap:8px;font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.gift h3{font:500 clamp(26px,5.5vw,36px)/1.08 var(--sans);letter-spacing:-.035em;margin:10px 0 0;text-wrap:balance}
+.pp{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-top:10px}
+.pp .p{font:500 clamp(30px,6vw,42px)/1 var(--sans);letter-spacing:-.04em;background:linear-gradient(100deg,#fff,#b9ccff 45%,#fff 80%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pp s{color:var(--mute);font-size:15px}
+.pp .pm{font:500 14px var(--sans);color:#c7d0ea}
+.why4{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin-top:18px}
+.why4>div{padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.035);border:1px solid var(--line)}
+.why4 b{display:block;font:500 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ice)}
+.why4 p{margin:5px 0 0;font:400 15px/1.45 var(--sans);color:#e2e7f4}
+.gift .tap{all:unset;box-sizing:border-box;cursor:pointer;margin-top:18px;display:flex;align-items:center;justify-content:center;gap:10px;height:54px;border-radius:16px;background:#fff;color:#05060a;font:600 16px var(--sans);box-shadow:0 10px 34px rgba(61,107,255,.4);white-space:nowrap;align-self:auto;padding:0 20px}
+.gift .tap span{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#05060a;color:#fff;font-size:13px;transition:transform .3s}
+.gift:hover .tap span{transform:translateX(4px)}
+.gift:hover .box{animation:shake .6s ease-in-out}
+.gift.seen::after{top:16px;right:16px}
+/* secret box: the one orange accent */
+.gift.secret{border-color:rgba(232,116,79,.5);background:linear-gradient(160deg,rgba(232,116,79,.14),rgba(255,255,255,.015) 55%)}
+.gift.secret .chrome{background:linear-gradient(135deg,#2a1610 0%,#5a2c1d 30%,#120a08 55%,#7a3a24 80%,#ffb79c 100%);background-size:200% 200%}
+.gift.secret .rib{background:linear-gradient(180deg,#ffc2ab,#e8744f 60%,#b54a28);box-shadow:0 0 14px rgba(232,116,79,.8)}
+.gift.secret .bow::before,.gift.secret .bow::after{border-color:#f08a64;box-shadow:0 0 12px rgba(232,116,79,.8),inset 0 0 8px rgba(255,255,255,.3)}
+.gift.secret .no{font:700 30px var(--sans);left:auto;right:16%;bottom:14%;color:#ffd6c6}
+.gift.secret .box::before{background:radial-gradient(closest-side,rgba(232,116,79,.6),transparent)}
+.gift.secret .who,.gift.secret .why4 b{color:#ffb79c}
+.gift.secret .pp .p{background:linear-gradient(100deg,#fff,#ffc2ab 45%,#fff 80%);-webkit-background-clip:text;background-clip:text}
+@media(min-width:900px){
+  .gift{grid-template-columns:240px minmax(0,1fr);gap:40px;padding:34px 40px;align-items:center}
+  .gvis .box{width:200px}
+  .why4{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .gift .tap{justify-self:start;width:auto;min-width:260px}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -284,10 +321,10 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
       <div>
         <div class="k">Лоты дня рождения</div>
         <h1>Мне 23</h1>
-        <p class="lead blurin" style="animation-delay:.15s">Поэтому все лоты <b>по 23</b>. Семь подарков, раз в год и только до 23:23.</p>
+        <p class="lead blurin" style="animation-delay:.15s">Поэтому все лоты <b>по 23</b>. Восемь подарков, раз в год и только до 23:23.</p>
         <div class="stats blurin" style="animation-delay:.25s">
-          <div><b>7</b><span>подарков в коробках</span></div>
-          <div><b>от 2 323 ₽</b><span>цены дня рождения</span></div>
+          <div><b>8</b><span>подарков в коробках</span></div>
+          <div><b>от 923 ₽</b><span>цены дня рождения</span></div>
           <div><b>0%</b><span>рассрочка до 12 мес</span></div>
         </div>
         <a class="cue" href="#gifts"><span class="arr" aria-hidden="true"><i></i></span><span>Листай вниз,<br>там подарки</span></a>
@@ -306,9 +343,9 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
 <section class="gifts gut" id="gifts">
   <div class="wrap">
     <div class="ghead">
-      <div><div class="k">7 коробок</div><h2 class="sec">Нажми на подарок, <em>он откроется</em></h2>
-      <p>В каждой коробке лот: что внутри, кому подойдёт, сколько стоит и сколько выйдет в месяц в рассрочку.</p></div>
-      <div class="progress num"><span id="openedTxt">Открыто 0 из 7</span><span class="bar"><i id="openedBar"></i></span></div>
+      <div><div class="k">8 коробок</div><h2 class="sec">Нажми на подарок, <em>он откроется</em></h2>
+      <p>У каждого лота видно, что ты получишь и почему брать сейчас. Открой коробку, чтобы увидеть всё целиком и забрать.</p></div>
+      <div class="progress num"><span id="openedTxt">Открыто 0 из 8</span><span class="bar"><i id="openedBar"></i></span></div>
     </div>
     <div class="filters" role="group" aria-label="Фильтр лотов">
       <button type="button" data-f="all" aria-pressed="true">Все</button>
@@ -391,29 +428,65 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
 <script>
 /* ====== ЛОТЫ: правь здесь ====== */
 const LOTS=[
- {n:1,t:'self',who:'клуб',name:'Клуб ИИ: месяц со мной',price:2323,old:0,seats:'до 23:23',inst:false,
+ {n:1,t:'self',who:'тайная коробка',name:'Тайная коробка',price:923,old:0,seats:'ограничено, до 23:23',inst:false,secret:true,
+  why:'Самый простой способ проверить, как я работаю, и получить сюрприз',
+  get:'Один из моих продуктов, который обычно стоит в несколько раз дороже 923 ₽. Что именно, узнаешь после оплаты',
+  now:'Тайные коробки бывают только в мой день рождения',
+  later:'Коробок ограниченное количество. В 23:23 оставшиеся сгорят',
+  note:'Что внутри, не скажу 🤫 Обещаю одно: внутри то, что обычно стоит в несколько раз дороже, чем ты заплатишь',
+  for:'Тем, кто любит сюрпризы и хочет начать со мной с маленькой суммы',
+  items:['Один из моих продуктов, курсов или материалов','Что внутри, узнаешь сразу после оплаты','Одна коробка в одни руки']},
+ {n:2,t:'self',who:'клуб',name:'Клуб ИИ: месяц со мной',price:2323,old:0,seats:'до 23:23',inst:false,
+  why:'Каждую неделю внедряешь что-то новое с нейросетями и не отстаёшь от тех, кто уже всё автоматизировал',
+  get:'Месяц в клубе: новые инструменты и промпты каждую неделю, живой эфир со мной и чат участников',
+  now:'Вход в клуб за 2 323 ₽ только в мой день рождения',
+  later:'В 23:23 лот сгорит, и войти по этой цене будет нельзя',
   for:'Тем, кто хочет быть в теме нейросетей и каждую неделю внедрять что-то новое, без долгих курсов',
   items:['Каждую неделю новые инструменты и готовые промпты под задачи бизнеса','Живой эфир раз в неделю, отвечаю на ваши вопросы','Чат участников клуба, где можно спросить и подсмотреть идеи','Записи всех встреч клуба']},
- {n:2,t:'team',who:'делаем за тебя',name:'ИИ-офис из 6 помощников под ключ',price:22223,old:0,seats:'10 мест',inst:true,
+ {n:3,t:'team',who:'делаем за тебя',name:'ИИ-офис из 6 помощников под ключ',price:22223,old:0,seats:'10 мест',inst:true,
+  why:'6 ИИ-помощников снимут с тебя рутину, а настроит всё моя команда',
+  get:'Маркетолог, продажник, аналитик, ассистент, рекрутер и менеджер маркетплейсов. Запуск за 14 дней',
+  now:'Команда берёт только 10 проектов, чтобы запустить всех за 14 дней',
+  later:'В 23:23 лот сгорит. Под ключ за такую цену мы больше не настраиваем',
   for:'Собственникам, которые тянут всё на себе или держат людей на рутине. Команда всё настроит, тебе нужно только рассказать, что болит',
   items:['ИИ-маркетолог: пишет посты и сценарии роликов в твоём стиле','ИИ-продажник: отвечает на заявки и вопросы клиентов 24/7','ИИ-аналитик: каждое утро присылает отчёт по продажам и деньгам','ИИ-ассистент: разбирает почту, задачи и встречи','ИИ-рекрутер: пишет вакансии и отбирает отклики','ИИ-менеджер маркетплейсов: отвечает на отзывы и вопросы покупателей и следит за остатками','Работают в Telegram, в почте, на WB и Ozon. Запуск за 14 дней, обучение команды и месяц поддержки']},
- {n:3,t:'self',who:'в записи',name:'Все курсы в записи на год',price:32323,old:0,seats:'без лимита до 23:23',inst:true,
+ {n:4,t:'self',who:'в записи',name:'Все курсы в записи на год',price:32323,old:0,seats:'без лимита до 23:23',inst:true,
+  why:'Больше 150 часов: всё, чему я учила, в одном доступе',
+  get:'6 потоков курса по нейросетям, лагерь по Claude, 3 спринта по фотоконтенту и ВАЙБкодер. Доступ на год',
+  now:'Все курсы стоят дешевле, чем один ВАЙБкодер отдельно',
+  later:'Все курсы одним доступом мы больше продавать не будем. В 23:23 лот сгорит',
   for:'Тем, кто учится вечером в своём темпе и хочет забрать всё сразу',
   items:['Больше 150 часов учебного материала','6 потоков курса по нейросетям','Лагерь по Claude','3 спринта по фотоконтенту: фото и инфографика для карточек нейросетью','ВАЙБкодер: сайты, боты и ИИ-помощники без программирования','Записи созвонов с кураторами и маршрут «с чего начать»','Доступ на 12 месяцев']},
- {n:4,t:'self',who:'вживую с кураторами',name:'Весь 2027 со мной: все курсы вживую',price:73323,old:0,seats:'23 места',inst:true,
+ {n:5,t:'self',who:'вживую с кураторами',name:'Весь 2027 со мной: все курсы вживую',price:73323,old:0,seats:'23 места',inst:true,
+  why:'Год учёбы вживую с кураторами, чтобы найти новое направление или запасной доход',
+  get:'Все живые потоки 2027: ВАЙБкодер, курс по трафику, все новые курсы и всё из записей',
+  now:'Только ВАЙБкодер и курс по трафику отдельно стоят больше 150 000 ₽',
+  later:'Доступ на весь год продаётся только сегодня и только 23 местам',
   for:'Тем, кто ищет новое направление или запасной доход, если на маркетплейсах станет совсем грустно. Весь год учишься вживую с кураторами',
   items:['ВАЙБкодер: делать сайты, ботов и ИИ-помощников на заказ без программирования','Курс по трафику: как привести покупателей из соцсетей и от блогеров','Все новые курсы 2027 года','Кураторы и чат на каждом потоке','Всё из лота «Все курсы в записи на год»','Отдельно только ВАЙБкодер и курс по трафику стоят больше 150 000 ₽']},
- {n:5,t:'team',who:'делаем за тебя',name:'Ролики для бренда без тебя в кадре',price:123323,old:0,seats:'15 мест',inst:true,
+ {n:6,t:'team',who:'делаем за тебя',name:'Ролики для бренда без тебя в кадре',price:123323,old:0,seats:'15 мест',inst:true,
+  why:'Соцсети приводят клиентов, а ты не тратишь на них ни минуты',
+  get:'Минимум 500 000 просмотров во всех соцсетях. Ролики делает нейросеть или наши ребята, публикуем мы',
+  now:'Команда берёт только 15 брендов, на большее у нас не хватит креаторов',
+  later:'В 23:23 лот сгорит, и места не вернутся',
   for:'Тем, у кого всё держится на одной площадке и нет времени снимать рилсы. Ролики делаем мы, а про тебя узнают люди из соцсетей',
   items:['Минимум 500 000 просмотров твоих роликов во всех соцсетях, без твоего участия','Ролики делает нейросеть или нанятые нами ребята, на выбор','Сценарии, производство и публикации берёт на себя команда','Всё из лота «Весь 2027 со мной»']},
- {n:6,t:'me',who:'лично со мной',name:'3 месяца лично с Олей',price:223223,old:300000,seats:'5 мест',inst:true,
+ {n:7,t:'me',who:'лично со мной',name:'3 месяца лично с Олей',price:223223,old:300000,seats:'5 мест',inst:true,
+  why:'Каждую неделю вместе принимаем решения по деньгам, команде и росту',
+  get:'12 встреч со мной, стратегия на 3 месяца, все мои курсы и поддержка в чате',
+  now:'223 223 ₽ вместо 300 000 ₽',
+  later:'Лично я беру только 5 человек, больше не потяну',
   note:'Формат: я твой личный советник. Каждую неделю вместе принимаем решения, а делаешь ты и твоя команда',
   for:'Собственникам, которые устали тащить всё на себе и хотят понять, куда двигаться дальше',
   items:['Стратегическая сессия на старте и цель на 3 месяца','Встреча каждую неделю, темп под тебя','Вместе решаем, что делать с деньгами, кассовыми разрывами, ценами, командой, трафиком и новым направлением','Ресурсы моей команды точечно, когда нужно','Все мои курсы и 3 месяца поддержки в чате']},
- {n:7,t:'me',who:'лично со мной',name:'Год вместе: строим бизнес в соцсетях',price:923232,old:0,seats:'2 места',inst:true,big:true,
+ {n:8,t:'me',who:'лично со мной',name:'Год вместе: строим бизнес в соцсетях',price:923232,old:0,seats:'2 места',inst:true,big:true,
+  why:'Я рядом весь год, а моя команда руками строит твои соцсети, воронку и запуск',
+  get:'Упаковка, соцсети до 5 млн просмотров, клиенты из соцсетей, запуск продукта и найм команды',
+  now:'Если собрать это отдельно, выйдет больше 1 000 000 ₽',
+  later:'Всего 2 места на весь 2027 год',
   note:'Формат: делаем вместе. Я рядом весь год, а моя команда руками строит тебе соцсети, ролики, воронку и запуск. Доли в бизнесе не беру. Если собрать отдельно 4 раза по 3 месяца лично и ролики для бренда, выйдет больше 1 000 000 ₽, и это ещё без найма и запуска продукта',
   for:'Тем, у кого есть товар или экспертиза и кто хочет свою упаковку, свои соцсети и свою команду',
-  items:['12 месяцев встреч со мной каждую неделю вместо 3','Позиционирование и упаковка тебя и продукта','Моя команда ведёт твои соцсети и ролики до 5 млн просмотров','Система, которая приводит клиентов из соцсетей','Запуск продукта с нуля','Найм команды и кураторов, и мы вместе учим их управлять','Всё из лотов 2, 4 и 5']}
+  items:['12 месяцев встреч со мной каждую неделю вместо 3','Позиционирование и упаковка тебя и продукта','Моя команда ведёт твои соцсети и ролики до 5 млн просмотров','Система, которая приводит клиентов из соцсетей','Запуск продукта с нуля','Найм команды и кураторов, и мы вместе учим их управлять','Всё из лотов 3, 5 и 6']}
 ];
 const MGR='https://t.me/puzanovateam';
 /* =============================== */
@@ -422,18 +495,20 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const fmt=n=>n.toLocaleString('ru-RU').replace(/ | |,/g,' ');
 const $=s=>document.querySelector(s);
 const grid=$('#grid');
-LOTS.forEach((l,i)=>{const b=document.createElement('button');b.type='button';b.className='gift'+(l.big?' big':'');b.dataset.t=l.t;b.style.setProperty('--i',i);
- b.setAttribute('aria-label',`Открыть лот ${l.n}: ${l.name}`);
- b.innerHTML=`<div class="meta"><span>Лот 0${l.n}</span><span class="who">${l.who}</span></div>
- <div class="box"><div class="lid chrome"><div class="rib"></div><div class="bow"></div></div><div class="body chrome"><div class="rib"></div></div><span class="no">0${l.n}</span><div class="burst"></div></div>
- <h3>${l.name}</h3><div class="p num">${fmt(l.price)} ₽</div><div class="tap">🎁 <span class="lg">Нажми, чтобы открыть</span><span class="sm">Открыть</span></div>`;
- b.onclick=()=>openBox(i,b);grid.appendChild(b);});
+LOTS.forEach((l,i)=>{const b=document.createElement('article');b.className='gift'+(l.big?' big':'')+(l.secret?' secret':'');b.dataset.t=l.t;b.style.setProperty('--i',i);
+ const mo=l.inst?`<span class="pm">или ${fmt(Math.ceil(l.price/12))} ₽/мес</span>`:'';
+ b.innerHTML=`<div class="gvis"><div class="box"><div class="lid chrome"><div class="rib"></div><div class="bow"></div></div><div class="body chrome"><div class="rib"></div></div><span class="no">${l.secret?'?':'0'+l.n}</span><div class="burst"></div></div></div>
+ <div class="gtxt"><div class="meta"><span>Лот 0${l.n}</span><span class="who">${l.who}</span></div>
+ <h3>${l.name}</h3><div class="pp"><span class="p num">${fmt(l.price)} ₽</span>${l.old?`<s>${fmt(l.old)} ₽</s>`:''}${mo}</div>
+ <div class="why4"><div><b>Почему этот лот</b><p>${l.why}</p></div><div><b>Что получишь</b><p>${l.get}</p></div><div><b>Почему сейчас</b><p>${l.now}</p></div><div><b>Почему потом нельзя</b><p>${l.later}</p></div></div>
+ <button type="button" class="tap">🎁 ${l.secret?'Открыть тайную коробку':'Открыть подарок'} <span>→</span></button></div>`;
+ b.addEventListener('click',()=>openBox(i,b));grid.appendChild(b);});
 // filters
 document.querySelectorAll('.filters button').forEach(f=>f.onclick=()=>{document.querySelectorAll('.filters button').forEach(x=>x.setAttribute('aria-pressed',x===f));
  grid.querySelectorAll('.gift').forEach(g=>g.classList.toggle('dim',f.dataset.f!=='all'&&g.dataset.t!==f.dataset.f));});
 // opened progress
-const seen=new Set();try{JSON.parse(localStorage.getItem('lots23seen')||'[]').forEach(x=>seen.add(x))}catch(e){}
-const upd=()=>{grid.querySelectorAll('.gift').forEach((g,i)=>g.classList.toggle('seen',seen.has(i)));$('#openedTxt').textContent=`Открыто ${seen.size} из 7`;$('#openedBar').style.width=seen.size/7*100+'%';try{localStorage.setItem('lots23seen',JSON.stringify([...seen]))}catch(e){}};upd();
+const seen=new Set();try{JSON.parse(localStorage.getItem('lots23seen2')||'[]').forEach(x=>seen.add(x))}catch(e){}
+const upd=()=>{grid.querySelectorAll('.gift').forEach((g,i)=>g.classList.toggle('seen',seen.has(i)));$('#openedTxt').textContent=`Открыто ${seen.size} из ${LOTS.length}`;$('#openedBar').style.width=seen.size/LOTS.length*100+'%';try{localStorage.setItem('lots23seen2',JSON.stringify([...seen]))}catch(e){}};upd();
 // confetti
 function sparks(el){if(reduce)return;const r=el.querySelector('.box').getBoundingClientRect();const cx=r.left+r.width/2,cy=r.top+r.height*.35;const cols=['#fff','#b9ccff','#3d6bff','#7ea0ff','#e7ecff'];
  for(let k=0;k<26;k++){const s=document.createElement('i');s.className='spark';s.style.background=cols[k%5];s.style.left=cx+'px';s.style.top=cy+'px';document.body.appendChild(s);
