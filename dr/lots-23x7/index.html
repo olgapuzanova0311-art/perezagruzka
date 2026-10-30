@@ -372,6 +372,52 @@ body.sheet-on .tgw{opacity:0;pointer-events:none}
 .cof .sbuy .cta2{display:flex}
 .cof .cta{width:100%;border:0;cursor:pointer;margin-top:0}
 .cof .sbuy{display:flex;flex-direction:column;gap:8px}.cof .sbuy .cta2{margin-top:0}
+
+/* checkout fits one screen */
+.cof{max-width:880px!important;display:block!important;overflow:hidden}
+.cof .sbody{overflow:visible;padding:18px 18px calc(16px + env(safe-area-inset-bottom,0px))}
+.cohead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.cohead h3{font:500 22px/1.15 var(--sans);letter-spacing:-.03em;margin:4px 0 0;text-wrap:balance}
+.cof .x{position:static;flex:none}
+.cocols{display:grid;gap:12px;margin-top:10px}
+.cosum{margin:0 0 8px}.cosum b{font-size:28px}
+.cotm{margin-bottom:6px}.cotm button{padding:6px 11px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fl{margin-top:8px}.fl span{font-size:11.5px;margin-bottom:4px}.fl input{height:44px;font-size:16px}
+.chk{margin-top:0;gap:7px}.chk label{font-size:13px;line-height:1.35}.chk input{width:20px;height:20px}
+.all{font-size:12.5px;padding:0}
+.coerr{margin:8px 0 0;font-size:13px;padding:8px 10px}
+.cof .cta{height:52px;margin-top:12px}
+.coalt{display:flex;flex-direction:column;gap:4px;margin-top:8px;font:400 11.5px var(--sans);color:var(--mute)}
+.coalt a{color:var(--ice);text-decoration:none;font-weight:500;font-size:13px}
+@media(min-width:760px){
+  .cof .sbody{padding:26px 28px}
+  .cohead h3{font-size:28px}
+  .cocols{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:28px;margin-top:16px;align-items:end}
+  .cright{border-left:1px solid var(--line);padding-left:24px}
+  .cosum b{font-size:34px}
+  .chk label{font-size:13.5px}
+}
+@media(max-height:620px) and (min-width:760px){.cof .sbody{padding:18px 22px}.cohead h3{font-size:22px}.fl input{height:40px}.cof .cta{height:46px}}
+
+.gift.seen::after{content:none!important}
+.gift.seen .gvis{position:relative}
+.gift.seen .gvis::after{content:"✓ открыт";position:absolute;top:0;left:0;font:600 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#05060a;background:var(--ice);padding:4px 8px;border-radius:7px}
+@media(max-width:759px){
+  .fl span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .fl{margin-top:7px}.fl input{height:44px}
+  .cohead h3{font-size:19px}
+  .cosum{display:flex;align-items:baseline;gap:8px;margin:0 0 6px}.cosum b{font-size:24px}.cosum span{font-size:12.5px}
+  .cotm{margin-bottom:2px}
+  .chk{gap:6px}.chk label{font-size:12.5px}
+  .cof .cta{height:50px;margin-top:10px}
+  .coalt span{display:none}
+  .coalt{margin-top:8px;align-items:center}
+  .coerr{font-size:12.5px;padding:7px 10px;margin-top:6px}
+}
+@media(max-width:759px) and (max-height:700px){.fl input{height:41px}.cof .cta{height:46px;margin-top:8px}.cof .sbody{padding-top:14px}.chk{gap:5px}}
+@media(min-width:900px) and (max-height:640px){.cue{display:none}.stats{margin-top:14px}}
+.cof.err .chk{display:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -386,7 +432,7 @@ body.sheet-on .tgw{opacity:0;pointer-events:none}
       <div>
         <div class="k">Лоты дня рождения</div>
         <h1>Мне 23</h1>
-        <p class="lead blurin" style="animation-delay:.15s">Поэтому все лоты <b>по 23</b>. Восемь подарков, от тайной коробки за 923 ₽ до года работы вместе. Про каждый подробно рассказываю 3 ноября в 12:00 в канале @aivwb.</p>
+        <p class="lead blurin" style="animation-delay:.15s">Поэтому все лоты <b>по 23</b>. Раз в год я открываю доступ к тому, что нельзя купить остальные 364 дня. Если ты сейчас здесь, тебе повезло: любой лот можно забрать себе или подарить.</p>
         <div class="stats blurin" style="animation-delay:.25s">
           <div><b>8</b><span>подарков в коробках</span></div>
           <div><b>от 923 ₽</b><span>цены дня рождения</span></div>
@@ -478,26 +524,30 @@ body.sheet-on .tgw{opacity:0;pointer-events:none}
 <div class="ov co" id="co" hidden>
   <form class="sheet cof" id="coForm" novalidate role="dialog" aria-modal="true" aria-labelledby="coTitle">
     <div class="sbody">
-      <div class="shead"><span class="k" id="coMeta">Оформление</span><button class="x" id="coClose" type="button" aria-label="Закрыть">✕</button></div>
-      <h3 id="coTitle"></h3>
-      <div class="cosum"><b class="num" id="coPrice"></b><span id="coPay"></span></div>
-      <div class="seg cotm" role="group" aria-label="Как платить" id="coSeg"></div>
-      <label class="fl"><span>Имя</span><input id="coName" name="name" autocomplete="name" required placeholder="Как к тебе обращаться"></label>
-      <label class="fl"><span>Почта</span><input id="coEmail" name="email" type="email" autocomplete="email" required placeholder="name@mail.ru"></label>
-      <label class="fl"><span>Телефон</span><input id="coPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="+7 900 123-45-67"></label>
-      <label class="fl" id="coGiftRow" hidden><span>Кому дарим</span><input id="coGiftTo" name="giftTo" placeholder="Имя и телеграм получателя"></label>
-      <div class="chk">
-        <label><input type="checkbox" id="c1"><span>Принимаю условия <a data-doc="offer" target="_blank" rel="noopener">договора-оферты</a></span></label>
-        <label><input type="checkbox" id="c2"><span>Ознакомлен(а) с <a data-doc="policy" target="_blank" rel="noopener">политикой конфиденциальности</a></span></label>
-        <label><input type="checkbox" id="c3"><span>Даю <a data-doc="consent" target="_blank" rel="noopener">согласие на обработку персональных данных</a></span></label>
-        <button type="button" class="all" id="cAll">Отметить всё</button>
+      <div class="cohead"><div><span class="k" id="coMeta">Оформление</span><h3 id="coTitle"></h3></div><button class="x" id="coClose" type="button" aria-label="Закрыть">✕</button></div>
+      <div class="cocols">
+        <div class="cleft">
+          <div class="cosum"><b class="num" id="coPrice"></b><span id="coPay"></span></div>
+          <div class="seg cotm" role="group" aria-label="Как платить" id="coSeg"></div>
+          <div class="frow">
+            <label class="fl"><span>Имя</span><input id="coName" name="name" autocomplete="name" required placeholder="Имя"></label>
+            <label class="fl"><span>Телефон</span><input id="coPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="+7 900 123-45-67"></label>
+          </div>
+          <label class="fl"><span>Почта</span><input id="coEmail" name="email" type="email" autocomplete="email" required placeholder="name@mail.ru"></label>
+          <label class="fl" id="coGiftRow" hidden><span>Кому дарим</span><input id="coGiftTo" name="giftTo" placeholder="Имя и телеграм получателя"></label>
+        </div>
+        <div class="cright">
+          <div class="chk">
+            <label><input type="checkbox" id="c1"><span>Принимаю условия <a data-doc="offer" target="_blank" rel="noopener">договора-оферты</a></span></label>
+            <label><input type="checkbox" id="c2"><span>Ознакомлен(а) с <a data-doc="policy" target="_blank" rel="noopener">политикой конфиденциальности</a></span></label>
+            <label><input type="checkbox" id="c3"><span>Даю <a data-doc="consent" target="_blank" rel="noopener">согласие на обработку персональных данных</a></span></label>
+            <button type="button" class="all" id="cAll">Отметить всё</button>
+          </div>
+          <p class="coerr" id="coErr" role="alert" hidden></p>
+          <button class="cta" id="coGo" type="submit" disabled>Перейти к оплате <span>→</span></button>
+          <div class="coalt"><span>Карта · СБП · рассрочка на защищённой странице GetCourse</span><a id="coMgr" target="_blank" rel="noopener" href="https://t.me/puzanovateam">Оформить через менеджера →</a></div>
+        </div>
       </div>
-      <p class="coerr" id="coErr" role="alert" hidden></p>
-    </div>
-    <div class="sbuy">
-      <button class="cta" id="coGo" type="submit" disabled>Перейти к оплате <span>→</span></button>
-      <a class="cta2" id="coMgr" target="_blank" rel="noopener" href="https://t.me/puzanovateam">Оформить через менеджера</a>
-      <div class="seats"><span>Оплата на защищённой странице GetCourse</span><span>карта · СБП · рассрочка</span></div>
     </div>
   </form>
 </div>
@@ -662,7 +712,7 @@ function coRender(){const l=coLot;$('#coMeta').textContent=`Лот 0${l.n}`+(coG
  $('#coPay').textContent=coTerm?`${coTerm} платежей без переплаты, всего ${fmt(l.price)} ₽`:(l.inst?'одним платежом':'');
  $('#coGiftRow').hidden=!coGift;$('#coGo').innerHTML=`Перейти к оплате <span>→</span>`;
  $('#coMgr').href=MGR+'?text='+encodeURIComponent(`Хочу лот ${l.n} «${l.name}»`+(coGift?' в подарок':'')+(coTerm?`, рассрочка на ${coTerm} мес`:''));check();}
-function coOpen(gift){coLot=LOTS[cur];coGift=gift;coTerm=coLot.inst?term:0;if(!coLot.inst)coTerm=0;$('#coErr').hidden=true;coRender();co.hidden=false;requestAnimationFrame(()=>co.classList.add('on'));setTimeout(()=>$('#coName').focus(),300);}
+function coOpen(gift){coLot=LOTS[cur];coGift=gift;coTerm=coLot.inst?term:0;if(!coLot.inst)coTerm=0;$('#coErr').hidden=true;cf.classList.remove('err');coRender();co.hidden=false;requestAnimationFrame(()=>co.classList.add('on'));setTimeout(()=>$('#coName').focus(),300);}
 function coHide(){co.classList.remove('on');setTimeout(()=>{co.hidden=true},300);}
 $('#coClose').onclick=coHide;co.addEventListener('click',e=>{if(e.target===co)coHide()});
 addEventListener('keydown',e=>{if(!co.hidden&&e.key==='Escape'){e.stopImmediatePropagation();coHide()}},true);
@@ -673,7 +723,7 @@ cf.addEventListener('submit',async e=>{e.preventDefault();if(!valid())return;con
  try{const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const j=await r.json();
   if(j.ok&&j.link){btn.textContent='Переходим к оплате…';location.href=j.link;return}
   throw new Error(j.error||'err')}
- catch(err){$('#coErr').textContent='Не получилось открыть оплату автоматически. Нажми «Оформить через менеджера», он пришлёт ссылку на оплату за пару минут. Твои данные мы уже получили.';$('#coErr').hidden=false;$('#coErr').scrollIntoView({block:'nearest'});
+ catch(err){$('#coErr').textContent='Не получилось открыть оплату. Нажми «Оформить через менеджера» ниже, он пришлёт ссылку за пару минут.';$('#coErr').hidden=false;cf.classList.add('err');$('#coErr').scrollIntoView({block:'nearest'});
   $('#coMgr').href=MGR+'?text='+encodeURIComponent(`Хочу лот ${coLot.n} «${coLot.name}»`+(coGift?' в подарок':'')+(coTerm?`, рассрочка на ${coTerm} мес`:'')+`. ${body.name}, ${body.phone}, ${body.email}`);
   btn.innerHTML='Перейти к оплате <span>→</span>';check();}
 });
