@@ -313,6 +313,17 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
 }
 .gift.pop{animation:pop .45s cubic-bezier(.2,.8,.2,1)}
 @keyframes pop{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* telegram widget */
+.tgw{position:fixed;z-index:45;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:10px;text-decoration:none;transition:bottom .4s cubic-bezier(.2,.9,.2,1),transform .2s}
+.tgw:hover{transform:translateY(-2px)}
+.tgi{position:relative;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#37aee2,#1e96c8);box-shadow:0 10px 30px rgba(30,150,200,.5)}
+.tgi::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #37aee2;animation:tgr 2.2s ease-out infinite}
+@keyframes tgr{from{transform:scale(1);opacity:.8}to{transform:scale(1.6);opacity:0}}
+.tgl{font:600 14px var(--sans);color:#05060a;background:#fff;padding:10px 14px;border-radius:99px;box-shadow:0 8px 24px rgba(0,0,0,.35);white-space:nowrap}
+@media(max-width:899px){.tgl{display:none}.tgi{width:54px;height:54px}body.dock-on .tgw{bottom:calc(80px + env(safe-area-inset-bottom,0px))}}
+@media(min-width:900px){body.dock-on .tgw{bottom:24px}}
+body.sheet-on .tgw{opacity:0;pointer-events:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -406,6 +417,7 @@ details p{margin:0 0 18px;color:#a9b2c9;font-size:15px;line-height:1.55;max-widt
 
 <div class="dock" id="dock"><div class="t num"><small>до 23:23</small><span data-cdt>00:00:00</span></div><a href="#gifts">Открыть подарки</a></div>
 
+<a class="tgw" id="tgw" target="_blank" rel="noopener" href="https://t.me/puzanovateam?text=%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82!%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%20%D0%BB%D0%BE%D1%82%D1%8B%20%D0%B4%D0%BD%D1%8F%20%D1%80%D0%BE%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F" aria-label="Написать менеджеру в Telegram"><span class="tgl">Написать менеджеру</span><span class="tgi"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="#fff" d="M9.04 15.6 8.9 19.4c.4 0 .58-.17.8-.38l1.92-1.84 3.98 2.92c.73.4 1.25.19 1.45-.67l2.62-12.3c.24-1.08-.39-1.5-1.1-1.24L3.18 11.8c-1.05.41-1.04 1-.18 1.27l3.93 1.23 9.13-5.76c.43-.28.82-.12.5.16L9.04 15.6Z"/></svg></span></a>
 <div class="ov" id="ov" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sTitle" id="sheet">
     <div class="sbody" id="sBody">
@@ -539,8 +551,8 @@ function render(){const l=LOTS[cur];seen.add(cur);upd();
  $('#sGift').href=msg(`Хочу купить лот ${l.n} «${l.name}» в подарок другому человеку`);
  $('#sCta2').href=msg(`У меня вопрос по лоту ${l.n} «${l.name}»`);
  $('#sAsk').href=$('#sCta2').href;}
-function show(i){cur=i;render();ov.hidden=false;requestAnimationFrame(()=>ov.classList.add('on'));document.body.style.overflow='hidden';$('#sClose').focus();}
-function hide(){ov.classList.remove('on');document.body.style.overflow='';setTimeout(()=>{ov.hidden=true},300);lastFocus&&lastFocus.focus();}
+function show(i){cur=i;render();ov.hidden=false;document.body.classList.add('sheet-on');requestAnimationFrame(()=>ov.classList.add('on'));document.body.style.overflow='hidden';$('#sClose').focus();}
+function hide(){ov.classList.remove('on');document.body.classList.remove('sheet-on');document.body.style.overflow='';setTimeout(()=>{ov.hidden=true},300);lastFocus&&lastFocus.focus();}
 $('#sClose').onclick=hide;ov.addEventListener('click',e=>{if(e.target===ov)hide()});
 addEventListener('keydown',e=>{if(ov.hidden)return;if(e.key==='Escape')hide();if(e.key==='ArrowRight')$('#sNext').click();if(e.key==='ArrowLeft')$('#sPrev').click();});
 $('#sNext').onclick=()=>{cur=(cur+1)%LOTS.length;render();$('#sBody').scrollTop=0};
@@ -557,7 +569,7 @@ const tick=()=>{let s=Math.max(0,(T-Date.now())/1000|0);const d=s/86400|0;s%=864
  const b=document.querySelectorAll('[data-cd] b');b[0].textContent=d;b[1].textContent=p(h);b[2].textContent=p(m);b[3].textContent=p(s);
  document.querySelector('[data-cdt]').textContent=(d?d+'д ':'')+p(h)+':'+p(m)+':'+p(s);};tick();setInterval(tick,1000);
 // dock
-const dock=$('#dock');const hero=document.querySelector('.hero');let hv=true,fv=false;const dk=()=>dock.classList.toggle('on',!hv&&!fv);new IntersectionObserver(es=>{hv=es[0].isIntersecting;dk()}).observe(hero);new IntersectionObserver(es=>{fv=es[0].isIntersecting;dk()}).observe(document.querySelector('.final'));
+const dock=$('#dock');const hero=document.querySelector('.hero');let hv=true,fv=false;const dk=()=>{const on=!hv&&!fv;dock.classList.toggle('on',on);document.body.classList.toggle('dock-on',on)};new IntersectionObserver(es=>{hv=es[0].isIntersecting;dk()}).observe(hero);new IntersectionObserver(es=>{fv=es[0].isIntersecting;dk()}).observe(document.querySelector('.final'));
 // phone tilt → boxes lean (works on the real site; asks iOS permission on first tap)
 let tiltOn=false;function tilt(e){const gx=Math.max(-20,Math.min(20,e.gamma||0)),gy=Math.max(-20,Math.min(20,(e.beta||45)-45));
  document.documentElement.style.setProperty('--tx',gx/20);document.documentElement.style.setProperty('--ty',gy/20);}
