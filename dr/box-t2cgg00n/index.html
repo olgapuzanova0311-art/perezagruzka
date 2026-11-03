@@ -124,20 +124,51 @@ body.opened .bonus{animation:cardin .7s cubic-bezier(.2,.7,.2,1) both;animation-
 .guides{padding-block:40px 20px;scroll-margin-top:8px}
 .sec{font:500 clamp(32px,7vw,56px)/1.02 var(--sans);letter-spacing:-.045em;margin-top:10px}
 .tabs{position:sticky;top:0;z-index:20;margin-top:20px;padding-block:calc(10px + env(safe-area-inset-top,0px)) 10px;background:rgba(3,3,4,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.tabs .row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-.tab{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:6px;padding:10px 10px 9px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03);min-width:0}
-.tab .t{font:600 14px/1.15 var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tabs .row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.g-office{--c:#3d6bff;--c2:#b9ccff;--tint:rgba(61,107,255,.30);--edge:rgba(126,160,255,.5);--on:#fff}
+.g-zavod{--c:#e8744f;--c2:#f6b096;--tint:rgba(232,116,79,.28);--edge:rgba(242,160,127,.5);--on:#1a0b05}
+.g-dash{--c:#3fbf86;--c2:#a6e6c8;--tint:rgba(63,191,134,.24);--edge:rgba(120,214,170,.5);--on:#04140c}
+.tab{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:10px;row-gap:6px;padding:12px 14px;min-height:72px;border-radius:18px;border:1px solid var(--line);border-top:3px solid var(--c);background:rgba(255,255,255,.035);min-width:0;transition:background .25s,border-color .25s}
+.tab:hover{background:rgba(255,255,255,.07)}
+.tab .tn{grid-row:span 2;font:500 26px/1 var(--sans);letter-spacing:-.04em;color:var(--c2)}
+.tab .t{font:600 17px/1.15 var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tab .c{font:500 11px var(--mono);color:var(--mute)}
+.tab .bar{grid-column:1/-1}
 .tab .bar,.pbar2{height:3px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden}
-.tab .bar i,.pbar2 i{display:block;height:100%;width:0;background:var(--glow);transition:width .3s}
-.tab[aria-selected="true"]{background:#fff;color:#05060a;border-color:#fff}
-.tab[aria-selected="true"] .c{color:#4a5168}
-.tab[aria-selected="true"] .bar{background:rgba(0,0,0,.1)}
-.tab[aria-selected="true"] .bar i{background:var(--blue)}
+.tab .bar i,.pbar2 i{display:block;height:100%;width:0;background:var(--c2,var(--glow));transition:width .3s}
+.tab[aria-selected="true"]{background:var(--c);color:var(--on);border-color:var(--c)}
+.tab[aria-selected="true"] .tn{color:var(--on)}
+.tab[aria-selected="true"] .c{color:var(--on);opacity:.75}
+.tab[aria-selected="true"] .bar{background:rgba(0,0,0,.18)}
+.tab[aria-selected="true"] .bar i{background:var(--on)}
 .tab:focus-visible{outline:2px solid var(--ice);outline-offset:2px}
 .tab .sh{display:none}
-@media(max-width:480px){.tab .lg{display:none}.tab .sh{display:inline}.tab .t{font-size:13px}.sb{margin-left:-42px}.sc>label{font-size:17px}}
+@media(max-width:600px){.tab{grid-template-columns:minmax(0,1fr);padding:10px;min-height:64px;row-gap:4px}.tab .tn{grid-row:auto;font-size:18px}.tab .t{font-size:14px}}
+@media(max-width:480px){.tab .lg{display:none}.tab .sh{display:inline}.sb{margin-left:-42px}.sc>label{font-size:17px}}
 .panel{padding-top:28px}
+.gban{position:relative;overflow:hidden;isolation:isolate;display:grid;gap:14px;padding:26px 22px 22px;border-radius:28px;border:1px solid var(--edge);background:radial-gradient(120% 130% at 100% 0%,var(--tint),transparent 62%),linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01))}
+.gban .gnum{position:absolute;right:14px;top:-8px;z-index:-1;font:500 clamp(110px,26vw,190px)/1 var(--sans);letter-spacing:-.06em;color:var(--c);opacity:.22;pointer-events:none}
+.gban .k{color:var(--c2)}
+.gban h3{font:500 clamp(32px,7vw,54px)/1.02 var(--sans);letter-spacing:-.045em;max-width:16ch}
+.gban .lead{color:#d3d9e8;font-size:17px;max-width:60ch}
+.gban .pbar2 i{background:var(--c2)}
+.howto{margin-top:14px;border-radius:24px;padding:22px 20px;background:var(--panel);border:1px solid var(--edge)}
+.howto h4{font:500 clamp(24px,5vw,32px)/1.1 var(--sans);letter-spacing:-.035em}
+.hsteps{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:18px}
+.hsteps>li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start}
+.hn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:var(--on);font:600 17px var(--sans);flex:none}
+.hsteps b{display:block;font-size:17px;line-height:1.35;margin-bottom:6px}
+.hsteps p{color:#b7bfd4;font-size:15px}
+.hsteps ul{margin:4px 0 0;padding-left:18px;display:grid;gap:6px;color:#dfe6ff;font-size:15px}
+.hbtns{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin-top:10px}
+@media(min-width:640px){.hbtns{grid-template-columns:repeat(3,max-content)}}
+.hbtns .btn{min-height:50px;font-size:15px;padding:12px 18px}
+.hbtns .btn.main{background:var(--c);color:var(--on);box-shadow:none}
+.hbtns .btn.ok{background:var(--ok);color:#05060a;border-color:var(--ok)}
+.phrase{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:8px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:8px 8px 8px 14px;color:#fff;font-weight:500}
+.hfoot{margin-top:16px;color:var(--mute);font-size:14px}
+.nw{white-space:nowrap}
+.phrase{flex-wrap:wrap}.phrase span{flex:1 1 180px}
 .ghead{display:grid;gap:14px}
 .ghead h3{font:500 clamp(30px,6.4vw,48px)/1.04 var(--sans);letter-spacing:-.04em}
 .ghead .lead{color:#c3cbe0;font-size:17px;max-width:62ch}
@@ -307,23 +338,25 @@ footer{color:var(--mute);font-size:13px;padding-block:34px calc(40px + env(safe-
   </div>
   <div class="tabs" role="tablist" aria-label="Инструкции">
     <div class="wrap row">
-      <button class="tab" role="tab" id="tab-office" aria-controls="p-office" aria-selected="true"><span class="t">ИИ-офис</span><span class="c" data-c="office">0 / 0</span><span class="bar"><i data-b="office"></i></span></button>
-      <button class="tab" role="tab" id="tab-zavod" aria-controls="p-zavod" aria-selected="false" tabindex="-1"><span class="t"><span class="lg">Контент-завод</span><span class="sh">Завод</span></span><span class="c" data-c="zavod">0 / 0</span><span class="bar"><i data-b="zavod"></i></span></button>
-      <button class="tab" role="tab" id="tab-dash" aria-controls="p-dash" aria-selected="false" tabindex="-1"><span class="t"><span class="lg">ИИ-дашборды</span><span class="sh">Дашборды</span></span><span class="c" data-c="dash">0 / 0</span><span class="bar"><i data-b="dash"></i></span></button>
+      <button class="tab g-office" role="tab" id="tab-office" aria-controls="p-office" aria-selected="true"><span class="tn">01</span><span class="t">ИИ-офис</span><span class="c" data-c="office">0 / 0</span><span class="bar"><i data-b="office"></i></span></button>
+      <button class="tab g-zavod" role="tab" id="tab-zavod" aria-controls="p-zavod" aria-selected="false" tabindex="-1"><span class="tn">02</span><span class="t"><span class="lg">Контент-завод</span><span class="sh">Завод</span></span><span class="c" data-c="zavod">0 / 0</span><span class="bar"><i data-b="zavod"></i></span></button>
+      <button class="tab g-dash" role="tab" id="tab-dash" aria-controls="p-dash" aria-selected="false" tabindex="-1"><span class="tn">03</span><span class="t"><span class="lg">ИИ-дашборды</span><span class="sh">Дашборды</span></span><span class="c" data-c="dash">0 / 0</span><span class="bar"><i data-b="dash"></i></span></button>
     </div>
   </div>
 
   <div class="wrap">
   <!-- ========== ИИ-ОФИС ========== -->
-  <div class="panel" role="tabpanel" id="p-office" aria-labelledby="tab-office">
-    <div class="ghead">
-      <span class="k">инструкция 01</span>
-      <h3>Собери свой ИИ-офис за выходные</h3>
+  <div class="panel g-office" role="tabpanel" id="p-office" aria-labelledby="tab-office">
+    <div class="gban g-office">
+      <span class="gnum" aria-hidden="true">01</span>
+      <span class="k">инструкция 01 из 03</span>
+      <h3>Собери свой <span class="nw">ИИ-офис</span> за выходные</h3>
       <p class="lead">Пиксельный офис из 8 отделов с командой ИИ-агентов и главный агент в Telegram, которому можно надиктовать задачу голосом. Всё работает на твоей подписке Claude. Ты готовишь аккаунты и ключи, остальное собирает Claude Code.</p>
       <div class="chips"><span class="chip">30-40 минут твоих действий</span><span class="chip">программировать не нужно</span><span class="chip">Claude Max + сервер от $10 в месяц</span></div>
       <div class="progress"><div class="pbar2"><i data-b="office"></i></div><span data-c="office">0 / 0</span></div>
-      <nav class="mnav" aria-label="Разделы инструкции"><a href="#o-what">Что получится</a><a href="#o-cost">Сервисы</a><a href="#o-a">Часть А</a><a href="#o-b">Часть Б</a><a href="#o-c">Часть В</a><a href="#o-fix">Если что-то не так</a></nav>
     </div>
+    <div class="howto"><h4>Как этим пользоваться</h4><ol class="hsteps"><li><span class="hn">1</span><div><b>Скачай файл с инструкцией или скопируй её целиком</b><p>В файле вся инструкция: все шаги и все промпты.</p><div class="hbtns"><a class="btn main" href="office.txt" download="Ольга Пузанова. ИИ-офис за выходные.txt">Скачать файл</a><button type="button" class="btn ghost" data-copyfile="office">Скопировать всё</button><button type="button" class="btn ghost" data-copylink="office">Ссылка для Claude/GPT</button></div></div></li><li><span class="hn">2</span><div><b>Открой Claude или ChatGPT</b><p>Зайди на claude.ai или в ChatGPT, прикрепи файл или вставь текст и напиши:</p><div class="phrase"><span>«Проведи меня по этой инструкции по шагам»</span><button type="button" class="copy" data-text="Проведи меня по этой инструкции по шагам">Скопировать</button></div><p style="margin-top:8px">Можно и проще: отправь в чат ссылку на файл, её копирует кнопка «Ссылка для Claude/GPT».</p></div></li><li><span class="hn">3</span><div><b>Подготовь заранее</b><ul><li>Подписка Claude Max на claude.ai: на ней работает Claude Code и все агенты</li><li>Компьютер, где можно открыть терминал: там выпускается токен подписки командой claude setup-token</li><li>Аккаунт GitHub</li><li>Аккаунт Railway на тарифе Hobby (сервер обычно $10-20 в месяц)</li><li>Telegram: в нём через @BotFather создаётся бот</li><li>По желанию: аккаунт Anthropic API с балансом от $10, если офис должен работать без подписки</li><li>Паспорт бизнеса, 5-10 строк: кто ты и чем занимаешься, аудитории, продукты и цены, как ты пишешь, чего нельзя обещать</li><li>Личная заметка, куда будешь записывать ключи и пароли</li></ul></div></li></ol><p class="hfoot">Ниже та же инструкция прямо на странице: шаги с галочками и промпты с кнопкой «Скопировать».</p></div>
+      <nav class="mnav" aria-label="Разделы инструкции"><a href="#o-what">Что получится</a><a href="#o-cost">Сервисы</a><a href="#o-a">Часть А</a><a href="#o-b">Часть Б</a><a href="#o-c">Часть В</a><a href="#o-fix">Если что-то не так</a></nav>
 
     <div class="blk" id="o-what">
       <span class="k">что получится</span>
@@ -785,15 +818,17 @@ agent/             главный агент в Telegram
   </div>
 
   <!-- ========== КОНТЕНТ-ЗАВОД ========== -->
-  <div class="panel" role="tabpanel" id="p-zavod" aria-labelledby="tab-zavod" hidden>
-    <div class="ghead">
-      <span class="k">инструкция 02</span>
-      <h3>Контент-завод со стильным монтажом</h3>
+  <div class="panel g-zavod" role="tabpanel" id="p-zavod" aria-labelledby="tab-zavod" hidden>
+    <div class="gban g-zavod">
+      <span class="gnum" aria-hidden="true">02</span>
+      <span class="k">инструкция 02 из 03</span>
+      <h3><span class="nw">Контент-завод</span> со стильным монтажом</h3>
       <p class="lead">Собираем завод, который сам находит тренды, пишет сценарий и монтирует рилс в твоём стиле. Стили загружаешь свои. HeyGen и другие сервисы подключаются потом одной вставкой, без переделки завода. Код пишет Codex, ты ставишь задачи словами.</p>
       <div class="chips"><span class="chip">14 шагов</span><span class="chip">15 готовых промптов</span><span class="chip">2-3 вечера на сборку</span></div>
       <div class="progress"><div class="pbar2"><i data-b="zavod"></i></div><span data-c="zavod">0 / 0</span></div>
-      <nav class="mnav" aria-label="Разделы инструкции"><a href="#z-what">Что получится</a><a href="#z-need">Что нужно</a><a href="#z-arch">Как устроен</a><a href="#z-steps">Шаги 1-14</a><a href="#z-style">Файл стиля</a><a href="#z-heygen">HeyGen</a><a href="#z-bugs">Грабли</a><a href="#z-ready">Чек-лист</a></nav>
     </div>
+    <div class="howto"><h4>Как этим пользоваться</h4><ol class="hsteps"><li><span class="hn">1</span><div><b>Скачай файл с инструкцией или скопируй её целиком</b><p>В файле вся инструкция: все шаги и все промпты.</p><div class="hbtns"><a class="btn main" href="zavod.txt" download="Ольга Пузанова. Контент-завод.txt">Скачать файл</a><button type="button" class="btn ghost" data-copyfile="zavod">Скопировать всё</button><button type="button" class="btn ghost" data-copylink="zavod">Ссылка для Claude/GPT</button></div></div></li><li><span class="hn">2</span><div><b>Открой Claude или ChatGPT</b><p>Зайди на claude.ai или в ChatGPT, прикрепи файл или вставь текст и напиши:</p><div class="phrase"><span>«Проведи меня по этой инструкции по шагам»</span><button type="button" class="copy" data-text="Проведи меня по этой инструкции по шагам">Скопировать</button></div><p style="margin-top:8px">Можно и проще: отправь в чат ссылку на файл, её копирует кнопка «Ссылка для Claude/GPT».</p></div></li><li><span class="hn">3</span><div><b>Подготовь заранее</b><ul><li>Подписка ChatGPT Plus или Pro: на ней работает Codex</li><li>Приложение Codex или Node.js с nodejs.org, чтобы поставить Codex CLI</li><li>Аккаунт GitHub для приватного репозитория</li><li>Hostinger VPS от тарифа KVM 2 (Ubuntu 24.04 с Docker), сервер за пределами России</li><li>Домен, на котором будет адрес пульта завода</li><li>Telegram: в нём через @BotFather создаётся бот</li><li>Аккаунт Apify для поиска трендов, бесплатного лимита хватит на тест</li><li>Паспорт бренда: кто ты, аудитория, ядро смыслов, голос, кодовые слова с подарками, стоп-слова</li><li>Свои хэштеги, аккаунты конкурентов и темы для поиска трендов</li><li>50-200 своих фото и видео для медиатеки</li><li>Фирменные цвета и шрифт или ролик-референс, с которого снять стиль</li><li>Потом, по желанию: аккаунт HeyGen с доступом к API и свой аватар</li></ul></div></li></ol><p class="hfoot">Ниже та же инструкция прямо на странице: шаги с галочками и промпты с кнопкой «Скопировать».</p></div>
+      <nav class="mnav" aria-label="Разделы инструкции"><a href="#z-what">Что получится</a><a href="#z-need">Что нужно</a><a href="#z-arch">Как устроен</a><a href="#z-steps">Шаги 1-14</a><a href="#z-style">Файл стиля</a><a href="#z-heygen">HeyGen</a><a href="#z-bugs">Грабли</a><a href="#z-ready">Чек-лист</a></nav>
 
     <div class="blk" id="z-what">
       <span class="k">что получится</span>
@@ -1110,15 +1145,17 @@ avatar.render(text_or_audio, out_path, mode) -&gt; {video, words}.
   </div>
 
   <!-- ========== ДАШБОРДЫ ========== -->
-  <div class="panel" role="tabpanel" id="p-dash" aria-labelledby="tab-dash" hidden>
-    <div class="ghead">
-      <span class="k">инструкция 03</span>
-      <h3>ИИ-дашборд для селлера</h3>
+  <div class="panel g-dash" role="tabpanel" id="p-dash" aria-labelledby="tab-dash" hidden>
+    <div class="gban g-dash">
+      <span class="gnum" aria-hidden="true">03</span>
+      <span class="k">инструкция 03 из 03</span>
+      <h3><span class="nw">ИИ-дашборд</span> для селлера</h3>
       <p class="lead">Промпт, по которому нейросеть собирает аналитический дашборд для Ozon или Wildberries одним HTML-файлом. Ты загружаешь в него отчёты из личного кабинета, а он считает прибыль, маржу, ROI, ДРР и остатки и сам пишет выводы.</p>
       <div class="chips"><span class="chip">Ozon, Wildberries или оба</span><span class="chip">один HTML-файл</span><span class="chip">живёт на GitHub Pages</span></div>
       <div class="progress"><div class="pbar2"><i data-b="dash"></i></div><span data-c="dash">0 / 0</span></div>
-      <nav class="mnav" aria-label="Разделы инструкции"><a href="#d-what">Что будет внутри</a><a href="#d-math">Формулы</a><a href="#d-steps">Шаги 1-8</a><a href="#d-prompt">Промпт</a></nav>
     </div>
+    <div class="howto"><h4>Как этим пользоваться</h4><ol class="hsteps"><li><span class="hn">1</span><div><b>Скачай файл с инструкцией или скопируй её целиком</b><p>В файле вся инструкция: все шаги и все промпты.</p><div class="hbtns"><a class="btn main" href="dashboard.txt" download="Ольга Пузанова. ИИ-дашборд для селлера.txt">Скачать файл</a><button type="button" class="btn ghost" data-copyfile="dash">Скопировать всё</button><button type="button" class="btn ghost" data-copylink="dash">Ссылка для Claude/GPT</button></div></div></li><li><span class="hn">2</span><div><b>Открой Claude или ChatGPT</b><p>Зайди на claude.ai или в ChatGPT, прикрепи файл или вставь текст и напиши:</p><div class="phrase"><span>«Проведи меня по этой инструкции по шагам»</span><button type="button" class="copy" data-text="Проведи меня по этой инструкции по шагам">Скопировать</button></div><p style="margin-top:8px">Можно и проще: отправь в чат ссылку на файл, её копирует кнопка «Ссылка для Claude/GPT».</p></div></li><li><span class="hn">3</span><div><b>Подготовь заранее</b><ul><li>Доступ в личный кабинет Ozon или Wildberries</li><li>Три отчёта из кабинета в .xlsx: финансовый, по продажам и остаткам, по рекламе</li><li>Если отчёты приложить нельзя: названия листов, заголовки колонок, 3-5 строк примера и разделитель дробной части в числах</li><li>Себестоимость по каждому товару, если её нет в отчётах</li><li>План на месяц: выручка и прибыль</li><li>Claude или ChatGPT, куда можно прикрепить файлы</li><li>Аккаунт GitHub, чтобы выложить дашборд на GitHub Pages</li></ul></div></li></ol><p class="hfoot">Ниже та же инструкция прямо на странице: шаги с галочками и промпты с кнопкой «Скопировать».</p></div>
+      <nav class="mnav" aria-label="Разделы инструкции"><a href="#d-what">Что будет внутри</a><a href="#d-math">Формулы</a><a href="#d-steps">Шаги 1-8</a><a href="#d-prompt">Промпт</a></nav>
 
     <div class="blk" id="d-what">
       <span class="k">что будет внутри</span>
@@ -1432,9 +1469,9 @@ KPI-блок: сколько товаров критично (меньше 7 д�
   }
 
   /* ---------- копирование ---------- */
-  function copyText(t,btn){
+  function copyText(t,btn,okLabel){
     var old=btn.dataset.label||btn.textContent; btn.dataset.label=old;
-    var done=function(){ btn.textContent='Скопировано'; btn.classList.add('ok'); setTimeout(function(){ btn.textContent=old; btn.classList.remove('ok') },1600) };
+    var done=function(){ btn.textContent=okLabel||'Скопировано'; btn.classList.add('ok'); setTimeout(function(){ btn.textContent=old; btn.classList.remove('ok') },1800) };
     var fb=function(){
       var ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.top='0'; ta.style.opacity='0';
       document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0,t.length); var ok=false; try{ ok=document.execCommand('copy') }catch(e){}
@@ -1447,6 +1484,20 @@ KPI-блок: сколько товаров критично (меньше 7 д�
       var t=b.dataset.text; if(!t){ var pre=b.closest('.prompt').querySelector('pre'); t=pre.textContent; }
       copyText(t,b);
     });
+  });
+  /* файлы инструкций: скопировать всё и ссылка */
+  var FILES={office:'office.txt',zavod:'zavod.txt',dash:'dashboard.txt'}, BASE='https://olgapuzanova0311-art.github.io/perezagruzka/dr/box-t2cgg00n/', TXT={};
+  function load(k){ return fetch(FILES[k],{cache:'no-cache'}).then(function(r){ if(!r.ok) throw 0; return r.text() }).then(function(t){ TXT[k]=t.replace(/^\uFEFF/,''); return TXT[k] }) }
+  Object.keys(FILES).forEach(function(k){ load(k).catch(function(){}) });
+  $$('[data-copyfile]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.dataset.copyfile;
+      if(TXT[k]) copyText(TXT[k],b,'Скопировано целиком');
+      else load(k).then(function(t){ copyText(t,b,'Скопировано целиком') },function(){ var o=b.textContent; b.textContent='Не вышло, нажми «Скачать файл»'; setTimeout(function(){ b.textContent=o },2400) });
+    });
+  });
+  $$('[data-copylink]').forEach(function(b){
+    b.addEventListener('click',function(){ copyText(BASE+FILES[b.dataset.copylink],b,'Ссылка скопирована') });
   });
   $$('.tog').forEach(function(b){
     b.addEventListener('click',function(){
