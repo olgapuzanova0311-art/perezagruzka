@@ -1,0 +1,1494 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#030304">
+<title>Секретный лот · Ольга Пузанова</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+/* Layout: чёрный экран «Секретный лот» с коробкой → после открытия «Твой подарок» и 6 карточек → вкладки с тремя инструкциями (шаги, галочки, промпты) → разбор, менеджер, мостик к царь лоту */
+:root{
+  color-scheme:dark;
+  --bg:#030304; --panel:#0a0c12; --panel2:#0f1219; --fg:#eef0f5; --mute:#8a92a8; --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.16);
+  --blue:#3d6bff; --ice:#b9ccff; --glow:#7ea0ff; --hot:#e8744f; --hot2:#f2a07f; --ok:#5fd39a;
+  --sans:"Inter Tight",system-ui,-apple-system,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.6 var(--sans);overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:var(--ice)}
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--ice);outline-offset:3px}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:980px;margin:0 auto}
+.k{font:500 11px/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+h2,h3,h4{margin:0;text-wrap:balance;font-weight:500;letter-spacing:-.03em}
+p{margin:0}
+code{font:400 .86em var(--mono);background:rgba(255,255,255,.07);padding:1px 6px;border-radius:6px;word-break:break-word}
+.metal{background:linear-gradient(100deg,#7c849c,#fff 30%,#b9ccff 50%,#fff 70%,#8f9bbd);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:metal 7s ease-in-out infinite alternate}
+@keyframes metal{to{background-position:100% 0}}
+
+/* ===== STAGE: секретный лот ===== */
+.stage{position:relative;min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;overflow:hidden;isolation:isolate;padding-block:max(40px,env(safe-area-inset-top,0px)) 48px}
+.haze{position:absolute;inset:0;z-index:-2;pointer-events:none}
+.haze::before,.haze::after{content:"";position:absolute;width:80vmax;height:80vmax;border-radius:50%;filter:blur(50px)}
+.haze::before{left:-35vmax;top:-30vmax;background:radial-gradient(closest-side,rgba(126,160,255,.16),transparent);animation:drift 26s ease-in-out infinite alternate}
+.haze::after{right:-40vmax;bottom:-45vmax;background:radial-gradient(closest-side,rgba(232,116,79,.10),transparent);animation:drift 32s ease-in-out infinite alternate-reverse}
+@keyframes drift{to{transform:translate(12vmax,8vmax) scale(1.15)}}
+.stage::after{content:"";position:absolute;left:0;right:0;bottom:0;height:90px;z-index:-1;background:linear-gradient(transparent,var(--bg));pointer-events:none}
+#dust{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.stage .in{display:grid;justify-items:center;gap:18px;width:100%}
+.stage .k{opacity:0;animation:fadein 2s ease 1.2s forwards}
+@keyframes fadein{to{opacity:1}}
+.myst{font:500 clamp(52px,15vw,132px)/.92 var(--sans);letter-spacing:-.035em;margin:0;
+  background:linear-gradient(100deg,#4d5366 0%,#cfd5e4 24%,#fff 34%,#9fb0d8 50%,#cfd5e4 66%,#4d5366 100%);background-size:260% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:mreveal 3.2s cubic-bezier(.2,.7,.2,1) both,mshimmer 10s ease-in-out 3.2s infinite alternate}
+.flick{animation:flick 7s steps(1) 3.4s infinite}
+@keyframes mreveal{from{opacity:0;filter:blur(18px);letter-spacing:.05em}to{opacity:1;filter:blur(0);letter-spacing:-.035em}}
+@keyframes mshimmer{to{background-position:100% 0}}
+@keyframes flick{0%,100%{opacity:1}46%{opacity:.84}47%{opacity:1}71%{opacity:.92}72%{opacity:1}}
+.sub{color:var(--mute);font-size:15px;max-width:34ch;opacity:0;animation:fadein 2s ease 2.2s forwards}
+
+.gbox{position:relative;width:min(46vw,190px);aspect-ratio:1/1;margin:34px auto 0;cursor:pointer;border-radius:18px;-webkit-tap-highlight-color:transparent;opacity:0;animation:fadein 1.6s ease 1.8s forwards}
+.gbox .bob{position:absolute;inset:0;animation:bob 3.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-7px) rotate(-1.2deg)}}
+.gbox:hover .bob{animation:shake .7s ease-in-out}
+@keyframes shake{20%{transform:rotate(-6deg)}40%{transform:rotate(5deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(2deg)}}
+.gbox .shadow{position:absolute;left:8%;right:8%;bottom:-9%;height:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(232,116,79,.45),transparent);filter:blur(7px)}
+.chrome{background:linear-gradient(135deg,#2a1610 0%,#5a2c1d 30%,#120a08 55%,#7a3a24 80%,#ffb79c 100%);background-size:200% 200%;animation:chrome 6s ease-in-out infinite alternate}
+@keyframes chrome{to{background-position:100% 100%}}
+.gbox .body{position:absolute;left:8%;right:8%;bottom:0;height:62%;border-radius:12px 12px 16px 16px;box-shadow:inset 0 -12px 22px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.35);z-index:2}
+.gbox .lid{position:absolute;left:2%;right:2%;top:16%;height:24%;border-radius:12px;box-shadow:0 6px 12px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.5);transition:transform .7s cubic-bezier(.3,1.4,.5,1),opacity .7s;transform-origin:20% 100%;z-index:4}
+.gbox .rib{position:absolute;top:0;bottom:0;background:linear-gradient(180deg,#ffc2ab,#e8744f 60%,#b54a28);box-shadow:0 0 14px rgba(232,116,79,.6)}
+.gbox .body .rib{left:44%;width:12%}
+.gbox .lid .rib{left:43%;width:14%}
+.gbox .bow{position:absolute;left:50%;top:-36%;width:56%;height:48%;transform:translateX(-50%)}
+.gbox .bow::before,.gbox .bow::after{content:"";position:absolute;bottom:0;width:48%;height:100%;border:5px solid #f08a64;border-radius:50% 50% 10% 50%;box-shadow:0 0 12px rgba(232,116,79,.6),inset 0 0 8px rgba(255,255,255,.3)}
+.gbox .bow::before{left:0;transform:rotate(-28deg);transform-origin:100% 100%}
+.gbox .bow::after{right:0;transform:rotate(28deg) scaleX(-1);transform-origin:0 100%}
+.gbox .q{position:absolute;left:0;right:0;bottom:16%;font:500 22px var(--mono);color:rgba(255,220,205,.75);z-index:3;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.gbox .flash{position:absolute;left:50%;top:42%;width:12px;height:12px;transform:translate(-50%,-50%) scale(0);border-radius:50%;background:radial-gradient(closest-side,#fff,rgba(242,160,127,.55),transparent);z-index:1;pointer-events:none}
+.gbox .tag{position:absolute;left:50%;top:30%;width:76%;transform:translate(-50%,10%) scale(.4);opacity:0;z-index:1;border-radius:14px;padding:12px 10px;
+  background:linear-gradient(160deg,#fff,#dfe6ff 45%,#b9ccff);color:#0a0c12;font:500 13px/1.25 var(--sans);box-shadow:0 0 40px rgba(185,204,255,.7),0 0 90px rgba(232,116,79,.35);transition:transform .9s cubic-bezier(.2,1.3,.4,1) .25s,opacity .5s ease .25s}
+.gbox .tag b{display:block;font:500 26px/1 var(--sans);letter-spacing:-.03em;margin-bottom:4px}
+.gbox.open .lid{transform:translate(-16%,-150%) rotate(-32deg);opacity:0}
+.gbox.open .flash{animation:flash .9s ease-out forwards}
+.gbox.open .tag{transform:translate(-50%,-118%) scale(1);opacity:1}
+.gbox.open .bob{animation:none}
+@keyframes flash{to{transform:translate(-50%,-50%) scale(34);opacity:0}}
+.hint{font:500 12px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--hot2);margin-top:14px;opacity:0;animation:fadein 1.4s ease 2.6s forwards,pulse 2.4s ease-in-out 4s infinite}
+.hint::before{content:"↑";display:block;font-size:16px;letter-spacing:0;margin-bottom:2px}
+@keyframes pulse{50%{opacity:.45}}
+.again{display:none;font:500 13px var(--sans);color:var(--fg);background:transparent;border:1px solid var(--line2);border-radius:99px;padding:10px 18px;cursor:pointer;margin-top:18px}
+.again:hover{border-color:var(--ice)}
+.spark{position:fixed;width:6px;height:6px;border-radius:2px;pointer-events:none;z-index:60}
+
+/* после открытия */
+.js .gated{display:none}
+.js body.opened .gated{display:block}
+body.opened .hint{display:none}
+body.was .stage{min-height:auto;padding-block:max(40px,env(safe-area-inset-top,0px)) 8px}
+body.was .myst{font-size:clamp(40px,10vw,84px)}
+body.was .gbox{width:min(32vw,130px);margin-top:70px}
+body.was .again{display:inline-block}
+body.was .sub{display:none}
+
+/* ===== ПОДАРКИ ===== */
+.gifts{padding-block:24px 40px}
+.gifts h2{font:500 clamp(40px,10vw,84px)/1 var(--sans);letter-spacing:-.045em;text-align:center}
+.gifts .lead{color:#c3cbe0;font-size:17px;max-width:46ch;margin:16px auto 0;text-align:center}
+.grid{display:grid;gap:12px;margin-top:30px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:960px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.bonus{position:relative;display:flex;flex-direction:column;gap:10px;padding:22px 20px 20px;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));border:1px solid var(--line);color:var(--fg);text-decoration:none;min-width:0;overflow:hidden;transition:border-color .3s,transform .3s}
+a.bonus:hover{border-color:rgba(185,204,255,.4);transform:translateY(-2px)}
+.bonus .n{font:500 12px var(--mono);color:var(--mute);letter-spacing:.1em}
+.bonus h3{font-size:24px;line-height:1.1}
+.bonus p{color:#b7bfd4;font-size:15px;line-height:1.5}
+.bonus .meta{font:500 12px var(--mono);color:var(--ice);letter-spacing:.04em}
+.bonus .go{margin-top:auto;padding-top:6px;font-weight:600;font-size:15px;color:#fff}
+.bonus.hot{border-color:rgba(232,116,79,.4);background:linear-gradient(160deg,rgba(232,116,79,.13),rgba(255,255,255,.015) 60%)}
+.bonus .big{font:500 46px/1 var(--sans);letter-spacing:-.04em}
+.bonus .small{font-size:13px;line-height:1.45;color:var(--mute)}
+body.opened .bonus{animation:cardin .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i)*90ms + 150ms)}
+@keyframes cardin{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:14px 22px;border-radius:16px;background:#fff;color:#05060a;font:600 16px var(--sans);text-decoration:none;border:0;cursor:pointer;text-align:center;box-shadow:0 10px 30px rgba(126,160,255,.25)}
+.btn.wide{width:100%}
+.btn.hotb{background:linear-gradient(180deg,#f6b096,#e8744f);color:#1a0b05;box-shadow:0 10px 30px rgba(232,116,79,.3)}
+.btn[aria-disabled="true"]{background:rgba(255,255,255,.08);color:#c3cbe0;box-shadow:none;cursor:default;font-weight:500;font-size:15px}
+.btn.ghost{background:transparent;color:#fff;border:1px solid var(--line2);box-shadow:none}
+
+/* ===== ИНСТРУКЦИИ ===== */
+.guides{padding-block:40px 20px;scroll-margin-top:8px}
+.sec{font:500 clamp(32px,7vw,56px)/1.02 var(--sans);letter-spacing:-.045em;margin-top:10px}
+.tabs{position:sticky;top:0;z-index:20;margin-top:20px;padding-block:calc(10px + env(safe-area-inset-top,0px)) 10px;background:rgba(3,3,4,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.tabs .row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.tab{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:6px;padding:10px 10px 9px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03);min-width:0}
+.tab .t{font:600 14px/1.15 var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab .c{font:500 11px var(--mono);color:var(--mute)}
+.tab .bar,.pbar2{height:3px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden}
+.tab .bar i,.pbar2 i{display:block;height:100%;width:0;background:var(--glow);transition:width .3s}
+.tab[aria-selected="true"]{background:#fff;color:#05060a;border-color:#fff}
+.tab[aria-selected="true"] .c{color:#4a5168}
+.tab[aria-selected="true"] .bar{background:rgba(0,0,0,.1)}
+.tab[aria-selected="true"] .bar i{background:var(--blue)}
+.tab:focus-visible{outline:2px solid var(--ice);outline-offset:2px}
+.tab .sh{display:none}
+@media(max-width:480px){.tab .lg{display:none}.tab .sh{display:inline}.tab .t{font-size:13px}.sb{margin-left:-42px}.sc>label{font-size:17px}}
+.panel{padding-top:28px}
+.ghead{display:grid;gap:14px}
+.ghead h3{font:500 clamp(30px,6.4vw,48px)/1.04 var(--sans);letter-spacing:-.04em}
+.ghead .lead{color:#c3cbe0;font-size:17px;max-width:62ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 13px var(--sans);padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:#dfe6ff}
+.mnav{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.mnav a{font:500 13px var(--sans);color:var(--fg);text-decoration:none;padding:7px 12px;border-radius:99px;background:rgba(255,255,255,.05)}
+.mnav a:hover{background:rgba(255,255,255,.1)}
+.progress{display:flex;align-items:center;gap:12px;margin-top:6px}
+.progress .pbar2{flex:1;height:6px}
+.progress span{font:500 12px var(--mono);color:var(--mute);white-space:nowrap}
+.blk{margin-top:44px;display:grid;gap:14px;scroll-margin-top:110px}
+.blk>h4{font:500 clamp(24px,5vw,34px)/1.1 var(--sans);letter-spacing:-.035em}
+.blk>.note-s{color:var(--mute);font-size:15px;max-width:64ch}
+.cards{display:grid;gap:10px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:720px){.cards.c2{grid-template-columns:repeat(2,minmax(0,1fr))}.cards.c3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;display:grid;gap:8px;min-width:0;align-content:start}
+.card b.tg{font:500 11px var(--mono);letter-spacing:.14em;color:var(--hot2);text-transform:uppercase}
+.card h5{margin:0;font:600 17px/1.3 var(--sans)}
+.card p,.card li{color:#b7bfd4;font-size:15px}
+.card ul{margin:0;padding-left:18px;display:grid;gap:6px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:18px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-weight:600;font-size:14px}
+.flow span{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:6px 10px}
+.flow i{font-style:normal;color:var(--mute)}
+.note{background:rgba(232,116,79,.1);border:1px solid rgba(232,116,79,.25);border-radius:16px;padding:14px 16px;font-size:15px;color:#f3e3dc}
+
+/* шаги */
+.steps{display:grid;gap:10px}
+.step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px 16px 16px 14px;transition:border-color .3s}
+.step.done{border-color:rgba(95,211,154,.5)}
+.ck{appearance:none;-webkit-appearance:none;width:28px;height:28px;margin:1px 0 0;border:2px solid var(--line2);border-radius:9px;background:transparent;cursor:pointer;display:grid;place-items:center;flex:none}
+.ck:checked{background:var(--ok);border-color:var(--ok)}
+.ck:checked::after{content:"";width:7px;height:13px;border:solid #05060a;border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.sc{display:grid;gap:10px;min-width:0}
+.sc>label{font:600 18px/1.3 var(--sans);cursor:pointer;display:flex;gap:10px;align-items:baseline}
+.sc>label .sn{font:500 12px var(--mono);color:var(--mute);flex:none}
+.sb{display:grid;gap:10px;color:#b7bfd4;font-size:15px;min-width:0}
+.sb ol,.sb ul{margin:0;padding-left:20px;display:grid;gap:5px}
+.key{justify-self:start;font:500 12px var(--mono);color:#ffd9cb;background:rgba(232,116,79,.12);border:1px solid rgba(232,116,79,.3);border-radius:8px;padding:5px 9px}
+.check{display:grid;gap:10px}
+.check label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;color:#dfe6ff;font-size:15px}
+
+/* промпты */
+.prompt{background:#07080d;border:1px solid rgba(126,160,255,.22);border-radius:16px;overflow:hidden;min-width:0}
+.pbar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 10px 9px 14px;background:rgba(126,160,255,.07);font:500 12px var(--mono);color:var(--ice);letter-spacing:.02em}
+.pbar span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pbtns{display:flex;gap:6px;flex:none}
+.copy,.tog{border:0;border-radius:99px;background:#fff;color:#05060a;font:600 13px var(--sans);padding:8px 14px;cursor:pointer;min-height:36px}
+.tog{background:rgba(255,255,255,.1);color:#fff}
+.copy.ok{background:var(--ok)}
+.prompt pre{margin:0;padding:14px;white-space:pre-wrap;word-break:break-word;font:400 13px/1.6 var(--mono);color:#dfe6ff;max-height:360px;overflow:auto}
+.prompt.code pre{white-space:pre;overflow-x:auto;word-break:normal}
+.prompt.big{border-color:rgba(232,116,79,.35)}
+.say{display:grid;gap:8px}
+.say .ph{display:flex;gap:10px;align-items:center;justify-content:space-between;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--hot);border-radius:12px;padding:10px 10px 10px 14px;font-weight:500;color:#e7ebf5}
+.say .ph span{min-width:0}
+.cta{background:linear-gradient(160deg,rgba(61,107,255,.22),rgba(61,107,255,.06));border:1px solid rgba(126,160,255,.35);border-radius:24px;padding:22px;display:grid;gap:12px}
+.cta ol{margin:0;padding-left:22px;display:grid;gap:6px;color:#e7ebf5}
+details{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:0 16px}
+details+details{margin-top:8px}
+summary{cursor:pointer;list-style:none;padding:14px 0;font-weight:600;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:400 20px/1 var(--mono);color:var(--mute)}
+details[open] summary::after{content:"−"}
+details p{padding:0 0 14px;color:#b7bfd4;font-size:15px}
+
+/* низ */
+.more{padding-block:30px 20px;display:grid;gap:12px}
+.razbor{scroll-margin-top:16px}
+.bridge{border-radius:26px;padding:24px;background:radial-gradient(120% 140% at 100% 0%,rgba(61,107,255,.35),transparent 60%),var(--panel2);border:1px solid rgba(126,160,255,.3);display:grid;gap:14px}
+.bridge h3{font:500 clamp(26px,5.6vw,40px)/1.05 var(--sans);letter-spacing:-.04em}
+.bridge p{color:#c3cbe0;max-width:56ch}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+footer{color:var(--mute);font-size:13px;padding-block:34px calc(40px + env(safe-area-inset-bottom,0px));line-height:1.5}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:.001ms!important;transition-delay:0s!important}
+  .myst{filter:none}
+}
+</style>
+</head><body>
+
+<header class="stage gut" id="top">
+  <div class="haze" aria-hidden="true"></div>
+  <canvas id="dust" aria-hidden="true"></canvas>
+  <div class="in">
+    <span class="k">Ольга Пузанова · лот 01</span>
+    <div class="flick"><h1 class="myst">Секретный<br>лот</h1></div>
+    <p class="sub">Оплата прошла. Твоя коробка уже здесь, осталось её открыть</p>
+    <div class="gbox" id="gbox" role="button" tabindex="0" aria-label="Открыть секретную коробку">
+      <div class="shadow"></div>
+      <div class="bob">
+        <div class="tag" aria-hidden="true"><b>6</b>подарков внутри</div>
+        <div class="flash"></div>
+        <div class="lid chrome"><div class="rib"></div><div class="bow"></div></div>
+        <div class="body chrome"><div class="rib"></div></div>
+        <span class="q" aria-hidden="true">?</span>
+      </div>
+    </div>
+    <div class="hint" aria-hidden="true">Жми сюда</div>
+    <button type="button" class="again" id="again">Открыть ещё раз</button>
+  </div>
+</header>
+
+<main class="gated">
+<section class="gifts gut" id="gifts" aria-labelledby="gifts-h">
+  <div class="wrap">
+    <h2 id="gifts-h"><span class="metal">Твой подарок</span></h2>
+    <p class="lead">Спасибо, что ты со мной в мой день рождения. Внутри шесть подарков: три подробные инструкции, записи лагеря и курса и групповой разбор со мной. Жми на карточку, чтобы открыть.</p>
+    <div class="grid">
+      <a class="bonus" href="#office" data-tab="office" style="--i:0">
+        <span class="n">01 · инструкция</span>
+        <h3>ИИ-офис за выходные</h3>
+        <p>Пиксельный офис из 8 отделов с командой ИИ-агентов и главный агент в Telegram, которому можно надиктовать задачу голосом</p>
+        <span class="meta">7 шагов + готовое задание для Claude Code</span>
+        <span class="go">Открыть инструкцию →</span>
+      </a>
+      <a class="bonus" href="#zavod" data-tab="zavod" style="--i:1">
+        <span class="n">02 · инструкция</span>
+        <h3>Контент-завод</h3>
+        <p>Завод, который сам находит тренды, пишет сценарий и монтирует рилс в твоём стиле. Код пишет Codex, ты ставишь задачи словами</p>
+        <span class="meta">14 шагов · 15 готовых промптов</span>
+        <span class="go">Открыть инструкцию →</span>
+      </a>
+      <a class="bonus" href="#dash" data-tab="dash" style="--i:2">
+        <span class="n">03 · инструкция</span>
+        <h3>ИИ-дашборды</h3>
+        <p>Аналитический дашборд для селлера Ozon и Wildberries: прибыль, маржа, ROI, ДРР, остатки и готовые выводы по твоим отчётам</p>
+        <span class="meta">8 шагов + большой промпт</span>
+        <span class="go">Открыть инструкцию →</span>
+      </a>
+      <div class="bonus hot" style="--i:3">
+        <span class="n">04 · записи</span>
+        <h3>Записи лагеря по Claude</h3>
+        <p>Все записи лагеря по Claude. Смотри в своём темпе и возвращайся, когда нужно</p>
+        <a class="btn hotb wide" href="https://disk.yandex.ru/d/fUkdXo5hBzoA0w" target="_blank" rel="noopener">Смотреть записи лагеря</a>
+      </div>
+      <div class="bonus hot" style="--i:4">
+        <span class="n">05 · записи</span>
+        <h3>Курс «Нейросети и ИИ», поток 7</h3>
+        <p>Записи всего потока: 45 уроков</p>
+        <a class="btn hotb wide" id="courseLink" href="https://puzanovva.tech/teach/control/stream/view/id/935323935" target="_blank" rel="noopener">Смотреть курс</a>
+        <p class="small">Курс уже открыт в твоём кабинете GetCourse. Вход по почте, указанной при заказе. Не помнишь пароль, нажми «Забыли пароль?» на странице входа</p>
+      </div>
+      <a class="bonus" href="#razbor" style="--i:5">
+        <span class="n">06 · вживую</span>
+        <h3>Групповой разбор со мной</h3>
+        <span class="big metal">5 ноября</span>
+        <p>Время и ссылку пришлём на почту и в Telegram</p>
+        <span class="go">Подробнее →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="guides gut" id="guides" aria-labelledby="guides-h">
+  <div class="wrap">
+    <span class="k">инструкции</span>
+    <h2 class="sec" id="guides-h">Шаг за шагом</h2>
+    <p style="color:var(--mute);margin-top:10px;max-width:60ch">Отмечай шаги галочками, прогресс сохранится в этом браузере. Промпты копируются одной кнопкой.</p>
+  </div>
+  <div class="tabs" role="tablist" aria-label="Инструкции">
+    <div class="wrap row">
+      <button class="tab" role="tab" id="tab-office" aria-controls="p-office" aria-selected="true"><span class="t">ИИ-офис</span><span class="c" data-c="office">0 / 0</span><span class="bar"><i data-b="office"></i></span></button>
+      <button class="tab" role="tab" id="tab-zavod" aria-controls="p-zavod" aria-selected="false" tabindex="-1"><span class="t"><span class="lg">Контент-завод</span><span class="sh">Завод</span></span><span class="c" data-c="zavod">0 / 0</span><span class="bar"><i data-b="zavod"></i></span></button>
+      <button class="tab" role="tab" id="tab-dash" aria-controls="p-dash" aria-selected="false" tabindex="-1"><span class="t"><span class="lg">ИИ-дашборды</span><span class="sh">Дашборды</span></span><span class="c" data-c="dash">0 / 0</span><span class="bar"><i data-b="dash"></i></span></button>
+    </div>
+  </div>
+
+  <div class="wrap">
+  <!-- ========== ИИ-ОФИС ========== -->
+  <div class="panel" role="tabpanel" id="p-office" aria-labelledby="tab-office">
+    <div class="ghead">
+      <span class="k">инструкция 01</span>
+      <h3>Собери свой ИИ-офис за выходные</h3>
+      <p class="lead">Пиксельный офис из 8 отделов с командой ИИ-агентов и главный агент в Telegram, которому можно надиктовать задачу голосом. Всё работает на твоей подписке Claude. Ты готовишь аккаунты и ключи, остальное собирает Claude Code.</p>
+      <div class="chips"><span class="chip">30-40 минут твоих действий</span><span class="chip">программировать не нужно</span><span class="chip">Claude Max + сервер от $10 в месяц</span></div>
+      <div class="progress"><div class="pbar2"><i data-b="office"></i></div><span data-c="office">0 / 0</span></div>
+      <nav class="mnav" aria-label="Разделы инструкции"><a href="#o-what">Что получится</a><a href="#o-cost">Сервисы</a><a href="#o-a">Часть А</a><a href="#o-b">Часть Б</a><a href="#o-c">Часть В</a><a href="#o-fix">Если что-то не так</a></nav>
+    </div>
+
+    <div class="blk" id="o-what">
+      <span class="k">что получится</span>
+      <h4>Три части одной системы</h4>
+      <div class="cards c3">
+        <div class="card"><b class="tg">офис</b><h5>8 отделов, около 20 агентов</h5><p>Штаб, маркетинг, контент-студия, продажи, аналитика, обучение, технический отдел и приёмная. У каждого агента метод работы, формат результата и контекст твоего бизнеса. Видно, кто работает, как оркестратор разносит задачи и как приходят новенькие.</p></div>
+        <div class="card"><b class="tg">telegram</b><h5>Главный агент</h5><p>Пишешь или надиктовываешь задачу. Простое он делает сам, большое раздаёт офису и присылает один итог. Монтирует видео, верстает сайты, публикует по ссылке.</p></div>
+        <div class="card"><b class="tg">завод</b><h5>Новые агенты сами</h5><p>Главный агент создаёт новых агентов под задачу, пишет им роль и навыки и ставит на расписание: «каждый будний день в 9:00 присылай план дня».</p></div>
+      </div>
+    </div>
+
+    <div class="blk" id="o-cost">
+      <span class="k">где это работает</span>
+      <h4>Сервисы и стоимость</h4>
+      <p class="note-s">Цены на ноябрь 2026, проверь актуальные на сайтах. Сервер держи за пределами России: с российских серверов не открывается API Telegram.</p>
+      <div class="tbl"><table>
+        <tr><th>Сервис</th><th>Зачем</th><th>Сколько</th></tr>
+        <tr><td><b>Claude Max</b></td><td>Claude Code, который всё соберёт, и мозги всех агентов на сервере</td><td class="num">от $100/мес</td></tr>
+        <tr><td><b>Anthropic API</b></td><td>необязательно: запасной мозг, если не хочешь тратить лимиты подписки</td><td class="num">$20-100/мес</td></tr>
+        <tr><td><b>Railway</b></td><td>сервер, где круглосуточно живут офис и агент</td><td class="num">$10-20/мес</td></tr>
+        <tr><td><b>GitHub</b></td><td>хранит код, Railway берёт его оттуда</td><td class="num">бесплатно</td></tr>
+        <tr><td><b>Telegram</b></td><td>через него ты общаешься с агентом</td><td class="num">бесплатно</td></tr>
+      </table></div>
+    </div>
+
+    <div class="blk" id="o-a">
+      <span class="k">часть а · руками</span>
+      <h4>Подготовь аккаунты и ключи</h4>
+      <p class="note-s">Все ключи и пароли записывай в одну личную заметку. Никому их не отправляй и не публикуй.</p>
+      <div class="steps">
+        <div class="step"><input type="checkbox" class="ck" id="o1" data-g="office"><div class="sc"><label for="o1"><span class="sn">01</span>Claude и Claude Code</label>
+          <div class="sb"><ol><li>Оформи Claude Max на claude.ai.</li><li>Открой Claude Code: claude.ai/code, приложение Claude для компьютера или терминал.</li><li>Токен подписки для сервера: в терминале на компьютере <code>claude setup-token</code> (установка: <code>npm install -g @anthropic-ai/claude-code</code>). Подтверди вход в браузере, скопируй токен.</li></ol><span class="key">CLAUDE_CODE_OAUTH_TOKEN</span></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="o2" data-g="office"><div class="sc"><label for="o2"><span class="sn">02</span>GitHub и токен</label>
+          <div class="sb"><ol><li>Зарегистрируйся на github.com.</li><li><b>New repository</b> → имя <code>ii-office</code> → <b>Private</b> → Create.</li><li>Подключи GitHub к Claude Code и выбери этот репозиторий.</li><li>github.com/settings/personal-access-tokens → <b>Generate new token</b>: имя <code>ii-agent</code>, 90 дней, доступ к репозиторию, права <b>Contents</b>, <b>Pull requests</b>, <b>Workflows</b>: Read and write. Если хочешь, чтобы агент сам создавал репозитории, добавь ещё <b>Administration</b>.</li></ol><span class="key">GH_TOKEN · github_pat_…</span></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="o3" data-g="office"><div class="sc"><label for="o3"><span class="sn">03</span>Ключ Anthropic API (необязательно)</label>
+          <div class="sb"><p>Пропусти, если всё работает на подписке.</p><ol><li>console.anthropic.com → регистрация.</li><li><b>Billing</b>: пополни от $10 и поставь месячный лимит, например $50.</li><li><b>API Keys → Create Key</b>, назови <code>ii-office</code>.</li></ol><span class="key">ANTHROPIC_API_KEY · sk-ant-…</span></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="o4" data-g="office"><div class="sc"><label for="o4"><span class="sn">04</span>Railway и токен</label>
+          <div class="sb"><ol><li>railway.com → вход через GitHub.</li><li>Тариф <b>Hobby</b>: на пробном сервера засыпают.</li><li>Разреши Railway доступ к репозиторию <code>ii-office</code>.</li><li>Аватар → <b>Account Settings → Tokens → Create Token</b>, имя <code>ii-agent</code>.</li></ol><span class="key">RAILWAY_API_TOKEN</span></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="o5" data-g="office"><div class="sc"><label for="o5"><span class="sn">05</span>Telegram-бот и твой id</label>
+          <div class="sb"><ol><li><b>@BotFather</b> → <code>/newbot</code> → имя → username, который заканчивается на <code>bot</code>.</li><li>Сохрани токен вида <code>123456789:AA…</code>.</li><li>Напиши <b>@userinfobot</b>, он пришлёт твой id числом.</li></ol><span class="key">TG_TOKEN и TG_OWNERS</span></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="o6" data-g="office"><div class="sc"><label for="o6"><span class="sn">06</span>Пароль офиса</label>
+          <div class="sb"><p>Придумай пароль на вход в офис, от 10 символов.</p><span class="key">OFFICE_PASSWORD</span></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="o7" data-g="office"><div class="sc"><label for="o7"><span class="sn">07</span>Паспорт бизнеса</label>
+          <div class="sb"><p>5-10 строк о себе: кто ты и чем занимаешься, твои аудитории, продукты и цены, как ты пишешь, чего нельзя обещать. Этот контекст получит каждый агент, без него они пишут общими словами.</p></div></div></div>
+      </div>
+    </div>
+
+    <div class="blk" id="o-b">
+      <span class="k">часть б · claude собирает</span>
+      <div class="cta">
+        <h4 style="font:500 clamp(24px,5vw,34px)/1.1 var(--sans);letter-spacing:-.035em">Отдай задание Claude Code</h4>
+        <p style="color:#c3cbe0">Это подробное техзадание: что собрать, как устроен офис и бот, как выложить на Railway и что проверить. Claude спросит у тебя только ключи из части А.</p>
+        <ol><li>Нажми «Скопировать» у задания ниже.</li><li>Открой Claude Code в репозитории <b>ii-office</b> и вставь текст.</li><li>Допиши: <b>«Собери ИИ-офис по этой инструкции, часть Б»</b>.</li></ol>
+      </div>
+      <div class="prompt big"><div class="pbar"><span>Задание для Claude Code · ИИ-офис, части А и Б</span><div class="pbtns"><button type="button" class="tog" aria-controls="spec-office" aria-expanded="false">Показать</button><button type="button" class="copy">Скопировать</button></div></div><pre id="spec-office" hidden># ИИ-офис с главным агентом в Telegram: пошаговая инструкция
+
+Автор: Ольга Пузанова. Версия 2: ноябрь 2026 (отделы, сильные агенты, всё работает на подписке Claude без отдельного API-ключа).
+
+Эта инструкция состоит из двух частей:
+- **Часть А.** Что ты делаешь руками: заводишь аккаунты и получаешь ключи. Это 30-40 минут, программировать не нужно.
+- **Часть Б.** Техническое задание для Claude Code. Загрузи этот файл в Claude Code и напиши: «Собери ИИ-офис по этой инструкции, часть Б. Ключи из части А я дам, когда спросишь». Дальше он соберёт всё сам и будет спрашивать тебя только про ключи.
+
+---
+
+## Что получится
+
+```
+Ты (голосом или текстом в Telegram)
+        │
+        ▼
+Главный агент в Telegram  ── Claude Code на сервере: думает, пишет, монтирует, делает сайты,
+        │                    выкладывает на GitHub и Railway, сам создаёт новых агентов
+        │ ставит задачи
+        ▼
+ИИ-офис (сайт с пиксельным офисом) ── 8 отделов, около 20 агентов: штаб, маркетинг, контент-студия,
+                                       продажи, аналитика, обучение, технический отдел, приёмная
+```
+
+1. **ИИ-офис.** Веб-страница с пиксельным офисом из 8 комнат-отделов с табличками: Штаб, Маркетинг, Контент-студия, Продажи, Аналитика, Обучение, Технический отдел, Приёмная, плюс лаунж с кофе. За столами сидят агенты-роботы, у каждого своя роль и сильная инструкция под твой бизнес. Ты видишь, кто работает (счётчик отдела загорается зелёным), как оркестратор разносит задачи по столам, читаешь отчёты, нанимаешь и увольняешь агентов. Когда агента нанимают, сверху появляется плашка «Новый сотрудник», робот входит в дверь, а оркестратор идёт с ним знакомиться.
+2. **Главный агент в Telegram.** Это Claude Code, который живёт на сервере. Ты пишешь или надиктовываешь ему голосовое. Простое он делает сам, большое раскладывает на части и раздаёт агентам офиса, потом присылает тебе один итог. Умеет принимать фото, файлы и видео, монтировать ролики, верстать сайты и публиковать их по ссылке.
+3. **Завод агентов.** Главный агент сам создаёт новых агентов: пишет им роль и навыки, делает пробный запуск, ставит на расписание («каждый будний день в 9:00 присылай 5 трендов»). Отчёты приходят в Telegram, а робот в офисе в это время работает за своим столом.
+
+## Где это работает и сколько стоит
+
+| Что | Зачем | Стоимость (октябрь 2026) |
+|---|---|---|
+| **Claude Max** (claude.ai) | Claude Code, который всё соберёт, и мозги всех агентов на сервере: и главного в Telegram, и команды офиса | от $100 в месяц; работа агентов расходует лимиты подписки |
+| **Anthropic API** (console.anthropic.com) | не обязательно: запасной вариант, если не хочешь тратить лимиты подписки | оплата за использование, обычно $20-100 в месяц |
+| **Railway** (railway.com) | сервер, где круглосуточно живут офис и главный агент | тариф Hobby $5 в месяц плюс ресурсы, обычно $10-20 в месяц за оба сервиса |
+| **GitHub** (github.com) | хранит код, Railway берёт его оттуда | бесплатно |
+| **Telegram** | через него ты общаешься с главным агентом | бесплатно |
+
+Цены меняются, проверь актуальные на сайтах сервисов. Если всё-таки подключаешь API-ключ, обязательно поставь месячный лимит расходов в консоли Anthropic: в первой версии офиса у нас закончился баланс, и агенты молча падали с ошибкой 400.
+
+**Сервер выбирай за пределами России** (Railway подходит). С российских серверов не открывается API Telegram, бот там работать не сможет. И наоборот: адреса вида `*.up.railway.app` у части людей в России без VPN не открываются, поэтому ссылки для клиентов (эфиры, оплаты) давай прямые, без переадресации через свой сервер.
+
+---
+
+# Часть А. Что сделать руками
+
+Все ключи и пароли записывай в одну личную заметку. Никому их не отправляй и не публикуй.
+
+### Шаг 1. Claude и Claude Code
+1. Оформи подписку Claude Max на claude.ai.
+2. Открой Claude Code: на сайте claude.ai/code, в приложении Claude для компьютера или в терминале. Подойдёт любой вариант.
+3. Выпусти токен подписки для сервера. На компьютере в терминале выполни `claude setup-token` (если Claude Code в терминале не установлен: `npm install -g @anthropic-ai/claude-code`). Откроется браузер, подтверди вход, в терминале появится длинный токен. Сохрани его в заметку. Этот токен даёт серверу работать на твоей подписке, никому его не показывай.
+
+### Шаг 2. GitHub
+1. Зарегистрируйся на github.com.
+2. Нажми **New repository**, назови `ii-office`, выбери **Private** и нажми **Create repository**.
+3. Подключи GitHub к Claude Code. В claude.ai/code это кнопка подключения GitHub при создании сессии; выбери репозиторий `ii-office`.
+4. Создай токен для главного агента, чтобы он сам публиковал изменения:
+   github.com/settings/personal-access-tokens → **Generate new token** →
+   - Token name: `ii-agent`, Expiration: 90 дней;
+   - Repository access: **All repositories** (или только `ii-office`, если хочешь осторожнее);
+   - Permissions → **Contents**, **Pull requests**, **Workflows**: Read and write; **Administration**: Read and write, если хочешь, чтобы агент сам создавал новые репозитории;
+   - **Generate token** → сохрани `github_pat_...` в заметку.
+
+### Шаг 3. Ключ Anthropic API (необязательно)
+Пропусти этот шаг, если всё будет работать на подписке. Ключ нужен, только если хочешь, чтобы офис работал без подписки:
+1. Зайди на console.anthropic.com, зарегистрируйся.
+2. **Billing**: пополни баланс от $10 и поставь месячный лимит расходов (например $50).
+3. **API Keys → Create Key**, назови `ii-office`, сохрани ключ `sk-ant-...` в заметку.
+
+### Шаг 4. Railway
+1. Зарегистрируйся на railway.com через GitHub.
+2. Подключи тариф **Hobby**. На бесплатном пробном сервера засыпают, а агенту нужно работать круглосуточно.
+3. Разреши Railway доступ к репозиторию: при первом создании проекта Railway попросит установить GitHub-приложение, выбери `ii-office`.
+4. Создай токен: аватар справа сверху → **Account Settings → Tokens → Create Token**, назови `ii-agent`, сохрани в заметку.
+5. Если Claude Code у тебя подключён к Railway через коннектор, он сможет создать сервисы сам. Если нет, он попросит токен из пункта 4 или подскажет, какие кнопки нажать.
+
+### Шаг 5. Telegram-бот
+1. В Telegram открой **@BotFather**, отправь `/newbot`.
+2. Придумай имя (например «Мой ИИ-офис») и username, который заканчивается на `bot`.
+3. Сохрани токен вида `123456789:AA...` в заметку.
+4. Узнай свой Telegram id: напиши боту **@userinfobot**, он пришлёт число. Сохрани в заметку. Это нужно, чтобы бот отвечал только тебе.
+
+### Шаг 6. Пароль офиса
+Придумай пароль на вход в офис, 10+ символов, сохрани в заметку.
+
+### Шаг 6а. Паспорт бизнеса
+Напиши 5-10 строк о себе: кто ты и чем занимаешься, твои аудитории, продукты и цены, голос (как ты пишешь), чего нельзя обещать. Это контекст, который получит каждый агент. Без него агенты пишут общими словами.
+
+### Шаг 7. Проверь заметку
+У тебя должно быть 6 строк (седьмая по желанию) и паспорт бизнеса:
+
+| Что | Где взяли | Как назовём переменную |
+|---|---|---|
+| Токен подписки Claude | шаг 1 | `CLAUDE_CODE_OAUTH_TOKEN` |
+| Ключ Anthropic API (необязательно) | шаг 3 | `ANTHROPIC_API_KEY` |
+| Токен Telegram-бота | шаг 5 | `TG_TOKEN` |
+| Твой Telegram id | шаг 5 | `TG_OWNERS` |
+| Пароль офиса | шаг 6 | `OFFICE_PASSWORD` |
+| Токен GitHub | шаг 2 | `GH_TOKEN` |
+| Токен Railway | шаг 4 | `RAILWAY_API_TOKEN` |
+
+Готово. Открывай Claude Code в репозитории `ii-office`, загружай этот файл и пиши: **«Собери ИИ-офис по этой инструкции, часть Б»**.
+
+---
+
+# Часть Б. Техническое задание для Claude Code
+
+&gt; Claude, это задание для тебя. Собери проект целиком, проверяй каждый шаг и спрашивай владельца только про ключи из части А и про решения, которые меняют суть. Ключи никогда не клади в код и в git: только в переменные окружения сервисов Railway. Пиши владельцу по-русски, коротко и понятно, без технического жаргона.
+
+## Б1. Структура репозитория
+
+```
+office/            ИИ-офис: веб-сервер + пиксельный офис
+  main.py          сервер aiohttp, SQLite, мозг агентов (подписка через agent или API), делегирование
+  departments.py   отделы, сильные агенты, контекст бизнеса, автоподбор отдела при найме
+  index.html       пиксельный офис (canvas) с комнатами-отделами, чат, задачи, найм
+  requirements.txt aiohttp, anthropic
+agent/             главный агент в Telegram
+  Dockerfile       собирается из корня репозитория
+  bot.py           Telegram + Whisper + запуск Claude Code + завод агентов
+  office.py        консольный помощник: связь с офисом
+  tools/factory.py завод агентов
+  tools/subs.py    субтитры и паузы по речи (для монтажа)
+  skills/          навыки главного агента (копируются в .claude/skills)
+  MEMORY.md        память: кто владелец, проекты, договорённости
+.dockerignore      .git и __pycache__
+```
+
+## Б2. ИИ-офис (`office/`)
+
+**Стек:** Python 3.12, aiohttp, SQLite (файл на томе `/data/office.db`). Модель по умолчанию `claude-opus-5-5` (переменная `CLAUDE_MODEL`). Сверь актуальные id моделей по документации Anthropic перед написанием кода.
+
+**Мозг агентов (две дорожки):**
+1. **Подписка (основная).** Офис отправляет запрос сервису `agent` по внутренней сети Railway: `POST http://agent.railway.internal:8080/office-llm {secret, system, messages, model}`. `secret` = HMAC-SHA256 от `OFFICE_PASSWORD` с сообщением `office-llm`, один и тот же на обоих сервисах. Агент запускает `claude -p "&lt;переписка&gt;" --output-format json --model &lt;модель&gt; --append-system-prompt "&lt;инструкция агента&gt;" --tools ""` в пустой папке и возвращает `{text}` или `{error}`. Не больше 3 запусков одновременно, таймаут 15 минут. Переменная офиса `SUBSCRIPTION_URL` (пустая отключает).
+2. **API-ключ (запасная).** Если подписка недоступна и задан `ANTHROPIC_API_KEY`, официальный SDK `anthropic` (AsyncAnthropic). Ошибки API и `stop_reason == "refusal"` показывать понятным сообщением в чате офиса, в том числе «закончился баланс».
+
+В шапке офиса показывай, на чём работает мозг: «claude-opus-5-5 · подписка».
+
+**Переменные:** `OFFICE_PASSWORD`, `DB_PATH=/data/office.db`, `PORT`, необязательно `ANTHROPIC_API_KEY`, `SUBSCRIPTION_URL`.
+
+**Таблицы:**
+- `agents(id, name, role, color, prompt, model, is_main, status, dept, created)`;
+- `messages(id, agent_id, role, author, text, ts)`;
+- `tasks(id, agent_id, title, status, result, from_agent, created, updated)`;
+- `events(id, type, a, b, text, ts)`;
+- `settings(k, v)`. Каждое обновление состава и инструкций команды делай миграцией с флагом в `settings` (`team_v1`, `depts_v1`…), чтобы она прошла один раз и не затёрла правки владельца.
+
+**Отделы (`departments.py`)**: ключ, название, чем занимается. Порядок задаёт расположение комнат:
+
+| Ключ | Отдел | Агенты на старте |
+|---|---|---|
+| `lead` | Штаб | **AI-оркестратор** (главный), операционный директор, продуктовый стратег |
+| `marketing` | Маркетинг | трендхантер, таргетолог, копирайтер |
+| `studio` | Контент-студия | контент-продюсер, сценарист рилс, дизайнер, монтажёр, моушн-дизайнер |
+| `sales` | Продажи | продажник (скрипты, возражения, дожимы), воронщик (автоворонки в ботах) |
+| `analytics` | Аналитика | аналитик (метрики, юнит-экономика, узкое место), исследователь рынка |
+| `edu` | Обучение | методолог, куратор (проверка ДЗ, ответы ученикам) |
+| `tech` | Технический отдел | архитектор внедрений, вайбкодер (сайты и боты словами), промпт-инженер |
+| `reception` | Приёмная | ассистент (почта и срочное), тайм-менеджер |
+
+Подстрой состав под нишу владельца: спроси, какие отделы ему нужны.
+
+**Сильный агент = 4 части промпта:**
+1. Роль и что приходит на вход.
+2. Метод по шагам. Пример для таргетолога: цель → 3-5 гипотез «сегмент × боль × оффер» → аудитории → по 3 текста объявления → бюджет и стоп-метрика на гипотезу → что масштабировать.
+3. Точный формат результата («таблица гипотез, тексты объявлений, медиаплан»).
+4. Общие блоки, которые код добавляет каждому агенту: **контекст бизнеса** (паспорт из шага 6а: кто владелец, аудитории, продукты и цены, ядро смыслов, язык клиента, что нельзя обещать) и **проверка перед сдачей** («результат можно сразу использовать; цифры и конкретика; всё непроверенное помечено «проверить»; в конце 1-3 пункта, что нужно от владельца»). Плюс правила голоса владельца.
+
+**Оркестратор** раздаёт работу команде. Сам отвечает только на вопросы и уточнения, любую рабочую задачу (текст, сценарий, план, исследование, разбор) отдаёт 1-3 агентам по их ролям. Иначе он делает всё сам, и офис стоит: в первой версии так и было. В его системную инструкцию код подставляет команду, сгруппированную по отделам.
+
+**Делегирование:**
+- главный поручает задачу отдельной строкой `@Имя агента: задача` (агенты не видят переписку, всё нужное кладётся в задачу);
+- код находит такие строки, создаёт задачи и событие `talk`, агенты работают параллельно, не больше 3 запросов одновременно;
+- отчёты падают в чат главного, после всех отчётов главный один раз сводит итог без новых поручений;
+- строка `НАНЯТЬ: Имя | роль | инструкция` нанимает агента. Отдел подбирается по ключевым словам роли (рилс, монтаж → студия; реклама, таргет → маркетинг; продажи, воронка → продажи и так далее), иначе агент садится в лаунж.
+
+**API (всё кроме `/`, `/health`, `/api/login` закрыто паролем через cookie):**
+- `GET /`: страница офиса; `GET /health`: `ok`;
+- `POST /api/login {password}`: cookie на 90 дней;
+- `GET /api/state?since=&lt;event_id&gt;`: агенты (с `dept`), список отделов, последние 40 задач, новые события, на чём работает мозг;
+- `GET /api/messages?agent_id=`: последние 60 сообщений; длинные отчёты в чате обрезай до ~2500 символов, целиком они во вкладке «Задачи»;
+- `POST /api/chat {agent_id, text}`, `POST /api/tasks {agent_id, title, from_main?, external?}`, `POST /api/tasks/{id}/done {result, error?}`;
+- `POST /api/agents` (нанять или изменить, поле `dept`), `DELETE /api/agents/{id}` (главного нельзя);
+- `GET /api/templates`: готовые роли всех отделов для найма в один клик.
+
+**Лёгкость:** страница опрашивает `/api/state` каждые 1,5 секунды, поэтому отдавай JSON без экранирования кириллицы (`ensure_ascii=False`) и обрезай заголовки задач в `state` до 400 символов. Без этого офис тянул 1,3 МБ каждые полторы секунды и тормозил.
+
+**Страница `index.html`** (один файл, без сборки):
+- **Офис.** Холст 512×320 логических пикселей, масштаб под размер, `image-rendering: pixelated`. Сверху окна с вечерним городом. Ниже сетка 3×3: 8 комнат-отделов и лаунж (диван, кофемашина). В каждой комнате 4 стола в ряд, у штаба доска с графиком. Пол каждой комнаты своего оттенка.
+- **Таблички отделов** рисуются поверх холста в полном разрешении: иконка, название, число агентов. Число жёлтое, зелёное, если кто-то в отделе работает.
+- **Рассадка.** Агент садится за свободный стол своего отдела, кому не хватило, идёт в лаунж.
+- **Роботы.** Свой цвет и антенна, у главного корона, подпись имени без «AI-». В статусе «работает» на мониторе бегут строчки. В основном сидят у себя, иногда ходят за кофе. Событие `talk`: робот обходит адресатов по очереди с пузырём «📋 несу задачу», возвращается на место.
+- **Найм.** Событие `hire`: жёлтая плашка «🧑‍💼 Новый сотрудник: имя» и роль, новый робот появляется у входа и здоровается, главный идёт к нему «🤝 Добро пожаловать в команду!», карточка в ленте команды мигает.
+- **Шапка:** логотип, на чём работает мозг, «N в работе · M свободны · 8 отделов», кнопки «Задачи» и «+ Нанять агента».
+- **Лента команды** под офисом: карточки по отделам, у каждой статус и отдел.
+- **Правая панель:** вкладки «Чат», «Задачи», «Настройки»; окно найма с готовыми ролями и выбором отдела.
+- **Первая загрузка** проигрывает последние 20 событий, чтобы было видно, как раздавались задачи.
+- **Мобильная версия.** Офис сверху, панель снизу, страница не шире экрана (у сетки `minmax(0,1fr)`, у длинных подписей `min-width: 0`).
+
+## Б3. Главный агент в Telegram (`agent/`)
+
+**Dockerfile** (сборка из корня репозитория, чтобы внутри были все файлы проекта):
+- база: `python:3.12-slim`;
+- пакеты apt: `curl git ripgrep ca-certificates gnupg ffmpeg fontconfig fonts-dejavu-core build-essential cmake chromium`;
+- Node.js 22 (репозиторий nodesource), `gh` (официальный репозиторий GitHub CLI);
+- через npm глобально: `@anthropic-ai/claude-code` и `@railway/cli`;
+- шрифты Montserrat, Oswald, Manrope с github.com/google/fonts в `/usr/share/fonts/truetype/brand`, потом `fc-cache -f`;
+- `pip install aiohttp faster-whisper tzdata`;
+- `COPY . /app/repo`, пользователь `agent` (uid 1000). Claude Code не включает режим без подтверждений под root, поэтому запускаем под обычным пользователем;
+- `CMD`: создать `/data`, `chown agent /data`, `runuser -u agent -- python /app/repo/agent/bot.py`;
+- `ENV REMOTION_CHROME_EXECUTABLE=/usr/bin/chromium`.
+
+**Переменные:**
+- `TG_TOKEN`, `TG_OWNERS` (id владельца);
+- `CLAUDE_CODE_OAUTH_TOKEN` (токен подписки из шага 1; Claude Code на сервере работает на подписке владельца), `MODEL=claude-opus-5-5`;
+- `OFFICE_URL` (адрес офиса), `OFFICE_PASSWORD`;
+- `WHISPER_MODEL=small`;
+- `GH_TOKEN`, `RAILWAY_API_TOKEN`;
+- `RAILWAY_DOCKERFILE_PATH=agent/Dockerfile`.
+
+**bot.py, поведение:**
+
+1. **При старте:**
+   - копирует файлы репозитория в рабочую папку `/data/ws` (новые файлы и более свежие версии, правки агента не затирать);
+   - `agent/skills` копирует в `/data/ws/.claude/skills`, создаёт папки `inbox/`, `outbox/`, `work/`;
+   - ставит `HOME=/data/home`, чтобы память и сессии Claude Code жили на томе;
+   - если есть `GH_TOKEN`: `gh auth setup-git` и имя автора коммитов;
+   - поднимает веб-сервер на `::` (IPv4 и IPv6, иначе офис не достучится по внутренней сети Railway): `/` с ответом `ok` для проверки здоровья и `POST /office-llm` (мозг агентов офиса на подписке, см. Б2: проверка `secret`, `claude -p … --tools ""` в пустой папке `/data/office-llm`, не больше 3 одновременно);
+   - в фоне загружает модель Whisper.
+2. **Telegram:** long polling (`getUpdates`, timeout 50). Сначала `deleteWebhook`, потом `setMyCommands`: `/new`, `/stop`, `/office`.
+3. **Доступ.** Отвечает только id из `TG_OWNERS` и тем, кто прислал `/start &lt;пароль офиса&gt;`. Их id сохраняются в `/data/state.json`.
+4. **Голосовые, аудио, кружки:**
+   - скачивает файл, декодирует через ffmpeg в 16 кГц моно и передаёт массив в faster-whisper (`language='ru'`, `vad_filter=True`, `compute_type='int8'`);
+   - **важно:** файл в Whisper напрямую не передавать, новые версии PyAV падают с ошибкой `metadata_errors`;
+   - сначала присылает расшифровку «🎙 …», потом работает.
+5. **Фото и документы** сохраняет в `inbox/` и передаёт путь в задачу. Пересланные сообщения помечает, от кого они. Telegram отдаёт ботам файлы только до 20 МБ, большие видео пусть присылают ссылкой.
+6. **Запуск Claude Code** в `/data/ws`:
+   `claude -p "&lt;сообщение&gt;" --output-format stream-json --verbose --model $MODEL --permission-mode bypassPermissions --append-system-prompt "&lt;SYSTEM&gt;" [--resume &lt;session_id&gt;]`
+   - id сессии хранится на каждый чат, чтобы разговор продолжался;
+   - одна задача за раз на чат, остальные в очередь;
+   - пока идёт работа, бот редактирует одно сообщение «⏳ Работаю» и пишет последние шаги понятными словами («📖 читаю…», «🏢 поручаю: …»);
+   - итог отправляет кусками до 4000 символов без markdown;
+   - потом отправляет файлы, которые появились в `outbox/` за время задачи (видео, фото, документы до 50 МБ).
+7. **Команды:** `/new` начинает новую сессию, `/stop` останавливает процесс, `/office` присылает ссылку на офис.
+8. **SYSTEM**, системная инструкция главного агента, содержит:
+   - кто владелец и что в начале разговора нужно прочитать `agent/MEMORY.md` и дописывать туда новые факты;
+   - простое делать самому, большое раскладывать и поручать офису через `python agent/office.py` (`team`, `task "Имя" "задача"`, `wait &lt;id&gt;`, `tasks`, `hire`);
+   - что агенты офиса не видят переписку, поэтому в задачу кладётся весь контекст;
+   - про завод агентов (ниже);
+   - про `inbox/` и `outbox/`, про навыки монтажа, сайтов и публикации;
+   - формат ответов для Telegram;
+   - запреты: не удалять сервисы, данные и репозитории без прямой просьбы, не публиковать ключи.
+
+**office.py:** вход в офис по паролю, команды `team`, `task` (с `from_main: true`), `wait` (опрос до готовности, максимум 15 минут, печать отчётов), `tasks`, `hire`.
+
+**Завод агентов (`tools/factory.py` + цикл в bot.py):**
+- `create &lt;id&gt; --name --role --prompt-file [--skills] [--tools] [--model]`:
+  - пишет субагента `.claude/agents/&lt;id&gt;.md` (frontmatter `name`, `description`, `tools`, `model`; тело: инструкция, список навыков, «голос владельца, outbox/, итог в конце»);
+  - проверяет, что навыки существуют;
+  - нанимает робота в офис и пишет реестр `/data/factory.json`;
+- `list`, `schedule &lt;id&gt; "&lt;cron&gt;" "задача"`, `unschedule`, `run &lt;id&gt; "задача"` (кладёт задание в `/data/factory-queue/`), `delete`;
+- **цикл в bot.py** каждые 15 секунд:
+  - забирает задания из очереди и раз в минуту проверяет cron по Москве (поддержка `*`, списков, диапазонов, шагов `*/n`, воскресенье 0 и 7);
+  - запускает `claude -p &lt;задача&gt; --output-format json --append-system-prompt &lt;тело агента&gt;` с моделью агента;
+  - перед запуском ставит внешнюю задачу в офис, после запуска закрывает её отчётом;
+  - присылает владельцу «🤖 Имя · по расписанию» с итогом и файлами;
+  - один и тот же агент не запускается дважды одновременно;
+- в SYSTEM записать порядок сборки агента:
+  1. продумать роль;
+  2. написать инструкцию в `work/&lt;id&gt;.md`;
+  3. при необходимости создать навык;
+  4. `create`;
+  5. пробный `run`;
+  6. `schedule`;
+- правило: не чаще раза в час без прямой просьбы, каждый запуск тратит деньги.
+
+**Навыки главного агента (`agent/skills/&lt;навык&gt;/SKILL.md`, frontmatter `name`, `description`):**
+- `site-builder`:
+  - сайт одним HTML-файлом;
+  - адаптив 360-1440 px;
+  - проверка скриншотами `chromium --headless --no-sandbox --window-size=390,844 --screenshot=...` и 1440×900 с исправлением найденного;
+  - отдача в `outbox/` или публикация.
+- `publish`:
+  - новый проект: `gh repo create &lt;аккаунт&gt;/&lt;имя&gt; --private --source . --push`;
+  - Railway: `railway init`, `railway up --detach`, `railway domain`, проверка `curl -sI` и логи сборки при ошибке;
+  - существующие сервисы обновляются пушем в ветку;
+  - удалять ничего нельзя без прямой просьбы.
+- `montage`:
+  - ffmpeg: вертикаль 9:16 с обрезкой или размытым фоном, нарезка;
+  - вырезание пауз по таймингам слов из `tools/subs.py silences`;
+  - субтитры ASS с подсветкой текущего слова (`tools/subs.py ass`);
+  - музыка с приглушением, текст-хук, обложка;
+  - проверка кадром, отдача в `outbox/` до 50 МБ.
+- Маркетинговые и дизайнерские навыки, которые есть у владельца в Claude, можно скопировать в `agent/skills`, если у них открытая лицензия (MIT или Apache). Лицензию положи рядом.
+
+**MEMORY.md:** кто владелец, ниша, аудитория, голос, проекты и ссылки, какие доступы подключены. Без паролей и ключей.
+
+## Б4. Публикация на Railway
+
+1. Создай проект Railway, например `ii-office`, через коннектор Railway, CLI с токеном владельца или по шагам для владельца.
+2. **Сервис `office`:**
+   - источник: репозиторий, ветка `main`;
+   - Root Directory `/office`;
+   - Start Command `python main.py`;
+   - Healthcheck `/health`;
+   - том `/data`;
+   - переменные `OFFICE_PASSWORD`, `DB_PATH=/data/office.db`, по желанию `ANTHROPIC_API_KEY` как запасной мозг;
+   - **Generate Domain**: это адрес офиса.
+3. **Сервис `agent`:**
+   - тот же репозиторий, Root Directory пустой;
+   - `RAILWAY_DOCKERFILE_PATH=agent/Dockerfile`;
+   - том `/data`;
+   - Restart Policy: Always;
+   - все переменные из Б3, `OFFICE_URL` = домен офиса;
+   - Watch Paths: `agent/**`, чтобы правки офиса не перезапускали бота;
+   - внутреннее имя сервиса `agent`: офис ходит к нему по адресу `agent.railway.internal:8080` (Private Networking включён в проекте по умолчанию).
+4. Дождись зелёного статуса обоих сервисов и проверь логи.
+5. Важно: у бота должен быть **один** работающий экземпляр. Два экземпляра с одним токеном дают ошибку Telegram 409 Conflict.
+
+## Б5. Проверки перед сдачей владельцу
+
+- [ ] Офис открывается по домену, пароль пускает, 8 комнат с табличками, роботы сидят по своим отделам, в шапке «· подписка».
+- [ ] Тестовая задача любому агенту («ответь одной строкой «работаю») выполняется за секунды: мозг на подписке отвечает.
+- [ ] Рабочая задача оркестратору («подготовь запуск мини-продукта: тексты, рилсы, реклама») уходит 2-3 агентам разных отделов: робот обходит их столы, счётчики отделов зеленеют, итог приходит.
+- [ ] Найм через «+ Нанять агента» показывает плашку «Новый сотрудник», робот входит и садится в нужный отдел.
+- [ ] Страница на телефоне не шире экрана, `/api/state` весит меньше 300 КБ.
+- [ ] Бот в Telegram отвечает владельцу и не отвечает чужому аккаунту.
+- [ ] Голосовое расшифровывается и выполняется.
+- [ ] Просьба «поручи контент-продюсеру 3 идеи для рилс» видна в офисе и возвращается итогом в Telegram.
+- [ ] Завод: тестовый агент создаётся, пробный запуск присылает отчёт, расписание видно в `factory.py list`. Тестового агента потом удали.
+- [ ] Сайт: просьба «сделай одностраничник» присылает HTML и скриншот телефона.
+- [ ] В git нет ни одного ключа: `git grep -nE "sk-ant|github_pat|AAF"` пусто.
+
+Сдай владельцу коротко: адрес офиса, ссылку на бота, что умеет, примеры команд и сколько примерно стоит одна задача.
+
+---
+
+# Часть В. Как пользоваться
+
+Пиши или надиктовывай боту обычными словами:
+- «Разбери эти сообщения и скажи, что срочно» (и перешли переписку)
+- «Поручи трендхантеру 5 идей про ИИ для мам в декрете, а контент-продюсеру распиши лучшую в сценарий рилс»
+- «Сделай агента, который каждый будний день в 9:00 присылает мне план дня»
+- «Смонтируй это видео: вертикально, субтитры, убери паузы» (и приложи видео)
+- «Сделай лендинг для моей консультации и выложи по ссылке»
+- «Подготовь запуск мини-продукта: тексты, рилсы, реклама и воронка» (оркестратор раздаст задачу маркетингу, контент-студии и продажам)
+- «Найми в продажи агента, который отвечает на возражения по моему курсу»
+- «Покажи всех агентов завода» · `/new` начать новый разговор · `/stop` остановить задачу
+
+В самом офисе можно писать любому агенту напрямую: выбери робота, напиши в чат или нажми «Дать задачу».
+
+## Частые проблемы
+
+| Что видишь | Почему | Что сделать |
+|---|---|---|
+| Бот молчит | сервис `agent` упал или перезапускается | Railway → agent → Deployments → логи; попроси Claude Code починить |
+| «Conflict: terminated by other getUpdates» | у бота два экземпляра | оставь один сервис с этим токеном |
+| Голосовое с ошибкой `metadata_errors` | Whisper читает файл через новую версию PyAV | декодировать через ffmpeg (см. Б3, пункт 4) |
+| «Telegram отдаёт ботам файлы только до 20 МБ» | ограничение Telegram | присылай видео ссылкой на Google Диск или Яндекс Диск |
+| Агенты в офисе отвечают «ошибка 400» | закончился баланс API-ключа | переведи мозг на подписку (Б2, дорожка 1) или пополни баланс |
+| «Claude на подписке не ответил» | сервис `agent` перезапускается или упал | подожди пару минут, потом проверь логи `agent` |
+| Оркестратор всё делает сам, роботы стоят | в его инструкции «простое делай сам» | правило из Б2: рабочие задачи всегда раздавать команде |
+| Офис тормозит | тяжёлый опрос `/api/state` | кириллица без экранирования, обрезка заголовков (Б2, «Лёгкость») |
+| Клиенты пишут «ссылка не открывается» | адрес `*.up.railway.app` блокируется у части провайдеров в России | давай людям прямые ссылки, без переадресации через свой сервер |
+| Сервер в России, бот молчит | с российских серверов не открывается API Telegram | держи сервер за рубежом (Railway подходит) |
+| Лимиты подписки кончаются | много задач по расписанию | реже расписание, для простых агентов модель `haiku` или `sonnet` |
+
+## Безопасность
+
+- У главного агента полный доступ к серверу, GitHub и Railway. Бот отвечает только тебе, никому не давай пароль офиса.
+- Ключи живут только в переменных Railway. Если ключ попал в переписку или в код, выпусти новый и удали старый.
+- Раз в 90 дней обновляй GitHub-токен (он истекает) и проверяй лимит расходов Anthropic.</pre></div>
+    </div>
+
+    <div class="blk" id="o-c">
+      <span class="k">часть в · пользуйся</span>
+      <h4>Что сказать агенту в Telegram</h4>
+      <div class="say">
+        <div class="ph"><span>«Разбери эти сообщения и скажи, что срочно» и перешли переписку</span><button type="button" class="copy" data-text="Разбери эти сообщения и скажи, что срочно">Скопировать</button></div>
+        <div class="ph"><span>«Поручи трендхантеру 5 идей про ИИ для мам в декрете, а контент-продюсеру распиши лучшую в сценарий рилс»</span><button type="button" class="copy" data-text="Поручи трендхантеру 5 идей про ИИ для мам в декрете, а контент-продюсеру распиши лучшую в сценарий рилс">Скопировать</button></div>
+        <div class="ph"><span>«Сделай агента, который каждый будний день в 9:00 присылает мне план дня»</span><button type="button" class="copy" data-text="Сделай агента, который каждый будний день в 9:00 присылает мне план дня">Скопировать</button></div>
+        <div class="ph"><span>«Смонтируй это видео: вертикально, субтитры, убери паузы» и приложи видео</span><button type="button" class="copy" data-text="Смонтируй это видео: вертикально, субтитры, убери паузы">Скопировать</button></div>
+        <div class="ph"><span>«Сделай лендинг для моей консультации и выложи по ссылке»</span><button type="button" class="copy" data-text="Сделай лендинг для моей консультации и выложи по ссылке">Скопировать</button></div>
+        <div class="ph"><span>«Подготовь запуск мини-продукта: тексты, рилсы, реклама и воронка», и оркестратор раздаст задачу трём отделам</span><button type="button" class="copy" data-text="Подготовь запуск мини-продукта: тексты, рилсы, реклама и воронка">Скопировать</button></div>
+        <div class="ph"><span>«Найми в продажи агента, который отвечает на возражения по моему курсу»</span><button type="button" class="copy" data-text="Найми в продажи агента, который отвечает на возражения по моему курсу">Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="blk" id="o-fix">
+      <span class="k">если что-то не так</span>
+      <h4>Частые проблемы</h4>
+      <div class="tbl"><table>
+        <tr><th>Что видишь</th><th>Что сделать</th></tr>
+        <tr><td>Бот молчит</td><td>Railway → сервис agent → Deployments → логи. Попроси Claude Code починить.</td></tr>
+        <tr><td>«Conflict: terminated by other getUpdates»</td><td>У бота два экземпляра. Оставь один сервис с этим токеном.</td></tr>
+        <tr><td>Агенты отвечают «ошибка 400»</td><td>Кончился баланс API-ключа. Переведи офис на подписку (часть Б) или пополни баланс.</td></tr>
+        <tr><td>Оркестратор всё делает сам, роботы стоят</td><td>В его инструкции должно быть: рабочие задачи всегда раздавать команде.</td></tr>
+        <tr><td>Клиенты пишут «ссылка не открывается»</td><td>Адреса <code>*.up.railway.app</code> у части провайдеров в России открываются только с VPN. Давай людям прямые ссылки.</td></tr>
+        <tr><td>Видео не принимается</td><td>Telegram отдаёт ботам файлы до 20 МБ. Присылай ссылкой на Google Диск или Яндекс Диск.</td></tr>
+        <tr><td>Лимиты подписки кончаются</td><td>Реже расписание агентов, для простых задач модель попроще.</td></tr>
+      </table></div>
+      <div class="note"><b>Безопасность.</b> У главного агента полный доступ к серверу, GitHub и Railway. Бот отвечает только тебе, никому не давай пароль офиса. Ключи живут только в настройках Railway: если ключ попал в переписку, выпусти новый.</div>
+    </div>
+  </div>
+
+  <!-- ========== КОНТЕНТ-ЗАВОД ========== -->
+  <div class="panel" role="tabpanel" id="p-zavod" aria-labelledby="tab-zavod" hidden>
+    <div class="ghead">
+      <span class="k">инструкция 02</span>
+      <h3>Контент-завод со стильным монтажом</h3>
+      <p class="lead">Собираем завод, который сам находит тренды, пишет сценарий и монтирует рилс в твоём стиле. Стили загружаешь свои. HeyGen и другие сервисы подключаются потом одной вставкой, без переделки завода. Код пишет Codex, ты ставишь задачи словами.</p>
+      <div class="chips"><span class="chip">14 шагов</span><span class="chip">15 готовых промптов</span><span class="chip">2-3 вечера на сборку</span></div>
+      <div class="progress"><div class="pbar2"><i data-b="zavod"></i></div><span data-c="zavod">0 / 0</span></div>
+      <nav class="mnav" aria-label="Разделы инструкции"><a href="#z-what">Что получится</a><a href="#z-need">Что нужно</a><a href="#z-arch">Как устроен</a><a href="#z-steps">Шаги 1-14</a><a href="#z-style">Файл стиля</a><a href="#z-heygen">HeyGen</a><a href="#z-bugs">Грабли</a><a href="#z-ready">Чек-лист</a></nav>
+    </div>
+
+    <div class="blk" id="z-what">
+      <span class="k">что получится</span>
+      <h4>Конвейер от тренда до готового рилса</h4>
+      <div class="flow"><span>Тренды</span><i>→</i><span>Сценарий</span><i>→</i><span>Проверка</span><i>→</i><span>Кадры</span><i>→</i><span>Голос или аватар</span><i>→</i><span>Монтаж в стиле</span><i>→</i><span>Арт-директор</span><i>→</i><span>Пакет в Telegram</span></div>
+      <div class="cards c2">
+        <div class="card"><h5>Монтаж, который не стыдно выложить</h5><ul><li>Первый кадр: твоё лицо или твоё видео</li><li>Твои фото в движении: наезд со вспышкой, карточка в рамке, шторка</li><li>Субтитры по словам, хук крупно в первые 2 секунды</li><li>Арт-директор смотрит кадры и сам отправляет на переделку</li></ul></div>
+        <div class="card"><h5>Гибкость на будущее</h5><ul><li>Свои стили: цвета, шрифты, темп, переходы, правила кадра</li><li>Стиль можно снять с любого референса: ролика или скринов</li><li>HeyGen, ElevenLabs и другие сервисы подключаются как модули</li><li>Тренды из Apify: Reels и TikTok по хэштегам и конкурентам</li><li>Пульт и бот-агент в Telegram с кнопками на каждом шаге</li></ul></div>
+      </div>
+    </div>
+
+    <div class="blk" id="z-need">
+      <span class="k">что нужно</span>
+      <h4>Сервисы</h4>
+      <div class="tbl"><table>
+        <tr><th>Что</th><th>Сколько</th></tr>
+        <tr><td>Подписка ChatGPT Plus или Pro: на ней работает Codex и думают все агенты завода</td><td class="num">от 20 $/мес</td></tr>
+        <tr><td>GitHub: хранит код завода</td><td class="num">бесплатно</td></tr>
+        <tr><td>Hostinger VPS: сервер, где завод работает круглосуточно</td><td class="num">тариф KVM 2+</td></tr>
+        <tr><td>Telegram-бот через @BotFather</td><td class="num">бесплатно</td></tr>
+        <tr><td>Монтаж Remotion, голос edge-tts, ffmpeg</td><td class="num">бесплатно</td></tr>
+        <tr><td>Apify: парсинг трендовых Reels и TikTok</td><td class="num">от 0 $, оплата за ролики</td></tr>
+        <tr><td>HeyGen API для аватара</td><td class="num">потом, по тарифу HeyGen</td></tr>
+      </table></div>
+      <div class="note">Завод работает по подписке ChatGPT через вход в Codex («Sign in with ChatGPT»), отдельный ключ API не нужен. На сервер переносишь файл входа <code>auth.json</code> или входишь там командой <code>codex login --device-auth</code>. Лимиты подписки общие с твоей работой в Codex: если завод делает много роликов, бери тариф выше.</div>
+    </div>
+
+    <div class="blk" id="z-arch">
+      <span class="k">как устроен</span>
+      <h4>Три слоя</h4>
+      <p class="note-s">Если держать их раздельно с первого дня, любой новый стиль или сервис добавляется за вечер и ничего не ломает.</p>
+      <div class="cards c3">
+        <div class="card"><b class="tg">слой 1</b><h5>Станции</h5><p>Агенты Codex: тренды, сценарий, проверка, раскадровка, публикация. Знают твой бренд, ничего не знают про монтаж.</p></div>
+        <div class="card"><b class="tg">слой 2</b><h5>Движок монтажа</h5><p>Библиотека анимированных сцен на Remotion. Как выглядит ролик, решает файл стиля.</p></div>
+        <div class="card"><b class="tg">слой 3</b><h5>Модули сервисов</h5><p>Голос, аватар, стоки, тренды. У каждого модуля одинаковый вход и выход, поэтому HeyGen встаёт рядом с синтезом голоса без переделок.</p></div>
+      </div>
+      <div class="tbl"><table>
+        <tr><th>Папка</th><th>Что в ней</th></tr>
+        <tr><td><code>brand/</code></td><td>паспорт бренда, кодовые слова, словарь ударений</td></tr>
+        <tr><td><code>stations/</code></td><td>агенты конвейера</td></tr>
+        <tr><td><code>reel/</code></td><td>движок монтажа: сцены Remotion</td></tr>
+        <tr><td><code>styles/</code></td><td>стили: по папке на стиль, внутри <code>style.json</code>, шрифты, текстуры</td></tr>
+        <tr><td><code>providers/</code></td><td>модули сервисов: <code>voice/</code>, <code>avatar/</code>, <code>stock/</code>, <code>trends/</code></td></tr>
+        <tr><td><code>/data</code></td><td>на сервере: партии, медиатека, готовые ролики, очередь задач</td></tr>
+      </table></div>
+    </div>
+
+    <div class="blk" id="z-steps">
+      <span class="k">шаги и промпты</span>
+      <h4>Собираем завод</h4>
+      <p class="note-s">Каждый промпт копируешь целиком в Codex. В квадратных скобках подставь своё. Первая версия всегда сырая: смотри результат и проси правки обычными словами.</p>
+      <div class="steps">
+        <div class="step"><input type="checkbox" class="ck" id="z1" data-g="zavod"><div class="sc"><label for="z1"><span class="sn">01</span>Поставь Codex и создай папку</label>
+          <div class="sb"><p>Поставь приложение Codex или Codex CLI для терминала: <code>npm i -g @openai/codex</code> (нужен Node.js с nodejs.org). Запусти <code>codex</code> и выбери «Sign in with ChatGPT». Создай пустую папку <code>content-zavod</code> и открой её в Codex. Дальше всё делаешь промптами.</p><p>Codex сам спрашивает разрешение на команды. Для сборки удобно разрешить ему правки внутри папки проекта, а команды вне папки подтверждать вручную.</p></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="z2" data-g="zavod"><div class="sc"><label for="z2"><span class="sn">02</span>Паспорт бренда</label>
+          <div class="sb"><p>Самый важный шаг. Без паспорта тексты звучат «нейросетью», а стиль ролика гуляет.</p><div class="prompt"><div class="pbar"><span>Промпт · паспорт бренда</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Создай папку brand/ и в ней файл brand.md: паспорт моего бренда, по нему пишут все агенты завода.
+Кто я: [имя, чем занимаюсь, главные кейсы и цифры].
+Аудитория: [кто они, возраст, боли, страхи, чего хотят].
+Ядро смыслов: [5-10 мыслей, которые я повторяю].
+Голос: [на «ты» или на «вы», юмор, любимые слова и метафоры].
+Призыв в конце ролика и поста: кодовое слово в комментарии и подарок за него:
+[СЛОВО1: что получит], [СЛОВО2: что получит].
+Запрещено: длинные тире, обещания дохода без условий, канцелярит, [мои стоп-слова].
+Создай AGENTS.md в корне проекта: короткие правила для Codex (пиши по-русски, читай brand/brand.md перед любыми текстами,
+ключи только из переменных окружения, перед правкой монтажа смотри превью кадров).
+Отдельно создай brand/pronunciation.json: словарь «как пишется → как произносить» для синтеза голоса.
+Задай мне 5 уточняющих вопросов, потом напиши файлы.</pre></div></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="z3" data-g="zavod"><div class="sc"><label for="z3"><span class="sn">03</span>Каркас: станции, очередь и место под модули</label>
+          <div class="sb"><p>Здесь закладываем папку <code>providers/</code>. Именно она потом позволит подключить HeyGen одной вставкой.</p><div class="prompt"><div class="pbar"><span>Промпт · каркас</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Собери на Python «контент-завод»: конвейер станций, каждая станция это агент Codex
+(вызывай codex exec в неинтерактивном режиме, работаем по подписке ChatGPT через вход Codex, без API-ключа;
+проверь флаги в codex exec --help: ответ в JSON, картинки на вход, папка запуска, режим без вопросов только внутри папки партии).
+Одна обёртка ask(prompt, images=[], schema=None) для всех станций, с таймаутом и одним повтором при сбое.
+Станции: 1) Трендсеттер: разбирает залетевший ролик или тему и пишет НАШ сценарий;
+2) Копирайтер: сценарий рилса 25-40 сек, подпись до 2200 знаков, цепочка Threads до 450 знаков на пост, пост Telegram;
+3) Проверщик: стоп-слова, лимиты, факты, хук, кодовое слово, сам исправляет;
+4) Раскадровка: 6-9 сцен, у каждой тип сцены из библиотеки монтажа и текст на экране;
+5) Голос; 6) Монтаж; 7) Арт-директор; 8) Публикация.
+Все агенты читают brand/brand.md.
+Архитектура:
+- Папки: stations/ (станции), reel/ (движок монтажа), styles/ (стили), providers/ (модули внешних сервисов).
+- providers/ раздели на voice/, avatar/, stock/, trends/. У каждого вида один общий интерфейс
+  (например voice: synth(text, out_path) -&gt; {audio, words[{word,start,end}]}),
+  нужный модуль выбирается настройкой, модули без ключа выключаются сами и не ломают завод.
+- Данные партий в JSON на диске /data, задачи в очереди-файлах. После перезапуска сервера
+  прерванная станция продолжается сама (одна повторная попытка).
+- Станции по одной за раз, любую можно перезапустить отдельно.
+Напиши README: как запустить локально и что где лежит.</pre></div></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="z4" data-g="zavod"><div class="sc"><label for="z4"><span class="sn">04</span>Тренды через Apify</label>
+          <div class="sb"><p>Apify это магазин готовых парсеров. Завод через него собирает свежие Reels и TikTok по хэштегам и аккаунтам конкурентов и сам считает, какие ролики залетели.</p><ul><li>Зарегистрируйся на apify.com. Бесплатного стартового лимита хватит на тест, дальше оплата по факту за собранные ролики</li><li>Settings → API &amp; Integrations → скопируй API-токен</li><li>Впиши его в файл <code>.env</code> на сервере как <code>APIFY_TOKEN</code>. В код и в чат не вставляй</li></ul><div class="prompt"><div class="pbar"><span>Промпт · тренды из Apify</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Сделай модуль трендов providers/trends/apify.py по общему интерфейсу
+search(topic, limit) -&gt; [{url, platform, author, caption, views, likes, comments, followers, posted_at, video_url, viral}].
+Токен из APIFY_TOKEN. Сначала найди в Apify Store актуальные парсеры: Instagram Reels (по хэштегам и профилям)
+и TikTok (по хэштегам и запросу). Бери официальные apify/ или с высоким рейтингом и свежими обновлениями,
+сверь поля входа и выхода по их странице, не пиши по памяти. Названия выбранных парсеров вынеси в настройки.
+Запуск через API Apify: короткие запросы синхронно (run-sync-get-dataset-items), длинные асинхронно
+с проверкой статуса раз в 10 секунд, максимум 5 минут.
+Источники в настройках: мои хэштеги [#хэштег1, #хэштег2], аккаунты конкурентов [@ник1, @ник2], запросы [тема].
+Бери ролики за последние 14 дней. Залетевший = просмотры в 3+ раза больше подписчиков автора
+или в 3+ раза больше его медианы. Сортируй по этому коэффициенту.
+Отсей ролики не по теме: Codex смотрит подпись и оставляет только то, что подходит моей аудитории из brand/brand.md.
+Кэшируй результаты на 6 часов, чтобы не платить за одинаковый поиск дважды.
+Лимит APIFY_MAX_ITEMS (по умолчанию 60 роликов за поиск). Покажи, сколько стоил последний поиск.
+Трендсеттер берёт ролики отсюда; если ключа нет, принимает ссылку на ролик от меня (скачивает yt-dlp).
+В бот: «найди тренды про [тема]» присылает топ-5 с цифрами, ответ «1» или «1 и 3» запускает партии.</pre></div></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="z5" data-g="zavod"><div class="sc"><label for="z5"><span class="sn">05</span>Бот-агент в Telegram</label>
+          <div class="sb"><p>В Telegram открой @BotFather → /newbot → получишь токен. Никому его не пересылай, он пойдёт в настройки сервера.</p><div class="prompt"><div class="pbar"><span>Промпт · бот-диспетчер</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Сделай Telegram-бота: диспетчера завода. Токен в переменной TELEGRAM_BOT_TOKEN, отвечает только моему чату.
+Понимает текст и голосовые (расшифровка faster-whisper) и сам решает, что запустить:
+«найди тренды про [тема]», «вот ролик [ссылка], сделай рилс», «бери 1 и 3», «сделай хук жёстче».
+Короткие ответы вроде «1» или «1 и 3» после списка трендов разбирай сам, без вызова Codex.
+Меню кнопками: Найти тренды, Готовые сценарии, Моё видео, Медиатека, Стили, Что на заводе, Готовые ролики, Стоп, Пульт.
+Пошаговый режим: после каждой станции присылай результат и кнопки следующего шага:
+после проверки «Подбери кадры сам» / «Загружу свои»; перед монтажом «Запишу свой голос» / «Озвучь синтезом» / «Аватар»;
+после монтажа ролик и «Собрать пакет» / «Перемонтировать» / «Другой стиль». Плюс кнопка «Дальше сам до конца».</pre></div></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="z6" data-g="zavod"><div class="sc"><label for="z6"><span class="sn">06</span>Движок монтажа: библиотека сцен</label>
+          <div class="sb"><p>Стильность рождается здесь. Ролик собирается из сцен-заготовок, каждая анимирована и попадает в слова. Чем богаче библиотека, тем меньше похоже на слайд-шоу.</p><div class="prompt"><div class="pbar"><span>Промпт · сцены Remotion</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Сделай в папке reel/ движок монтажа на Remotion (React-видео), формат 1080×1920, 30 fps.
+Ролик = список сцен из раскадровки. Каждая сцена получает тайминги слов озвучки, и анимация попадает в слова.
+Библиотека сцен (каждая отдельный компонент):
+hook: хук крупно, буквы влетают, первые 2 секунды; big: одно огромное слово или цифра;
+counter: счётчик цифр; list: пункты появляются по одному; compare: было/стало со шторкой;
+prompt: карточка промпта, текст печатается; screen: скрин сайта в рамке телефона с прокруткой;
+photo: моё фото в трёх раскладках (full: наезд со вспышкой; card: карточка в белой рамке с поворотом;
+split: диагональная шторка), video: моё видео; quote: цитата; cta: кодовое слово и подарок.
+ВАЖНО: ни одного цвета, шрифта и скорости в коде сцен. Всё берётся из файла стиля
+styles/[имя]/style.json, который передаётся в композицию как props. Если поля нет, бери значение по умолчанию.
+Субтитры: по 2-4 слова, текущее слово подсвечено акцентом, не повторяют текст хука на том же кадре.
+Сделай команду render.py: на вход раскадровка, озвучка и имя стиля, на выход MP4.
+Покажи мне превью трёх кадров (хук, фото, cta) картинками, прежде чем рендерить целиком.</pre></div></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="z7" data-g="zavod"><div class="sc"><label for="z7"><span class="sn">07</span>Свои стили</label>
+          <div class="sb"><p>Стиль это папка в <code>styles/</code>: файл <code>style.json</code>, шрифты и текстуры. Код монтажа не трогаем. Формат файла разобран <a href="#z-style">ниже</a>. Стиль можно написать руками, а можно снять с референса.</p><div class="prompt"><div class="pbar"><span>Промпт · система стилей</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Сделай систему стилей монтажа.
+1. Опиши схему styles/schema.json для style.json: colors, fonts, subtitles, motion, photo, texture, music, rules.
+   Проверяй каждый стиль по схеме при загрузке и пиши понятно, какого поля не хватает.
+2. Создай 3 стиля для старта: [мой фирменный: цвета и шрифт], «Минимал» (белый фон, чёрный текст, спокойный темп),
+   «Неон» (тёмный фон, яркий акцент, быстрые склейки).
+3. Шрифты клади файлами в папку стиля (woff2 или ttf) и подключай в Remotion, без загрузки из интернета.
+4. Стиль по умолчанию задаётся настройкой, у каждой партии можно выбрать свой.
+5. Команда «перемонтировать в стиле [имя]» перерендеривает ролик без повторной озвучки и раскадровки.
+6. Сделай превью стиля: один кадр хука, фото и субтитров в этом стиле картинкой, чтобы выбирать глазами.</pre></div><div class="prompt"><div class="pbar"><span>Промпт · стиль с референса</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Сделай станцию «Снять стиль». На вход: ролик-референс (файл или ссылка) или 3-10 скринов.
+Из видео вытащи ffmpeg-ом кадр каждые 0,5 секунды и измерь среднюю длину склейки.
+Передай кадры в codex exec как картинки и опиши: палитру (hex), характер шрифтов (подбери похожие бесплатные с Google Fonts),
+где и как стоят субтитры, темп, переходы, как подаются фото и лица, есть ли зерно, рамки, стикеры.
+Собери из этого styles/[имя]/style.json по схеме, скачай шрифты в папку стиля и сделай превью.
+Чужие логотипы, водяные знаки и узнаваемых персонажей в стиль не переноси.
+В боте и на пульте добавь кнопку «Загрузить стиль»: присылаю референс, получаю превью и кнопки «Сохранить» / «Поправить».</pre></div><div class="note">С референса берём приём. Цвета, ритм и раскладку можно перенять, логотипы и персонажей нельзя.</div></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="z8" data-g="zavod"><div class="sc"><label for="z8"><span class="sn">08</span>Медиатека: твои фото и видео в каждом ролике</label>
+          <div class="sb"><p>Анимация без живых кадров выглядит дёшево. Загружаешь 50-200 своих фото и видео один раз, дальше завод ставит их сам.</p><div class="prompt"><div class="pbar"><span>Промпт · медиатека</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Сделай медиатеку в /data/library: загрузка фото и видео с пульта и из бота, опись в index.json.
+Фото сжимай до 1440 px, видео переводи в 1080×1920 без звука до 30 секунд и делай превью.
+Каждый файл описывает Codex одной фразой (картинки передавай в codex exec): кто в кадре, где, что происходит, есть ли экран и что на нём.
+Описывай ОДНИМ фоновым потоком пачками по 8 картинок за вызов. Нельзя запускать по Codex на каждый файл:
+200 загрузок положат сервер.
+Правила раскадровки: первый кадр ролика всегда моё лицо или моё видео;
+в ролике минимум 3 моих кадра; два фото подряд не ставь, между ними анимированная сцена;
+раскладки фото чередуй (full, card, split); реже использованные кадры в приоритете, отмечай использование.</pre></div></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="z9" data-g="zavod"><div class="sc"><label for="z9"><span class="sn">09</span>Голос: живой, без пауз и с правильными ударениями</label>
+          <div class="sb"><div class="prompt"><div class="pbar"><span>Промпт · голос</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Сделай модуль голоса в providers/voice/ с общим интерфейсом synth(text, out) -&gt; {audio, words}.
+1. edge (по умолчанию, бесплатно): edge-tts ru-RU-SvetlanaNeural. Синтезируй ВЕСЬ текст ОДНИМ дублем
+   (по фразам интонация роботная). Потом обрежь паузы длиннее 0,2 сек и раздели на сцены по таймингам слов.
+2. own: мой голос. Присылаю голосовое или файл, ты чистишь края, расшифровываешь по словам (faster-whisper),
+   режешь паузы длиннее 0,35 сек и дубли.
+3. elevenlabs: включается, если есть ELEVENLABS_API_KEY, берёт тайминги слов из /with-timestamps.
+Перед синтезом прогоняй текст через brand/pronunciation.json (например «нейросеть» → «нейро сеть»),
+а в субтитрах показывай исходное написание. Служебные знаки (звёздочки, решётки, скобки) из текста для голоса убирай.</pre></div></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="z10" data-g="zavod"><div class="sc"><label for="z10"><span class="sn">10</span>Арт-директор: завод сам смотрит, что смонтировал</label>
+          <div class="sb"><p>Эта станция отличает стильный завод от генератора слайдов. Без неё брак видишь только ты.</p><div class="prompt"><div class="pbar"><span>Промпт · арт-директор</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Сделай станцию «Арт-директор» после монтажа.
+Вытащи из готового ролика по кадру на каждую сцену и передай их в codex exec как картинки.
+Оцени от 1 до 10 по пунктам: читается ли текст на фоне (контраст), не дублируют ли субтитры хук,
+не обрезан ли текст, есть ли пустые кадры, совпадает ли хук с содержанием, соблюдён ли стиль и правила медиатеки.
+Ответ JSON: оценка, список проблем с номером кадра и что поправить в раскадровке или стиле.
+Если оценка ниже 7: сам поправь раскадровку и перемонтируй, максимум 2 круга. Потом присылай мне лучший вариант
+и коротко, что исправил.</pre></div></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="z11" data-g="zavod"><div class="sc"><label for="z11"><span class="sn">11</span>Пульт: дашборд завода</label>
+          <div class="sb"><div class="prompt"><div class="pbar"><span>Промпт · пульт</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Сделай веб-пульт завода на aiohttp, вход по паролю из PANEL_PASSWORD, удобный с телефона.
+Вкладки: Завод (станции горят по мере работы, текущая партия открывается сама), Партии, Тренды,
+Медиатека (загрузка, сетка превью, удаление, подписи), Стили (превью, загрузка референса, выбор по умолчанию),
+Голос (запись с микрофона или загрузка файла), Настройки (режим шагов, голос, аватар, кодовые слова, ударения).
+У каждой партии: тексты, раскадровка, ролик, кнопки «Перемонтировать», «Другой стиль», «Собрать пакет».
+Вкладки, которые не влезли, переносятся на новую строку.</pre></div></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="z12" data-g="zavod"><div class="sc"><label for="z12"><span class="sn">12</span>Сервер на Hostinger VPS</label>
+          <div class="sb"><p>Нужен именно VPS. Обычный хостинг сайтов бота не запустит: заводу нужны Python, Node, ffmpeg и браузер для монтажа.</p><ul><li>hPanel → VPS → тариф от KVM 2 (2 ядра, 8 ГБ памяти). Меньше не бери: монтаж Remotion съедает память</li><li>Шаблон системы: Ubuntu 24.04 с Docker. Локация любая за пределами России, например Нидерланды или Литва</li><li>Задай пароль root. Терминал сервера открывается прямо в hPanel: VPS → Browser terminal</li><li>VPS → Firewall: открой порты 22, 80 и 443, остальное закрыто</li><li>Домены → DNS: запись A, например <code>zavod.твойдомен.ru</code> → IP сервера. Это будет адрес пульта</li></ul><div class="prompt"><div class="pbar"><span>Промпт · упаковка под VPS</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Подготовь завод к запуску на моём VPS Hostinger (Ubuntu 24.04, Docker).
+- Dockerfile: Python, Node 22, ffmpeg, Chromium для Remotion, Codex CLI (npm i -g @openai/codex).
+- docker-compose.yml: сервис zavod с restart: unless-stopped, папка ./data на сервере смонтирована в /data,
+  ./codex смонтирована в /root/.codex (там вход Codex), переменные из файла .env.
+- Второй сервис Caddy: HTTPS для домена [zavod.мойдомен.ru] и проксирование на пульт.
+- .env.example со списком всех переменных без значений; .env и папки data, codex добавь в .gitignore.
+- deploy.sh: git pull, docker compose up -d --build, показать последние 50 строк лога.
+- Чистка: видео и рабочие файлы старше 3 дней удаляются сами, чтобы диск не забился.
+- Залей проект в мой приватный репозиторий GitHub и напиши мне по шагам, что вводить в терминале сервера.</pre></div><div class="prompt code"><div class="pbar"><span>В терминале сервера</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>git clone https://github.com/[ник]/content-zavod.git &amp;&amp; cd content-zavod
+cp .env.example .env &amp;&amp; nano .env        # вписать токены, сохранить Ctrl+O, выйти Ctrl+X
+chmod 600 .env
+mkdir -p codex data
+# вход Codex: способ 1, прямо на сервере
+docker compose run --rm zavod codex login --device-auth
+# способ 2: скопировать с компьютера файл ~/.codex/auth.json в папку codex/ на сервере
+docker compose up -d --build
+docker compose logs -f --tail 50</pre></div><div class="note">Ключи и токены живут только в файле <code>.env</code> на сервере. Не вставляй их в код, в чат с Codex и в GitHub. Файл <code>auth.json</code> это вход в твой аккаунт ChatGPT, обращайся с ним как с паролем.</div></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="z13" data-g="zavod"><div class="sc"><label for="z13"><span class="sn">13</span>Подключи HeyGen, когда понадобится аватар</label>
+          <div class="sb"><p>Каркас из шага 3 уже ждёт модуль аватара. Подробности и режимы <a href="#z-heygen">ниже</a>.</p></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="z14" data-g="zavod"><div class="sc"><label for="z14"><span class="sn">14</span>Самопроверка всей цепочки</label>
+          <div class="sb"><div class="prompt"><div class="pbar"><span>Промпт · самопроверка</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Сделай selftest.py: прогоняет две тестовые партии целиком (из тренда и из моего видео) в отдельном потоке,
+чтобы не занимать очередь моих партий. Проверяет: каждая станция отработала, формат 1080×1920,
+длина 15-60 сек, есть звук, файл до 50 МБ, голос говорит сценарий (сравни расшифровку с текстом),
+нет длинных тире, лимиты знаков соблюдены, нет пустых кадров, оценка арт-директора 7+.
+Запускай после каждого обновления сервера и присылай мне в бот итог «N из M» с причинами провалов.</pre></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="blk" id="z-style">
+      <span class="k">файл стиля</span>
+      <h4>Меняешь цифры, получаешь другой ролик</h4>
+      <p class="note-s">Пример <code>styles/electric/style.json</code>. Меняешь значения, жмёшь «Перемонтировать», код не трогаешь.</p>
+      <div class="prompt code"><div class="pbar"><span>styles/electric/style.json</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>{
+  "name": "Electric",
+  "colors": { "bg": "#1009F6", "accent": "#FFBA09", "text": "#FFFFFF", "ink": "#141414" },
+  "fonts":  { "display": "Onest-Black.woff2", "body": "Onest-Medium.woff2" },
+  "subtitles": {
+    "position": "bottom", "case": "upper", "words": 3,
+    "highlight": "accent", "box": true
+  },
+  "motion": {
+    "tempo": 1.2,
+    "cut_every_sec": 1.6,
+    "transitions": ["punch", "whip", "wipe"],
+    "easing": "spring"
+  },
+  "photo": {
+    "layouts": ["full", "card", "split"],
+    "first_frame": "face",
+    "min_per_reel": 3,
+    "never_adjacent": true
+  },
+  "texture": { "grain": 0.06, "vignette": true },
+  "music": { "file": "beat-120.mp3", "duck_db": -14 },
+  "rules": [
+    "хук не длиннее 6 слов",
+    "на одном кадре не больше 12 слов",
+    "светлый текст только на тёмной подложке"
+  ]
+}</pre></div>
+      <div class="tbl"><table>
+        <tr><th>Поле</th><th>Что меняет</th></tr>
+        <tr><td><code>colors</code></td><td>фон, акцент, текст. Акцент подсвечивает текущее слово субтитров</td></tr>
+        <tr><td><code>fonts</code></td><td>файлы шрифтов из папки стиля: заголовки и текст</td></tr>
+        <tr><td><code>motion.tempo</code></td><td>общая скорость анимаций, 1.0 спокойно, 1.4 очень бодро</td></tr>
+        <tr><td><code>motion.cut_every_sec</code></td><td>как часто меняется картинка. Для рилсов 1,2-2 секунды</td></tr>
+        <tr><td><code>photo</code></td><td>раскладки твоих фото и правило первого кадра</td></tr>
+        <tr><td><code>texture</code></td><td>зерно и виньетка: дают «киношность»</td></tr>
+        <tr><td><code>rules</code></td><td>правила словами: их читают раскадровщик и арт-директор</td></tr>
+      </table></div>
+    </div>
+
+    <div class="blk" id="z-heygen">
+      <span class="k">аватар</span>
+      <h4>Подключение HeyGen</h4>
+      <p class="note-s">HeyGen делает говорящего аватара по твоему фото или видео. В заводе это ещё один модуль в <code>providers/avatar/</code>. Пока ключа нет, модуль выключен и завод работает как обычно.</p>
+      <div class="cards c2">
+        <div class="card"><h5>Что подготовить</h5><ul><li>Аккаунт HeyGen с доступом к API. Условия по тарифам меняются, проверь в своём кабинете</li><li>Своего аватара: видео по инструкции HeyGen или фото-аватар</li><li>API-ключ из настроек HeyGen → в <code>.env</code> на сервере как <code>HEYGEN_API_KEY</code></li><li>ID аватара и голоса → <code>HEYGEN_AVATAR_ID</code>, <code>HEYGEN_VOICE_ID</code></li></ul></div>
+        <div class="card"><h5>Режимы на выбор</h5><ul><li><b>Хук:</b> аватар говорит первые 3-5 секунд, дальше моушн. Дёшево и цепляет</li><li><b>Врезка:</b> аватар в кружке поверх сцен весь ролик</li><li><b>Целиком:</b> аватар на весь экран, сцены вставками</li><li><b>Выкл:</b> обычный голос</li></ul></div>
+      </div>
+      <div class="prompt"><div class="pbar"><span>Промпт · модуль HeyGen</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Подключи HeyGen как модуль аватара в providers/avatar/heygen.py по общему интерфейсу
+avatar.render(text_or_audio, out_path, mode) -&gt; {video, words}.
+Сначала прочитай актуальную документацию на docs.heygen.com (генерация видео, статус, вебхуки)
+и сверь эндпоинты и поля, не пиши по памяти.
+- Ключ из HEYGEN_API_KEY, аватар и голос из HEYGEN_AVATAR_ID и HEYGEN_VOICE_ID. Нет ключа: модуль выключен.
+- Если уже есть моя озвучка (свой голос или синтез), отдавай HeyGen готовое аудио, чтобы губы шли под мой голос.
+  Если нельзя, отдавай текст с голосом HEYGEN_VOICE_ID.
+- Формат 1080×1920, однотонный фон, который монтаж вырезает (хромакей ffmpeg) и ставит аватара поверх сцен.
+- Статус проверяй раз в 15 секунд, максимум 20 минут; готовое видео скачай в папку партии.
+- Кэшируй по хэшу текста: повторный монтаж не тратит кредиты второй раз.
+- Лимит HEYGEN_MAX_PER_DAY (по умолчанию 5 роликов в сутки), при превышении спроси меня в боте.
+- Режимы: hook, pip, full, off. Добавь выбор на пульт, в бот и в style.json (avatar.mode, avatar.position).
+- Ошибку HeyGen пиши мне в бот простыми словами и продолжай монтаж без аватара.
+- В самопроверку добавь тест модуля на коротком тексте, только если стоит флаг HEYGEN_SELFTEST=1 (тест стоит кредитов).</pre></div>
+      <div class="prompt"><div class="pbar"><span>Промпт · любой новый сервис</span><div class="pbtns"><button type="button" class="copy">Скопировать</button></div></div><pre>Хочу подключить [сервис, например ElevenLabs / Kling / Higgsfield / Pexels] для [зачем: голос / оживление фото / стоки].
+Прочитай его актуальную документацию, определи, в какой вид providers/ он встаёт, и сделай модуль по общему интерфейсу.
+Ключ только из переменной окружения. Без ключа модуль выключен и завод работает как раньше.
+Добавь выбор на пульт и тест в самопроверку. Скажи, сколько стоит один ролик с этим сервисом.</pre></div>
+    </div>
+
+    <div class="blk" id="z-bugs">
+      <span class="k">грабли</span>
+      <h4>На которые я уже наступила</h4>
+      <div>
+        <details><summary>Ролик похож на слайд-шоу</summary><p>Фото стояли подряд и без движения. Лечится раскладками full / card / split, правилом «не подряд» и счётчиком использований в медиатеке.</p></details>
+        <details><summary>200 загруженных фото положили сервер</summary><p>Каждое фото описывал отдельный вызов нейросети, и все разом. Нужен один фоновый поток и пачки по 8.</p></details>
+        <details><summary>Голос как робот, с длинными паузами</summary><p>Синтез шёл по фразам. Синтезируй весь текст одним дублем и режь паузы по таймингам слов.</p></details>
+        <details><summary>Неправильные ударения</summary><p>Словарь <code>brand/pronunciation.json</code>: в голос идёт «как произносить», в субтитры «как пишется».</p></details>
+        <details><summary>Текст на экране дублируется</summary><p>Хук сверху и субтитр снизу говорят одно и то же. Правило в сцене hook: субтитры прячутся, пока на экране хук.</p></details>
+        <details><summary>Белый текст на светлом скрине не читается</summary><p>Под текстом всегда подложка или затемнение. Арт-директор проверяет контраст на каждом кадре.</p></details>
+        <details><summary>Обновление сервера оборвало монтаж</summary><p>Очередь на диске и одна автоматическая повторная попытка после перезапуска.</p></details>
+        <details><summary>Самопроверка занимала очередь</summary><p>Твои ролики ждали тестовые. Самопроверка идёт в отдельном потоке.</p></details>
+        <details><summary>Тренды не по теме</summary><p>Парсер по хэштегу приносит всё подряд. Помогает фильтр Codex по подписи и аудитории из паспорта бренда, плюс аккаунты конкурентов как источник.</p></details>
+        <details><summary>Поиск трендов идёт вечно</summary><p>Длинные запуски парсера ждут асинхронно с лимитом 5 минут, собранное сохраняется частями, повтор берётся из кэша.</p></details>
+        <details><summary>Сервер перезагрузился, бот молчит</summary><p>Контейнер не поднялся сам. В docker-compose нужен <code>restart: unless-stopped</code>, проверка: <code>docker compose ps</code>.</p></details>
+        <details><summary>Диск VPS забился</summary><p>Ролики по 10-50 МБ копятся каждый день. Нужна автоочистка файлов старше 3 дней и раз в неделю <code>docker system prune</code>.</p></details>
+        <details><summary>Codex на сервере перестал отвечать</summary><p>Слетел вход или кончился лимит подписки. В логе будет ошибка входа: повтори <code>codex login --device-auth</code>. Завод сам сообщает об этом в бот, если так прописать в обёртке ask.</p></details>
+      </div>
+    </div>
+
+    <div class="blk" id="z-ready">
+      <span class="k">чек-лист готовности</span>
+      <h4>Завод готов, если</h4>
+      <div class="card check">
+        <label><input type="checkbox" class="ck" id="zr1" data-g="zr"><span>Паспорт бренда и словарь ударений готовы</span></label>
+        <label><input type="checkbox" class="ck" id="zr2" data-g="zr"><span>Бот отвечает только мне и понимает голосовые</span></label>
+        <label><input type="checkbox" class="ck" id="zr3" data-g="zr"><span>В медиатеке 50+ моих фото и видео, у всех есть описание</span></label>
+        <label><input type="checkbox" class="ck" id="zr4" data-g="zr"><span>Есть минимум 2 стиля, превью у каждого</span></label>
+        <label><input type="checkbox" class="ck" id="zr5" data-g="zr"><span>Первый кадр ролика: моё лицо или видео</span></label>
+        <label><input type="checkbox" class="ck" id="zr6" data-g="zr"><span>Арт-директор ставит 7+ без моих правок</span></label>
+        <label><input type="checkbox" class="ck" id="zr7" data-g="zr"><span>На VPS папка data смонтирована в /data и переживает обновления</span></label>
+        <label><input type="checkbox" class="ck" id="zr8" data-g="zr"><span>Самопроверка проходит после обновления</span></label>
+        <label><input type="checkbox" class="ck" id="zr9" data-g="zr"><span>Поиск трендов через Apify приносит ролики по моей теме</span></label>
+        <label><input type="checkbox" class="ck" id="zr10" data-g="zr"><span>Папка providers/avatar ждёт ключ HeyGen</span></label>
+      </div>
+      <div class="cta"><h5 style="margin:0;font:600 18px var(--sans)">Как работать с заводом каждый день</h5><p style="color:#c3cbe0">Утром пишешь «найди тренды про [тема]», выбираешь номер, по кнопкам доходишь до ролика и жмёшь «Собрать пакет». Не нравится картинка, жми «Другой стиль». Не нравится текст, пиши правку словами. Одна доведённая вещь в день лучше десяти начатых.</p></div>
+    </div>
+  </div>
+
+  <!-- ========== ДАШБОРДЫ ========== -->
+  <div class="panel" role="tabpanel" id="p-dash" aria-labelledby="tab-dash" hidden>
+    <div class="ghead">
+      <span class="k">инструкция 03</span>
+      <h3>ИИ-дашборд для селлера</h3>
+      <p class="lead">Промпт, по которому нейросеть собирает аналитический дашборд для Ozon или Wildberries одним HTML-файлом. Ты загружаешь в него отчёты из личного кабинета, а он считает прибыль, маржу, ROI, ДРР и остатки и сам пишет выводы.</p>
+      <div class="chips"><span class="chip">Ozon, Wildberries или оба</span><span class="chip">один HTML-файл</span><span class="chip">живёт на GitHub Pages</span></div>
+      <div class="progress"><div class="pbar2"><i data-b="dash"></i></div><span data-c="dash">0 / 0</span></div>
+      <nav class="mnav" aria-label="Разделы инструкции"><a href="#d-what">Что будет внутри</a><a href="#d-math">Формулы</a><a href="#d-steps">Шаги 1-8</a><a href="#d-prompt">Промпт</a></nav>
+    </div>
+
+    <div class="blk" id="d-what">
+      <span class="k">что будет внутри</span>
+      <h4>Вкладки дашборда</h4>
+      <div class="cards c2">
+        <div class="card"><b class="tg">всегда сверху</b><h5>KPI-строка</h5><p>Выручка, себестоимость, чистая прибыль, маржа и ROI, расход на рекламу и ДРР, сколько товаров требуют внимания.</p></div>
+        <div class="card"><b class="tg">обзор</b><h5>Готовые выводы</h5><p>Сколько товаров продаются в убыток и на какую сумму, лучшая и худшая категория по марже, что скоро закончится. Плюс нитка прибыли, тренд, ABC-анализ, топ-5 и антитоп-5.</p></div>
+        <div class="card"><b class="tg">план-факт</b><h5>План на месяц и темп</h5><p>Задаёшь плановую выручку и прибыль, а прогресс-бар показывает, идёшь ли ты по графику на сегодняшний день.</p></div>
+        <div class="card"><b class="tg">юнит-экономика</b><h5>Цепочка по каждому товару</h5><p>От цены продажи через себестоимость, логистику, хранение, рекламу и комиссию до прибыли на единицу.</p></div>
+        <div class="card"><b class="tg">реклама и воронка</b><h5>Точки роста</h5><p>Показы, визиты в карточку, корзины и заказы. Дашборд сам ищет карточки, которые отстают от медианы каталога.</p></div>
+        <div class="card"><b class="tg">остатки</b><h5>Что скоро закончится</h5><p>Сколько товаров критично (меньше 7 дней), сколько требуют внимания (меньше 14 дней). Пороги настраиваются.</p></div>
+      </div>
+      <div class="note"><b>Главный принцип: «нет данных» вместо нуля.</b> Если какой-то колонки нет в отчётах, дашборд честно пишет «нет данных» и какого отчёта не хватает. Так прибыль не врёт из-за пустых ячеек.</div>
+    </div>
+
+    <div class="blk" id="d-math">
+      <span class="k">формулы</span>
+      <h4>Как считается</h4>
+      <div class="tbl"><table>
+        <tr><th>Показатель</th><th>Формула</th></tr>
+        <tr><td><b>Прибыль</b></td><td>Выручка − Себестоимость − Эквайринг − Логистика − Хранение − Реклама на единицу − Комиссия площадки − Налоги − Возвраты и штрафы − Прочие удержания</td></tr>
+        <tr><td><b>Маржа %</b></td><td>Прибыль ÷ Выручка × 100</td></tr>
+        <tr><td><b>ROI %</b></td><td>Прибыль ÷ Себестоимость × 100</td></tr>
+        <tr><td><b>ДРР %</b></td><td>Расход на рекламу ÷ Выручка × 100</td></tr>
+        <tr><td><b>Скорость продаж</b></td><td>Среднее количество продаж в день за период</td></tr>
+        <tr><td><b>Дней до обнуления</b></td><td>Остаток ÷ Скорость продаж</td></tr>
+      </table></div>
+    </div>
+
+    <div class="blk" id="d-steps">
+      <span class="k">шаги</span>
+      <h4>Собираем дашборд</h4>
+      <div class="steps">
+        <div class="step"><input type="checkbox" class="ck" id="d1" data-g="dash"><div class="sc"><label for="d1"><span class="sn">01</span>Выгрузи отчёты</label>
+          <div class="sb"><p>В личном кабинете Ozon или Wildberries скачай в формате .xlsx три отчёта: финансовый, по продажам и остаткам, по рекламе.</p></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="d2" data-g="dash"><div class="sc"><label for="d2"><span class="sn">02</span>Скопируй промпт и впиши площадку</label>
+          <div class="sb"><p>Промпт лежит <a href="#d-prompt">ниже</a>. В строке «Площадка» в начале и в блоке «Заполнить перед отправкой» в конце оставь свою: Ozon, Wildberries или обе с переключателем.</p></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="d3" data-g="dash"><div class="sc"><label for="d3"><span class="sn">03</span>Отправь промпт вместе с файлами</label>
+          <div class="sb"><p>Открой новый чат в Claude, вставь промпт и приложи три отчёта. Нейросеть изучит настоящие названия листов и колонок и соберёт разбор отчётов именно под твои файлы.</p></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="d4" data-g="dash"><div class="sc"><label for="d4"><span class="sn">04</span>Если файлы приложить нельзя</label>
+          <div class="sb"><p>Выпиши для каждого отчёта точные названия листов, заголовки колонок (даже если заголовок в две строки), 3-5 строк примера и какой разделитель дробной части: точка или запятая. Угадывать структуру нейросеть не должна.</p></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="d5" data-g="dash"><div class="sc"><label for="d5"><span class="sn">05</span>Проверь план и чек-лист</label>
+          <div class="sb"><p>Сначала придёт короткий план и чек-лист, где по каждому пункту написано, выполнен он или нет. Если где-то есть риск, попроси исправить до того, как брать код.</p></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="d6" data-g="dash"><div class="sc"><label for="d6"><span class="sn">06</span>Скачай файл целиком</label>
+          <div class="sb"><p>Готовый HTML сохрани файлом. Текст из окна чата не копируй: «умные кавычки» и спецсимволы при копировании ломают код.</p></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="d7" data-g="dash"><div class="sc"><label for="d7"><span class="sn">07</span>Выложи на GitHub Pages</label>
+          <div class="sb"><p>Загрузи файл в репозиторий на GitHub и открой его по адресу github.io. Сохранение данных проверяй уже там: у локального файла и у сайта разные хранилища браузера. Метка версии на странице покажет, что открылась свежая сборка.</p></div></div></div>
+        <div class="step"><input type="checkbox" class="ck" id="d8" data-g="dash"><div class="sc"><label for="d8"><span class="sn">08</span>Загрузи отчёты и заполни себестоимость</label>
+          <div class="sb"><p>После каждой загрузки дашборд показывает, что распознал: тип отчёта, период, число строк и какие колонки не нашёл. Себестоимость, которой нет в отчётах, впиши вручную у товаров, задай план на месяц и нажимай «Сохранить срез», чтобы копился график тренда.</p></div></div></div>
+      </div>
+    </div>
+
+    <div class="blk" id="d-prompt">
+      <span class="k">промпт</span>
+      <h4>Промпт для дашборда</h4>
+      <p class="note-s">Копируй целиком, ничего не сокращай: каждая строка там защищает от конкретной ошибки, на которой ломаются такие дашборды.</p>
+      <div class="prompt big"><div class="pbar"><span>Промпт · аналитический дашборд для селлера</span><div class="pbtns"><button type="button" class="tog" aria-controls="spec-dash" aria-expanded="false">Показать</button><button type="button" class="copy">Скопировать промпт</button></div></div><pre id="spec-dash" hidden>Сделай аналитический дашборд для продавца на маркетплейсе в виде одного самодостаточного HTML-файла. Итоговый файл будет размещён на GitHub Pages, поэтому бэкенда нет: вся логика на клиенте, только внешние библиотеки через CDN.
+
+### Площадка
+
+Маркетплейс: [Ozon / Wildberries / оба с переключателем].
+
+### Источник данных: загрузка отчётов
+
+Загрузка одного или нескольких файлов финансового отчёта, отчёта по продажам/остаткам и отчёта по рекламе (формат [.xlsx, экспорт из личного кабинета Ozon / Wildberries]). Парсинг через SheetJS (xlsx.full.min.js с cdnjs).
+
+К этому сообщению приложены реальные файлы отчётов - финансовый отчёт, отчёт по продажам и отчёт по рекламе. Изучи их структуру (названия листов, реальные заголовки колонок, в какой именно строке они находятся, единицы измерения, формат чисел и дат) и построй парсер именно под неё, а не под общий шаблон того, как «обычно» выглядит выгрузка площадки. Если файлы к сообщению не приложены - не достраивай структуру по догадке: сначала явно попроси меня прислать файлы или как минимум точные названия листов и заголовков колонок (включая случай двухстрочных или объединённых заголовков) и 3-5 строк примера данных по каждому типу отчёта, и только после этого пиши парсер.
+
+Учитывай типичные особенности реальных выгрузок маркетплейсов, а не только «чистого» табличного формата:
+- заголовок таблицы может быть не в первой строке листа - определяй строку заголовка по совпадению с ожидаемым набором ключевых слов, а не жёстко бери строку 1
+- в шапке бывают объединённые ячейки - если название колонки пустое из-за объединения, наследуй его от ближайшей заполненной ячейки слева или в предыдущей строке
+- числа могут быть с запятой как разделителем дробной части, с неразрывным пробелом как разделителем тысяч и с символом валюты - приводи к числу единообразно
+- даты могут прийти как серийный номер Excel или как текстовая строка в разных форматах - нормализуй оба варианта
+
+Если структура разных отчётов не совпадает по колонкам, учти это отдельными правилами парсинга для каждого типа файла и определяй тип файла автоматически по набору колонок или названию листа, а не по имени файла. Если тип файла не удаётся определить с уверенностью (совпало меньше половины ожидаемых ключевых колонок) - не гадай: покажи пользователю обнаруженные названия листов и колонок и дай выбрать тип файла вручную из списка, вместо того чтобы молча классифицировать неправильно.
+
+После каждой успешной загрузки файла показывай короткий отчёт о результате парсинга: определённый тип отчёта, определённый период (диапазон дат), количество распознанных строк, и отдельно - список ожидаемых колонок, которые не удалось найти. Это должно быть видно сразу после загрузки, а не обнаруживаться позже как «непонятно откуда нули».
+
+Если парсер не находит обязательную колонку - показывай понятную ошибку с указанием, какая именно колонка не найдена и в каком файле, а не падай молча и не подставляй нули вместо неё.
+
+Если пользователь загружает несколько файлов за разные периоды, дашборд должен объединять их и давать выбор периода для отображения.
+
+**Пересчёт при новых загрузках.** Загрузка новых файлов (в том числе повторная загрузка отчёта за уже существующий период или добавление отчёта за новый период) должна автоматически запускать полный пересчёт всех метрик, графиков, автовыводов и таблиц - без перезагрузки страницы и без ручных действий пользователя. Если новый файл перекрывает по датам уже загруженный, дай пользователю явный выбор: заменить старые данные новыми за этот период или объединить (например, если один файл - черновая выгрузка, а второй - обновлённая за тот же период). Ранее введённая вручную себестоимость и настройки при пересчёте не должны сбрасываться - они должны заново примениться к обновлённому набору данных по тем же SKU.
+
+### Себестоимость: логика определения источника
+
+Себестоимость товара в отчётах площадки чаще всего отсутствует, но иногда встречается (например, если продавец сам выгружает управленческий отчёт с колонкой себестоимости). Поэтому логика должна быть такой:
+
+1. При парсинге каждого отчёта явно проверяй, есть ли колонка с себестоимостью (по названию и по здравому смыслу - например, «закупочная цена», «себестоимость», «cost»). Если колонка найдена - используй эти значения и пометь их в интерфейсе как «из отчёта».
+2. Если по какому-то SKU себестоимость не нашлась ни в одном из загруженных файлов - не показывай прибыль по этому товару как ноль или как приблизительную. Вместо этого явно предложи пользователю ввести себестоимость руками (поле ввода рядом с товаром), и пока она не введена - показывай статус «нет данных о себестоимости» вместо прибыли, ROI и маржи по этому товару, а не 0 или прочерк без пояснения.
+3. Введённая вручную себестоимость помечается в интерфейсе как «вручную» (в отличие от «из отчёта»), сохраняется в браузере (localStorage) и подтягивается автоматически при следующих визитах и при загрузке новых отчётов по тому же SKU.
+4. На уровне KPI-строки и общих итогов явно показывай, по какой доле выручки/товаров себестоимость известна (из отчёта + вручную), а по какой - нет, чтобы пользователь понимал, насколько цифрам прибыли можно доверять на текущий момент.
+
+Это не частный случай только для себестоимости, а сквозной принцип «нет данных ≠ ноль», который действует для любой метрики во всём дашборде: если поле не найдено ни в одном файле или не может быть вычислено - везде показывай явный статус «нет данных» с пояснением, какого отчёта или колонки не хватает, а не 0, пустую ячейку или прочерк без объяснения. Нигде в коде не должно быть паттерна вида `значение || 0` для полей, пришедших из отчёта, - это маскирует реальное отсутствие данных как настоящий ноль.
+
+### Формулы (единый источник истины)
+
+Прежде чем писать интерфейс, зафиксируй расчёты в одном месте кода (один модуль/набор функций), и используй только эти функции во всех вкладках - ни в коем случае не дублируй реализацию одной и той же формулы в разных местах (KPI-строка, вотерфолл, юнит-экономика, таблица товаров должны считать через одни и те же функции):
+
+- Прибыль = Выручка − Себестоимость − Эквайринг − Логистика − Хранение − Реклама на единицу − Комиссия площадки − Налоги − Возвраты/штрафы − Прочие удержания. Если какая-то из статей расходов не найдена ни в одном загруженном отчёте - исключай её из вычитаемых, но явно показывай в интерфейсе список статей, которые не учтены, а не молча считай их нулевыми
+- Маржа % = Прибыль ÷ Выручка × 100
+- ROI % = Прибыль ÷ Себестоимость × 100
+- ДРР % = Расход на рекламу ÷ Выручка × 100
+- Скорость продаж = среднее количество продаж в день за выбранный период
+- Дней до обнуления остатка = Остаток ÷ Скорость продаж
+
+### Структура дашборда
+
+Ориентируйся на уровень детализации ниже как на обязательный минимум, а не как на желательный максимум - по каждому пункту нужна именно расчётная логика через формулы из раздела выше, а не просто вывод цифры из отчёта.
+
+**KPI-строка вверху** (видна на любой вкладке): выручка, себестоимость (% от выручки, с пометкой какая доля известна из отчёта/введена вручную/отсутствует), чистая прибыль (с пометкой «операционно прибыльно» / «операционный убыток»), маржинальность и ROI, расход на рекламу и общий ДРР, количество товаров, требующих внимания (сумма критичных по остаткам и убыточных).
+
+**Обзор**
+
+Блок автоматических текстовых выводов по периоду (не просто цифры, а готовые фразы): сколько товаров продаются в убыток и на какую сумму, у какой категории лучшая и у какой худшая маржа, сколько товаров закончится меньше чем через N дней, ДРР каталога относительно ориентира 7-15% с пояснением выше он или ниже нормы, сколько найдено точек роста в воронке и на какую сумму потенциальной прибыли, сколько товаров одновременно в группе C по выручке и при этом убыточны (кандидаты на вывод из ассортимента).
+
+Нитка прибыли (waterfall-график): выручка → минус себестоимость → минус комиссии площадки/реклама/прочие удержания → чистая прибыль.
+
+График тренда прибыли по сохранённым срезам периода (см. ниже про сохранение снапшотов).
+
+Таблица прибыли по категориям: количество товаров, выручка, прибыль, маржа по каждой категории.
+
+ABC-анализ по чистой прибыли (донат-диаграмма или аналог: сумма прибыли по группам A/B/C).
+
+Топ-5 и антитоп-5 товаров по прибыли отдельными списками.
+
+**План-факт**
+
+Пользователь вручную задаёт план на месяц: плановая выручка и плановая прибыль (план по количеству продаж считается автоматически как план выручки, делённый на среднюю цену продажи по факту). Значения плана вводятся через интерфейс и сохраняются в браузере. Дополнительно можно задать план отдельно по каждой категории. Прогресс-бар по каждому показателю должен учитывать не просто факт/план, а темп: отметка на баре показывает ожидаемый процент выполнения на сегодняшний день месяца (например, если прошло 60% дней месяца, ожидается 60% выполнения), и явно подсвечивается, идёт ли пользователь по графику, немного отстаёт или сильно отстаёт. Отдельный блок «нужный темп»: текущая средняя выручка в день по загруженным данным, и сколько нужно зарабатывать в день до конца месяца, чтобы выполнить план, с явным сравнением этих двух цифр. Обработай случай, когда план задан на один месяц, а загруженные отчёты - за другой (например, план уже стоит на новый месяц, а данные ещё за старый): в этом случае прогресс не может считаться от факта, и это должно быть понятно из интерфейса, а не выглядеть как обнулившийся план.
+
+**Юнит-экономика (новая вкладка)**
+
+Отдельная вкладка, показывающая реальную фактическую юнит-экономику - и по каждому SKU, и агрегированно по каталогу/категории.
+
+- Себестоимость по товару берётся по логике из раздела «Себестоимость: логика определения источника» выше: если найдена в отчёте - подтягивается автоматически, если нет - вводится вручную прямо на этой вкладке (поле ввода в строке товара), с сохранением в браузере и явной пометкой источника («из отчёта» / «вручную» / «не заполнено»).
+- По каждому SKU показывай полную цепочку от цены до итоговой прибыли на единицу: цена продажи → себестоимость → эквайринг → логистика → хранение → реклама на единицу (расход на рекламу по SKU, делённый на количество продаж) → комиссия площадки → налоги → возвраты и штрафы на единицу → чистая прибыль на единицу → маржа в % → ROI на единицу.
+- Товары без заполненной себестоимости выносятся в отдельный блок «нет данных о себестоимости» с прямой ссылкой на поле ввода, а не смешиваются с товарами, где юнитка посчитана полностью - чтобы пользователь сразу видел, что нужно доввести.
+- Сортировка и фильтр по всем колонкам, поиск по названию/артикулу, фильтр по категории и по статусу заполненности себестоимости (из отчёта / вручную / не заполнено).
+- Агрегированная сводка вверху вкладки: средняя маржа по каталогу, средний ROI, доля товаров с положительной юнит-экономикой, доля товаров, где юнитка ещё не может быть посчитана из-за отсутствующей себестоимости.
+- Данные на этой вкладке пересчитываются автоматически при загрузке новых отчётов и при любом изменении вручную введённой себестоимости - без перезагрузки страницы.
+
+**Товары**
+
+Таблица по SKU с сортировкой по каждой колонке, поиском по названию/артикулу и фильтром по категории. По каждому товару, насколько позволяют загруженные отчёты: себестоимость за штуку (см. логику выше про источник и ручной ввод), цена, количество продаж, выручка, отдельными статьями - эквайринг, логистика, хранение, расход на рекламу, ДРР, налоги, штрафы, сумма возвратов, прочие удержания, итоговая чистая прибыль в рублях и на единицу, ROI, маржа в процентах, доля товара в общей выручке. ABC-метка отдельно по вкладу в прибыль и отдельно по вкладу в выручку - это два разных среза, их нельзя схлопывать в один. При клике на товар - разворачивающаяся детализация: нитка прибыли по этому товару, мини-воронка (показы → визиты в карточку → в корзину → заказано → доставлено, если такие данные есть в отчётах), остаток и скорость продаж, рекомендация по поставке.
+
+**Реклама / Воронка**
+
+Воронка всего каталога: показы → визиты в карточку → добавления в корзину → заказано (по данным из отчёта по рекламе и отчёта по продажам). Автоматический поиск точек роста по методу отклонения от медианы каталога: карточки с конверсией показ→корзина заметно ниже медианной при хорошей марже (слабая карточка), карточки с показами заметно ниже медианных при хорошей марже (недостаточно продвижения), карточки с высоким процентом брошенных корзин (конверсия корзина→заказ ниже медианной), карточки с низким процентом выкупа. По каждому найденному сигналу - оценка потенциального прироста прибыли (на основе медианной конверсии каталога и прибыли на единицу товара), с явной оговоркой, что это ориентир для приоритизации, а не гарантированная цифра. Отдельно - таблица расходов по рекламным кампаниям с ДРР и CTR, если в отчёте есть разбивка по кампаниям. Если файл отчёта по рекламе не удалось распознать или в нём не нашлись нужные колонки - вся вкладка должна явно показывать, каких данных не хватает, а не оставаться пустой без объяснений.
+
+**Остатки**
+
+KPI-блок: сколько товаров критично (меньше 7 дней), сколько требуют внимания (меньше 14 дней), сколько в норме - пороги должны быть настраиваемыми, а не жёстко зашитыми. Гистограмма распределения товаров по срокам до обнуления (до 7 дней, 7-14, 14-30, 30-60, больше 60). Список ближайших к обнулению товаров с датой предполагаемого обнуления. Таблица планирования по каждому SKU: остаток, скорость продаж в штуках в день (на основе истории продаж за период), сколько дней хватит остатка, статус, рекомендация по поставке (если явных данных для рекомендации недостаточно, дать простое правило: например, если дней хватит меньше 14 и товар не в группе C по прибыли - «пора поставлять»).
+
+Если каких-то данных не хватает в загруженных файлах, соответствующий блок, колонка или расчёт должны корректно скрываться либо показывать заглушку с пояснением, какого именно отчёта или поля не хватает, а не падать с ошибкой и не показывать нули как будто это реальные данные.
+
+### Сохранение состояния
+
+Данные всех загруженных отчётов, введённая пользователем себестоимость по SKU (с пометкой источника), план на месяц и настройки порогов остатков сохраняются в браузере между визитами (localStorage), при повторном открытии файла ничего не нужно вводить заново.
+
+Кнопка «сохранить срез» вручную сохраняет текущие ключевые показатели периода (выручка, прибыль, маржа, ДРР) с меткой времени - это и есть история для графика тренда на вкладке «Обзор». Явно объясни в интерфейсе, что график тренда наполняется только по мере того, как пользователь делает срезы, а не сам по себе.
+
+### Технические требования
+
+- Один HTML-файл, вся логика на vanilla JS, без сборщиков.
+- Библиотеки только с CDN (cdnjs), подключай их как classic `&lt;script src="..."&gt;` (не как ES-модули `type="module"` и не через `import`), чтобы гарантированно работало на GitHub Pages без сборки.
+- Тёмная тема, аккуратная типографика, разделение на вкладки.
+- Загрузка новых файлов в любой момент работы (а не только при первом открытии) запускает полный пересчёт всех вкладок, графиков и автовыводов без перезагрузки страницы.
+- Все формулы реализованы один раз согласно разделу «Формулы» и переиспользуются во всех вкладках без дублирования логики.
+- Нигде в коде нет паттерна «подставить 0, если значения нет» для данных, пришедших из отчёта - только явный статус «нет данных» (см. принцип выше).
+- Код с комментариями по ключевым блокам (парсинг, определение типа файла, определение источника себестоимости, расчёт метрик, юнит-экономика, автоинсайты, план-факт, воронка и точки роста, рендер), чтобы можно было дорабатывать самостоятельно.
+- Обработка ошибок при загрузке файла с понятным сообщением пользователю, а не молчаливым падением.
+
+### Развёртывание и тестирование (GitHub Pages)
+
+- Файл должен корректно работать именно при открытии по https:// со статического хостинга, без сервера и без шага сборки.
+- Учитывай, что localStorage привязан к origin: при тестировании локально через file:// и после деплоя на github.io это разные хранилища - предупреди меня об этом в сопроводительном тексте и посоветуй тестировать сохранение данных именно на итоговом github.io-адресе, а не только локально.
+- Добавь на странице небольшую метку версии/времени сборки, чтобы было видно, что открылась именно свежая версия, а не закэшированная браузером.
+- В сопроводительном тексте отдельно предупреди, что при переносе кода в файл на GitHub нужно скачать файл целиком, а не копировать текст через интерфейс чата - «умные кавычки» и другие спецсимволы при копировании через чат могут повредить код.
+
+### Формат ответа
+
+Сначала кратко опиши план структуры данных и расчёта метрик (2-3 абзаца). Затем, перед финальным кодом, пройдись по чек-листу и по каждому пункту явно напиши, выполнен он или нет (а если не можешь гарантировать - прямо скажи, в чём риск):
+- парсер находит заголовки, даже если они не в первой строке и содержат объединённые ячейки, и корректно приводит числа с запятой/пробелом к числовому виду
+- нигде в коде нет «значение || 0» для данных, которые должны быть статусом «нет данных»
+- каждая формула (прибыль, маржа, ROI, ДРР, скорость продаж) реализована в одном месте и переиспользуется во всех вкладках
+- при нераспознанном типе файла или отсутствующей колонке пользователь видит понятное сообщение с названием файла и колонки, а не пустой экран
+- после каждой загрузки виден отчёт о том, что именно распознано (тип, период, строки, ненайденные колонки)
+- все библиотеки подключены как classic-скрипты, без ES-модулей
+- учтена разница origin между локальным тестированием и GitHub Pages
+
+Затем отдай готовый HTML-файл целиком.
+
+---
+
+## Заполнить перед отправкой
+
+Площадка: ______
+
+Обязательно приложите к этому сообщению реальные файлы отчётов (финансовый, по продажам/остаткам, по рекламе). Если приложить файлы нельзя - вместо этого выпишите здесь для каждого отчёта: точные названия листов, точные заголовки колонок (включая случаи, когда заголовок занимает две строки или объединён), 3-5 строк примера данных, и какой разделитель дробной части используется в числах (точка или запятая).</pre></div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="more gut">
+  <div class="wrap" style="display:grid;gap:12px">
+    <div class="card razbor" id="razbor">
+      <span class="k">подарок 06 · вживую</span>
+      <h3 style="font:500 clamp(28px,6vw,44px)/1.05 var(--sans);letter-spacing:-.04em;margin:4px 0 0">Групповой разбор со мной, 5 ноября</h3>
+      <p style="font-size:16px">Время и ссылку пришлём на почту и в Telegram. Приходи со своим вопросом: что хочешь внедрить первым и что пока не получается.</p>
+    </div>
+    <div class="card">
+      <span class="k">вопросы</span>
+      <p style="font-size:16px;color:#dfe6ff">Если что-то не открывается или остались вопросы, пиши менеджеру в Telegram, он ответит.</p>
+      <div class="btns"><a class="btn ghost" href="https://t.me/puzanovateam" target="_blank" rel="noopener">Написать @puzanovateam</a></div>
+    </div>
+    <div class="bridge" id="bridge">
+      <span class="k">дальше</span>
+      <h3>Хочешь, чтобы мы внедрили это вместе с тобой?</h3>
+      <p id="br-text">Посмотри царь лот: весь 2027 год моих живых курсов с кураторами, и всегда есть кому задать вопрос. Лоты дня рождения действуют до 23:23 по Москве 3 ноября.</p>
+      <div class="btns"><a class="btn" id="br-btn" href="https://olgapuzanova0311-art.github.io/perezagruzka/dr/lots-23x7/" target="_blank" rel="noopener">Посмотреть царь лот</a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="gut gated"><div class="wrap">Ольга Пузанова · секретный лот ко дню рождения · ноябрь 2026. Сервисы обновляются: если кнопка или поле называются иначе, попроси Claude или Codex найти актуальный путь.</div></footer>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
+  var LS={get:function(k){try{return localStorage.getItem('box23-'+k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem('box23-'+k,v)}catch(e){}}};
+  var reduce=false;try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+  var body=document.body, box=$('#gbox'), GUIDES=['office','zavod','dash'];
+
+  /* ---------- коробка ---------- */
+  function sparks(){
+    if(reduce) return;
+    var r=box.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height*.4;
+    var cols=['#ffffff','#dfe6ff','#b9ccff','#f2a07f','#e8744f'];
+    for(var i=0;i<34;i++){
+      var s=document.createElement('div'); s.className='spark';
+      s.style.left=cx+'px'; s.style.top=cy+'px'; s.style.background=cols[i%cols.length];
+      if(i%3===0){s.style.width=s.style.height='4px';s.style.borderRadius='50%'}
+      document.body.appendChild(s);
+      var a=Math.random()*Math.PI*2, d=80+Math.random()*170, dx=Math.cos(a)*d, dy=Math.sin(a)*d-90;
+      var an=s.animate([{transform:'translate(-50%,-50%) scale(1) rotate(0)',opacity:1},{transform:'translate('+dx+'px,'+(dy+60)+'px) scale(.3) rotate('+(Math.random()*540)+'deg)',opacity:0}],{duration:900+Math.random()*700,easing:'cubic-bezier(.2,.7,.3,1)'});
+      an.onfinish=(function(el){return function(){el.remove()}})(s);
+    }
+  }
+  function showGifts(scroll){
+    body.classList.add('opened');
+    refreshAll();
+    if(scroll){ var g=$('#gifts'); setTimeout(function(){ g.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}) }, reduce?0:700); }
+  }
+  function openBox(){
+    if(box.classList.contains('open')) return;
+    box.classList.add('open'); box.setAttribute('aria-label','Коробка открыта');
+    sparks(); LS.set('opened','1');
+    setTimeout(function(){ showGifts(true) }, reduce?0:1000);
+  }
+  box.addEventListener('click',openBox);
+  box.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){ e.preventDefault(); openBox(); } });
+  $('#again').addEventListener('click',function(){
+    body.classList.remove('opened','was'); box.classList.remove('open'); box.setAttribute('aria-label','Открыть секретную коробку');
+    window.scrollTo(0,0); setTimeout(function(){ box.focus() },50);
+  });
+
+  /* ---------- вкладки ---------- */
+  function select(id,scroll){
+    if(GUIDES.indexOf(id)<0) return;
+    GUIDES.forEach(function(g){
+      var t=$('#tab-'+g), p=$('#p-'+g), on=g===id;
+      t.setAttribute('aria-selected',on); t.tabIndex=on?0:-1; p.hidden=!on;
+    });
+    LS.set('tab',id);
+    if(scroll){ $('#guides').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); }
+  }
+  $$('.tab').forEach(function(t,i){
+    t.addEventListener('click',function(){ select(t.id.slice(4)) });
+    t.addEventListener('keydown',function(e){
+      var k=e.key, n=null; if(k==='ArrowRight') n=(i+1)%3; if(k==='ArrowLeft') n=(i+2)%3; if(k==='Home') n=0; if(k==='End') n=2;
+      if(n!==null){ e.preventDefault(); select(GUIDES[n]); $('#tab-'+GUIDES[n]).focus(); }
+    });
+  });
+  $$('a.bonus[data-tab]').forEach(function(a){
+    a.addEventListener('click',function(e){ e.preventDefault(); select(a.dataset.tab,true); try{history.replaceState(null,'','#'+a.dataset.tab)}catch(_){} });
+  });
+  /* ссылки на разделы внутри скрытой вкладки */
+  $$('.mnav a, .sb a[href^="#"], #d2 ~ .sc a').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var t=document.getElementById(a.getAttribute('href').slice(1)); if(!t) return;
+      var p=t.closest('.panel'); if(p&&p.hidden) select(p.id.slice(2));
+      e.preventDefault(); t.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+    });
+  });
+
+  /* ---------- галочки и прогресс ---------- */
+  var cks=$$('.ck');
+  cks.forEach(function(c){
+    c.checked=LS.get('ck-'+c.id)==='1';
+    c.addEventListener('change',function(){ LS.set('ck-'+c.id,c.checked?'1':'0'); refreshAll(); });
+  });
+  function refreshAll(){
+    GUIDES.forEach(function(g){
+      var list=cks.filter(function(c){return c.dataset.g===g}), n=list.filter(function(c){return c.checked}).length, tot=list.length;
+      $$('[data-c="'+g+'"]').forEach(function(el){ el.textContent=n+' / '+tot });
+      $$('[data-b="'+g+'"]').forEach(function(el){ el.style.width=(tot?n/tot*100:0)+'%' });
+    });
+    cks.forEach(function(c){ var s=c.closest('.step'); if(s) s.classList.toggle('done',c.checked) });
+  }
+
+  /* ---------- копирование ---------- */
+  function copyText(t,btn){
+    var old=btn.dataset.label||btn.textContent; btn.dataset.label=old;
+    var done=function(){ btn.textContent='Скопировано'; btn.classList.add('ok'); setTimeout(function(){ btn.textContent=old; btn.classList.remove('ok') },1600) };
+    var fb=function(){
+      var ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.top='0'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0,t.length); var ok=false; try{ ok=document.execCommand('copy') }catch(e){}
+      document.body.removeChild(ta); if(ok) done(); else { btn.textContent='Выдели текст вручную'; setTimeout(function(){ btn.textContent=old },2200) }
+    };
+    try{ if(navigator.clipboard&&window.isSecureContext){ navigator.clipboard.writeText(t).then(done,fb) } else fb() }catch(e){ fb() }
+  }
+  $$('.copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=b.dataset.text; if(!t){ var pre=b.closest('.prompt').querySelector('pre'); t=pre.textContent; }
+      copyText(t,b);
+    });
+  });
+  $$('.tog').forEach(function(b){
+    b.addEventListener('click',function(){
+      var pre=document.getElementById(b.getAttribute('aria-controls')); pre.hidden=!pre.hidden;
+      b.setAttribute('aria-expanded',String(!pre.hidden)); b.textContent=pre.hidden?'Показать':'Скрыть';
+    });
+  });
+
+  /* ---------- мостик после 23:23 ---------- */
+  try{
+    if(Date.now()>Date.parse('2026-11-03T23:23:00+03:00')){
+      $('#br-text').textContent='Напиши менеджеру «ХОЧУ», расскажем, как мы можем помочь внедрить ИИ в твой бизнес.';
+      var bb=$('#br-btn'); bb.textContent='Написать «ХОЧУ»'; bb.href='https://t.me/puzanovateam?text=%D0%A5%D0%9E%D0%A7%D0%A3';
+    }
+  }catch(e){}
+
+  /* ---------- пыль в темноте ---------- */
+  (function(){
+    var cv=$('#dust'); if(!cv||reduce) return; var c=cv.getContext('2d'), P=[], W=0, H=0, dpr=Math.min(2,window.devicePixelRatio||1), vis=true, raf=0;
+    function size(){ W=cv.clientWidth; H=cv.clientHeight; cv.width=W*dpr; cv.height=H*dpr; c.setTransform(dpr,0,0,dpr,0,0) }
+    size(); addEventListener('resize',size);
+    for(var i=0;i<46;i++) P.push({x:Math.random(),y:Math.random(),r:.4+Math.random()*1.4,v:.00006+Math.random()*.00018,p:Math.random()*6.28,w:Math.random()<.18});
+    function f(t){
+      c.clearRect(0,0,W,H);
+      P.forEach(function(q){ q.y-=q.v; if(q.y<-.02){q.y=1.02;q.x=Math.random()} var a=.25+.35*Math.sin(t/1400+q.p);
+        c.fillStyle=q.w?'rgba(242,160,127,'+a*.8+')':'rgba(205,215,240,'+a+')'; c.beginPath(); c.arc(q.x*W+Math.sin(t/3000+q.p)*8,q.y*H,q.r,0,6.283); c.fill(); });
+      if(vis) raf=requestAnimationFrame(f);
+    }
+    raf=requestAnimationFrame(f);
+    if('IntersectionObserver' in window){ new IntersectionObserver(function(e){ var v=e[0].isIntersecting; if(v&&!vis){ vis=true; raf=requestAnimationFrame(f) } else if(!v){ vis=false; cancelAnimationFrame(raf) } }).observe(cv) }
+  })();
+
+  /* ---------- старт ---------- */
+  var h=(location.hash||'').slice(1);
+  var startTab=GUIDES.indexOf(h)>=0?h:(LS.get('tab')||'office');
+  select(GUIDES.indexOf(startTab)>=0?startTab:'office');
+  refreshAll();
+  if(LS.get('opened')==='1'||GUIDES.indexOf(h)>=0||h==='razbor'){
+    body.classList.add('was'); box.classList.add('open'); box.setAttribute('aria-label','Коробка открыта'); showGifts(false);
+    if(GUIDES.indexOf(h)>=0) setTimeout(function(){ select(h,true) },60);
+    else if(h==='razbor') setTimeout(function(){ $('#razbor').scrollIntoView() },60);
+  }
+})();
+</script>
+</body></html>
